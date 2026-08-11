@@ -207,7 +207,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const img = item.querySelector('.gallery-thumb img');
     const badge = item.querySelector('.gallery-cat-badge');
 
-    modalImg.src    = img ? img.src : '';
+    modalImg.src    = item.dataset.largeImg ? item.dataset.largeImg : (img ? img.src : '');
     modalImg.alt    = img ? img.alt : '';
     modalBadge.textContent = badge ? badge.textContent : '';
     modalTitle.textContent = item.dataset.title  || '';
