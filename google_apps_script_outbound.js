@@ -21,7 +21,7 @@
  */
 
 // Vercel 배포 주소에 맞춰 설정 (catalog 디렉토리 반영)
-var BASE_URL = "https://dhsteel.vercel.app/catalog/";
+var BASE_URL = "https://dhsteel.vercel.app/";
 
 function onOpen() {
   var ui = SpreadsheetApp.getUi();
