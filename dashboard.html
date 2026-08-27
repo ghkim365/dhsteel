@@ -799,6 +799,7 @@
                         <select id="site-selector" class="site-select" onchange="switchSite(this.value)">
                             <option value="catalog">📱 모바일 카탈로그</option>
                             <option value="main_site">🌐 공식 홈페이지 (daeheungsteel.co.kr)</option>
+                            <option value="mailling">✉️ B2B 이메일 발송 현황</option>
                         </select>
                     </div>
 
@@ -806,8 +807,8 @@
                     <div class="site-selector-wrapper">
                         <select id="preview-selector" class="site-select" onchange="if(this.value) { window.open(this.value, '_blank'); this.value=''; }">
                             <option value="">🔍 시안 미리보기 목록</option>
-                            <option value="templates/dhsteel_proposal_preview.html?bypass=true">📄 B2B 제안서 시안</option>
-                            <option value="templates/dhsteel_blog_post_preview.html?bypass=true">✍️ 공식 블로그 시안</option>
+                            <option value="catalog/templates/dhsteel_proposal_preview.html?bypass=true">📄 B2B 제안서 시안</option>
+                            <option value="catalog/templates/dhsteel_blog_post_preview.html?bypass=true">✍️ 공식 블로그 시안</option>
                         </select>
                     </div>
 
@@ -834,7 +835,7 @@
             <!-- KPI Grid -->
             <section class="kpi-grid">
                 <div class="glass-panel kpi-card">
-                    <div class="kpi-title">
+                    <div class="kpi-title" id="kpi-title-1">
                         총 방문 세션수
                         <span>👤</span>
                     </div>
@@ -845,23 +846,23 @@
                 </div>
                 
                 <div class="glass-panel kpi-card ads">
-                    <div class="kpi-title">
+                    <div class="kpi-title" id="kpi-title-2">
                         누적 접수 견적수
                         <span>✉️</span>
                     </div>
                     <div class="kpi-value" id="kpi-quotes">-</div>
-                    <div class="kpi-subtitle">
+                    <div class="kpi-subtitle" id="kpi-subtitle-2">
                         최근 24시간 내 <span class="trend-up" id="kpi-quotes-today">0건</span> 추가 접수됨
                     </div>
                 </div>
 
                 <div class="glass-panel kpi-card cvr">
-                    <div class="kpi-title">
+                    <div class="kpi-title" id="kpi-title-3">
                         평균 견적 전환율 (CVR)
                         <span>🎯</span>
                     </div>
                     <div class="kpi-value" id="kpi-cvr">-%</div>
-                    <div class="kpi-subtitle">
+                    <div class="kpi-subtitle" id="kpi-subtitle-3">
                         총 방문 대비 견적 전환 성공 비율
                     </div>
                 </div>
@@ -875,7 +876,7 @@
                     <div class="glass-panel chart-card">
                         <div class="chart-header">
                             <div class="chart-title" id="chart-visits-title">마케팅 유입 채널 분석</div>
-                            <div class="chart-desc">Google Ads 광고 유입 대 오가닉 검색 및 직접 유입 비중</div>
+                            <div class="chart-desc" id="chart-visits-desc">Google Ads 광고 유입 대 오가닉 검색 및 직접 유입 비중</div>
                         </div>
                         <div class="chart-container">
                             <canvas id="sourceChart"></canvas>
@@ -885,8 +886,8 @@
                     <!-- Chart 2: 품목별 견적 분포 -->
                     <div class="glass-panel chart-card">
                         <div class="chart-header">
-                            <div class="chart-title">요청 품목 선호도</div>
-                            <div class="chart-desc">견적 요청이 접수된 가공 서비스별 분포 분석</div>
+                            <div class="chart-title" id="chart-product-title">요청 품목 선호도</div>
+                            <div class="chart-desc" id="chart-product-desc">견적 요청이 접수된 가공 서비스별 분포 분석</div>
                         </div>
                         <div class="chart-container">
                             <canvas id="productChart"></canvas>
@@ -1034,7 +1035,7 @@
         // 예: "https://script.google.com/macros/s/AKfycb.../exec"
         const GAS_WEB_APP_URL = "https://script.google.com/macros/s/TODO_REPLACE_WITH_DHSTEEL_GAS_URL/exec";
 
-        let currentSite = 'catalog';   // 'catalog' or 'main_site'
+        let currentSite = 'catalog';   // 'catalog', 'main_site', or 'mailling'
         let dashboardMode = 'realtime'; // 'realtime' or 'simulator'
         let analyticsData = null;
         let sourceChart = null;
@@ -1164,12 +1165,77 @@
             ]
         };
 
+        // 3. B2B 이메일 발송 현황 시뮬레이터 기본 더미 데이터
+        const defaultMailSimData = {
+            visits: { success: 42, fail: 3, pending: 12 },
+            quotes: [
+                {
+                    id: 201,
+                    date: "2026-08-26T09:15:00Z",
+                    company: "대흥정밀 테스트",
+                    name: "test@dhsteel.com",
+                    phone: "1일차",
+                    email: "성공",
+                    product: "Gmail API 발송 완료",
+                    specs: "비고: 신규 주소 테스트 성공",
+                    source: "success"
+                },
+                {
+                    id: 202,
+                    date: "2026-08-26T10:30:00Z",
+                    company: "(주)삼오기계",
+                    name: "samoo@samoo.co.kr",
+                    phone: "1일차",
+                    email: "성공",
+                    product: "Gmail API 발송 완료",
+                    specs: "",
+                    source: "success"
+                },
+                {
+                    id: 203,
+                    date: "2026-08-26T13:12:00Z",
+                    company: "우주테크",
+                    name: "wrong_email_address",
+                    phone: "1일차",
+                    email: "실패",
+                    product: "이메일 주소 형식 오류",
+                    specs: "비고: 주소 오기입 확인 요망",
+                    source: "fail"
+                },
+                {
+                    id: 204,
+                    date: "2026-08-26T14:45:00Z",
+                    company: "한성철강",
+                    name: "sales@hansung.com",
+                    phone: "9일차",
+                    email: "성공",
+                    product: "Gmail API 발송 완료",
+                    specs: "",
+                    source: "success"
+                },
+                {
+                    id: 205,
+                    date: "2026-08-26T16:20:00Z",
+                    company: "현대정밀",
+                    name: "hd@hd-precision.co.kr",
+                    phone: "9일차",
+                    email: "실패",
+                    product: "수신인 사서함 용량 초과",
+                    specs: "비고: 유선 연락 필요",
+                    source: "fail"
+                }
+            ]
+        };
+
         // 로컬스토리지 데이터 초기 세팅
         if (!localStorage.getItem('dhsteel_sim_analytics')) {
             localStorage.setItem('dhsteel_sim_analytics', JSON.stringify(defaultSimData));
         }
         if (!localStorage.getItem('dhsteel_main_sim_analytics')) {
             localStorage.setItem('dhsteel_main_sim_analytics', JSON.stringify(defaultMainSimData));
+        }
+        if (!localStorage.getItem('dhsteel_mailling_sim_analytics')) {
+            localStorage.setItem('dhsteel_mailling_sim_analytics', JSON.stringify(defaultMailSimData));
         }
 
         // 1. 대상 사이트 전환 함수
@@ -1179,15 +1245,23 @@
             const brandTitle = document.getElementById('brand-title');
             const brandSubtitle = document.getElementById('brand-subtitle');
             const adsBadge = document.getElementById('badge-google-ads');
+            const mockGenBtn = document.getElementById('btn-mock-generate');
 
             if (site === 'catalog') {
                 brandTitle.textContent = "대흥정밀";
                 brandSubtitle.textContent = "파이프가공 카탈로그 모니터링 관리자";
                 adsBadge.innerHTML = '<span class="status-indicator active"></span>Google Ads 연동 (dhsteel 651-167-5293): Active';
+                mockGenBtn.textContent = "⚡ 시뮬레이션: 가상 견적 접수";
+            } else if (site === 'mailling') {
+                brandTitle.textContent = "대흥정밀 B2B";
+                brandSubtitle.textContent = "아웃바운드 메일 발송 현황 관리자";
+                adsBadge.innerHTML = '<span class="status-indicator active"></span>Google Sheets 연동 (mail_log): Active';
+                mockGenBtn.textContent = "⚡ 시뮬레이션: 가상 발송 로그 생성";
             } else {
                 brandTitle.textContent = "대흥정밀 공식홈";
                 brandSubtitle.textContent = "daeheungsteel.co.kr 마케팅 성과 관리자";
                 adsBadge.innerHTML = '<span class="status-indicator active"></span>Google Ads 연동 (Main-9802): Active';
+                mockGenBtn.textContent = "⚡ 시뮬레이션: 가상 견적 접수";
             }
 
             // 모드 초기화 후 UI 새로고침
@@ -1201,8 +1275,6 @@
             const btnRealtime = document.getElementById('mode-realtime');
             const btnSim = document.getElementById('mode-simulator');
             const mockGenBtn = document.getElementById('btn-mock-generate');
-            const tableTitle = document.getElementById('table-mode-title');
-            const tableDesc = document.getElementById('table-mode-desc');
 
             if (mode === 'realtime') {
                 btnRealtime.classList.add('active');
@@ -1211,9 +1283,6 @@
                 mockGenBtn.disabled = true;
                 mockGenBtn.style.opacity = '0.4';
                 mockGenBtn.style.cursor = 'not-allowed';
-                
-                tableTitle.textContent = "실시간 접수 견적 피드 (LIVE)";
-                tableDesc.textContent = "선택된 사이트에서 수집된 순수 실시간 견적 접수 목록";
             } else {
                 btnRealtime.classList.remove('active');
                 btnSim.classList.add('active');
@@ -1221,9 +1290,6 @@
                 mockGenBtn.disabled = false;
                 mockGenBtn.style.opacity = '1';
                 mockGenBtn.style.cursor = 'pointer';
-                
-                tableTitle.textContent = "데모 시뮬레이터 견적 피드";
-                tableDesc.textContent = "테스트용으로 셋업된 가상 유입 데이터 및 접수 내역";
             }
 
             updateDashboardUI();
@@ -1247,6 +1313,22 @@
                         analyticsData = JSON.parse(rawData);
                     } else {
                         analyticsData = JSON.parse(JSON.stringify(defaultSimData));
+                    }
+                }
+            } else if (currentSite === 'mailling') {
+                if (dashboardMode === 'realtime') {
+                    rawData = localStorage.getItem('dhsteel_mailling_analytics');
+                    if (rawData) {
+                        analyticsData = JSON.parse(rawData);
+                    } else {
+                        analyticsData = { visits: { success: 0, fail: 0, pending: 0 }, quotes: [] };
+                    }
+                } else {
+                    rawData = localStorage.getItem('dhsteel_mailling_sim_analytics');
+                    if (rawData) {
+                        analyticsData = JSON.parse(rawData);
+                    } else {
+                        analyticsData = JSON.parse(JSON.stringify(defaultMailSimData));
                     }
                 }
             } else {
@@ -1325,25 +1407,93 @@
 
         // UI 데이터 그리기 핵심 로직
         function renderDashboardData() {
-            const totalVisits = analyticsData.visits.google_ads + analyticsData.visits.search + analyticsData.visits.direct;
-            const totalQuotes = analyticsData.quotes.length;
-            const cvr = totalVisits > 0 ? ((totalQuotes / totalVisits) * 100).toFixed(2) : '0.00';
+            let totalVisits = 0;
+            let totalQuotes = 0;
+            let cvr = "0.00";
 
-            document.getElementById('kpi-visits').textContent = totalVisits.toLocaleString();
-            document.getElementById('kpi-quotes').textContent = totalQuotes.toLocaleString();
-            document.getElementById('kpi-cvr').textContent = cvr + '%';
+            if (currentSite === 'mailling') {
+                document.getElementById('kpi-title-1').innerHTML = '총 발송 메일수 <span>✉️</span>';
+                document.getElementById('kpi-title-2').innerHTML = '성공 / 실패 건수 <span>✅</span>';
+                document.getElementById('kpi-title-3').innerHTML = '발송 성공률 <span>🎯</span>';
+                
+                document.getElementById('chart-visits-title').textContent = '메일 발송 결과 비율';
+                document.getElementById('chart-visits-desc').textContent = '성공 및 실패 발송 로그의 비율 분석';
+                document.getElementById('chart-product-title').textContent = '회차별 메일 발송 현황';
+                document.getElementById('chart-product-desc').textContent = '회차별(1일차, 9일차 등) 이메일 발송 성공 분포';
+                
+                document.getElementById('table-mode-title').textContent = dashboardMode === 'realtime' ? "실시간 메일 발송 로그 피드 (LIVE)" : "데모 메일 발송 로그 피드";
+                document.getElementById('table-mode-desc').textContent = "구글 스프레드시트 mail_log 시트와 실시간 연동된 이력";
 
-            // Google Ads visits percentage
-            const adsPercentage = totalVisits > 0 ? ((analyticsData.visits.google_ads / totalVisits) * 100).toFixed(1) : '0';
-            document.getElementById('kpi-visits-ratio').textContent = `Google Ads 광고 유입 ${adsPercentage}%`;
+                totalVisits = (analyticsData.visits.success || 0) + (analyticsData.visits.fail || 0);
+                totalQuotes = analyticsData.quotes.filter(q => q.email === '성공').length;
+                cvr = totalVisits > 0 ? ((totalQuotes / totalVisits) * 100).toFixed(1) : '0.0';
 
-            // Calculate quotes from today
-            const now = new Date();
-            const oneDayAgo = new Date(now.getTime() - (24 * 60 * 60 * 1000));
-            const todayQuotesCount = analyticsData.quotes.filter(q => new Date(q.date) > oneDayAgo).length;
-            document.getElementById('kpi-quotes-today').textContent = `${todayQuotesCount}건`;
+                document.getElementById('kpi-visits').textContent = totalVisits.toLocaleString() + ' 건';
+                document.getElementById('kpi-quotes').textContent = `${analyticsData.visits.success || 0} / ${analyticsData.visits.fail || 0}`;
+                document.getElementById('kpi-cvr').textContent = cvr + '%';
+                document.getElementById('kpi-visits-ratio').textContent = `대기 메일 잔여: ${analyticsData.visits.pending || 0}건`;
 
-            // Render table
+                const now = new Date();
+                const oneDayAgo = new Date(now.getTime() - (24 * 60 * 60 * 1000));
+                const todayMails = analyticsData.quotes.filter(q => new Date(q.date) > oneDayAgo).length;
+                document.getElementById('kpi-subtitle-2').innerHTML = `최근 24시간 내 <span class="trend-up">${todayMails}건</span> 발송 완료됨`;
+                document.getElementById('kpi-subtitle-3').textContent = '발송 성공 대비 실패율 분석 지표';
+            } else {
+                document.getElementById('kpi-title-1').innerHTML = '총 방문 세션수 <span>👤</span>';
+                document.getElementById('kpi-title-2').innerHTML = '누적 접수 견적수 <span>✉️</span>';
+                document.getElementById('kpi-title-3').innerHTML = '평균 견적 전환율 (CVR) <span>🎯</span>';
+                
+                document.getElementById('chart-visits-title').textContent = '마케팅 유입 채널 분석';
+                document.getElementById('chart-visits-desc').textContent = 'Google Ads 광고 유입 대 오가닉 검색 및 직접 유입 비중';
+                document.getElementById('chart-product-title').textContent = '요청 품목 선호도';
+                document.getElementById('chart-product-desc').textContent = '견적 요청이 접수된 가공 서비스별 분포 분석';
+                
+                document.getElementById('table-mode-title').textContent = dashboardMode === 'realtime' ? "실시간 접수 견적 피드 (LIVE)" : "데모 시뮬레이터 견적 피드";
+                document.getElementById('table-mode-desc').textContent = "파이프가공 서비스 문의를 통해 접수된 실시간 견적 목록";
+
+                totalVisits = analyticsData.visits.google_ads + analyticsData.visits.search + analyticsData.visits.direct;
+                totalQuotes = analyticsData.quotes.length;
+                cvr = totalVisits > 0 ? ((totalQuotes / totalVisits) * 100).toFixed(2) : '0.00';
+
+                document.getElementById('kpi-visits').textContent = totalVisits.toLocaleString();
+                document.getElementById('kpi-quotes').textContent = totalQuotes.toLocaleString();
+                document.getElementById('kpi-cvr').textContent = cvr + '%';
+
+                const adsPercentage = totalVisits > 0 ? ((analyticsData.visits.google_ads / totalVisits) * 100).toFixed(1) : '0';
+                document.getElementById('kpi-visits-ratio').textContent = `Google Ads 광고 유입 ${adsPercentage}%`;
+
+                const now = new Date();
+                const oneDayAgo = new Date(now.getTime() - (24 * 60 * 60 * 1000));
+                const todayQuotesCount = analyticsData.quotes.filter(q => new Date(q.date) > oneDayAgo).length;
+                document.getElementById('kpi-subtitle-2').innerHTML = `최근 24시간 내 <span class="trend-up">${todayQuotesCount}건</span> 추가 접수됨`;
+                document.getElementById('kpi-subtitle-3').textContent = '총 방문 대비 견적 전환 성공 비율';
+            }
+
+            // Render table headers dynamically
+            const tableHeader = document.querySelector('#leads-table thead tr');
+            if (currentSite === 'mailling') {
+                tableHeader.innerHTML = `
+                    <th>ID</th>
+                    <th>발송 일시</th>
+                    <th>회사명</th>
+                    <th>수신 이메일</th>
+                    <th>발송 회차</th>
+                    <th>발송 상태</th>
+                    <th>세부결과 / 비고</th>
+                `;
+            } else {
+                tableHeader.innerHTML = `
+                    <th>ID</th>
+                    <th>접수 일시</th>
+                    <th>회사/현장명</th>
+                    <th>담당자</th>
+                    <th>연락처</th>
+                    <th>가공 서비스</th>
+                    <th>유입 경로</th>
+                `;
+            }
+
+            // Render table body
             const tbody = document.getElementById('leads-body');
             const emptyState = document.getElementById('table-empty');
             tbody.innerHTML = '';
@@ -1366,24 +1516,40 @@
                         minute: '2-digit'
                     });
 
-                    let sourceBadge = '';
-                    if (quote.source === 'google_ads') {
-                        sourceBadge = '<span class="badge-source ads">Google Ads</span>';
-                    } else if (quote.source === 'search') {
-                        sourceBadge = '<span class="badge-source search">Search</span>';
+                    if (currentSite === 'mailling') {
+                        let statusBadge = quote.email === '성공' ? 
+                            '<span class="badge-source ads" style="background: var(--success); color: #fff;">성공</span>' : 
+                            '<span class="badge-source direct" style="background: var(--danger); color: #fff;">실패</span>';
+                        
+                        tr.innerHTML = `
+                            <td style="font-family: var(--font-title); font-weight: 600;">#${quote.id}</td>
+                            <td class="date-col">${dateStr}</td>
+                            <td style="font-weight: 500;">${quote.company}</td>
+                            <td>${quote.name}</td>
+                            <td><span class="badge-product" style="background: rgba(245, 158, 11, 0.2); color: #f59e0b;">${quote.phone}</span></td>
+                            <td>${statusBadge}</td>
+                            <td style="font-size: 13px; color: var(--text-secondary);">${quote.product}${quote.specs ? ' | ' + quote.specs : ''}</td>
+                        `;
                     } else {
-                        sourceBadge = '<span class="badge-source direct">Direct</span>';
-                    }
+                        let sourceBadge = '';
+                        if (quote.source === 'google_ads') {
+                            sourceBadge = '<span class="badge-source ads">Google Ads</span>';
+                        } else if (quote.source === 'search') {
+                            sourceBadge = '<span class="badge-source search">Search</span>';
+                        } else {
+                            sourceBadge = '<span class="badge-source direct">Direct</span>';
+                        }
 
-                    tr.innerHTML = `
-                        <td style="font-family: var(--font-title); font-weight: 600;">#${quote.id}</td>
-                        <td class="date-col">${dateStr}</td>
-                        <td style="font-weight: 500;">${quote.company}</td>
-                        <td>${quote.name}</td>
-                        <td style="font-size: 13px; color: var(--text-secondary);">${quote.phone}</td>
-                        <td><span class="badge-product">${quote.product}</span></td>
-                        <td>${sourceBadge}</td>
-                    `;
+                        tr.innerHTML = `
+                            <td style="font-family: var(--font-title); font-weight: 600;">#${quote.id}</td>
+                            <td class="date-col">${dateStr}</td>
+                            <td style="font-weight: 500;">${quote.company}</td>
+                            <td>${quote.name}</td>
+                            <td style="font-size: 13px; color: var(--text-secondary);">${quote.phone}</td>
+                            <td><span class="badge-product">${quote.product}</span></td>
+                            <td>${sourceBadge}</td>
+                        `;
+                    }
                     tbody.appendChild(tr);
                 });
             }
@@ -1396,26 +1562,40 @@
 
         // Initialize and Update Chart.js
         function updateCharts() {
-            const sourceData = [
-                analyticsData.visits.google_ads,
-                analyticsData.visits.search,
-                analyticsData.visits.direct
+            let labels_src = ['Google Ads', '검색 (Organic)', '직접 유입 (Direct)'];
+            let colors_src = ['#f97316', '#3b82f6', '#64748b'];
+            let sourceData = [
+                analyticsData.visits.google_ads || 0,
+                analyticsData.visits.search || 0,
+                analyticsData.visits.direct || 0
             ];
 
+            if (currentSite === 'mailling') {
+                const successCount = analyticsData.quotes.filter(q => q.email === '성공').length;
+                const failCount = analyticsData.quotes.filter(q => q.email === '실패').length;
+                const pendingCount = analyticsData.visits.pending || 0;
+                labels_src = ['발송 성공', '발송 실패', '대기'];
+                colors_src = ['#10b981', '#ef4444', '#64748b'];
+                sourceData = [successCount, failCount, pendingCount];
+            }
+
             if (sourceChart) {
+                sourceChart.data.labels = labels_src;
                 sourceChart.data.datasets[0].data = sourceData;
+                sourceChart.data.datasets[0].backgroundColor = colors_src;
                 sourceChart.update();
             } else {
                 const ctx = document.getElementById('sourceChart').getContext('2d');
                 sourceChart = new Chart(ctx, {
                     type: 'doughnut',
                     data: {
-                        labels: ['Google Ads', '검색 (Organic)', '직접 유입 (Direct)'],
+                        labels: labels_src,
                         datasets: [{
                             data: sourceData,
-                            backgroundColor: ['#f97316', '#3b82f6', '#64748b'],
+                            backgroundColor: colors_src,
                             borderWidth: 0,
-                            hoverOffset: 4
+                            hoverOffset: 6,
+                            cutout: '75%'
                         }]
                     },
                     options: {
@@ -1424,7 +1604,7 @@
                         plugins: {
                             legend: {
                                 position: 'bottom',
-                                labels: { color: '#94a3b8', font: { family: 'Inter', size: 11 } }
+                                labels: { color: '#94a3b8', font: { family: 'Inter', size: 11, weight: '500' } }
                             }
                         }
                     }
@@ -1432,26 +1612,44 @@
             }
 
             // Product popularity chart (Bar)
-            const productCounts = {
-                '파이프벤딩': 0,
-                '파이프스웨이징': 0,
-                '파이프인발': 0,
-                '파이프축관': 0,
-                '파이프확관': 0,
-                '파이프주문제작': 0,
-                '복합가공': 0
-            };
+            let labels = [];
+            let data = [];
+            let datasetLabel = '견적 건수';
 
-            analyticsData.quotes.forEach(q => {
-                if (productCounts[q.product] !== undefined) {
-                    productCounts[q.product]++;
-                }
-            });
-
-            const labels = Object.keys(productCounts);
-            const data = Object.values(productCounts);
+            if (currentSite === 'mailling') {
+                datasetLabel = '발송 건수';
+                const roundCounts = { '1일차': 0, '9일차': 0, '10일차': 0 };
+                analyticsData.quotes.forEach(q => {
+                    const r = q.phone || '기타';
+                    if (roundCounts[r] === undefined) {
+                        roundCounts[r] = 0;
+                    }
+                    roundCounts[r]++;
+                });
+                labels = Object.keys(roundCounts);
+                data = Object.values(roundCounts);
+            } else {
+                const productCounts = {
+                    '파이프벤딩': 0,
+                    '파이프스웨이징': 0,
+                    '파이프인발': 0,
+                    '파이프축관': 0,
+                    '파이프확관': 0,
+                    '파이프주문제작': 0,
+                    '복합가공': 0
+                };
+                analyticsData.quotes.forEach(q => {
+                    if (productCounts[q.product] !== undefined) {
+                        productCounts[q.product]++;
+                    }
+                });
+                labels = Object.keys(productCounts);
+                data = Object.values(productCounts);
+            }
 
             if (productChart) {
+                productChart.data.labels = labels;
+                productChart.data.datasets[0].label = datasetLabel;
                 productChart.data.datasets[0].data = data;
                 productChart.update();
             } else {
@@ -1461,7 +1659,7 @@
                     data: {
                         labels: labels,
                         datasets: [{
-                            label: '견적 건수',
+                            label: datasetLabel,
                             data: data,
                             backgroundColor: 'rgba(59, 130, 246, 0.75)',
                             borderColor: '#3b82f6',
@@ -1501,11 +1699,14 @@
             const clicks = Math.round(budget / cpc);
             document.getElementById('result-clicks').textContent = clicks.toLocaleString() + ' 회';
 
-            const totalVisits = analyticsData.visits.google_ads + analyticsData.visits.search + analyticsData.visits.direct;
-            const currentCvr = totalVisits > 0 ? (analyticsData.quotes.length / totalVisits) : 0.02;
+            let currentCvr = 0.02;
+            if (currentSite !== 'mailling') {
+                const totalVisits = analyticsData.visits.google_ads + analyticsData.visits.search + analyticsData.visits.direct;
+                currentCvr = totalVisits > 0 ? (analyticsData.quotes.length / totalVisits) : 0.02;
+            }
             
             const expectedLeads = Math.max(1, Math.round(clicks * currentCvr));
-            document.getElementById('result-leads').textContent = expectedLeads.toLocaleString() + ' 건';
+            document.getElementById('result-leads').textContent = expectedLeads.toLocaleString() + (currentSite === 'mailling' ? ' 건(메일)' : ' 건');
 
             const cpa = Math.round(budget / expectedLeads);
             document.getElementById('result-cpa').textContent = cpa.toLocaleString() + ' 원';
@@ -1514,6 +1715,50 @@
         // Generate dynamic mock quote data for testing
         function generateMockQuote() {
             if (dashboardMode === 'realtime') return; // Prevent writing to live database
+
+            if (currentSite === 'mailling') {
+                const companies = ['대흥정밀', '우주로봇', '한성철강', '동성테크', '신화금속', '삼우기계', '경남제작소'];
+                const emails = ['buyer@dhsteel.com', 'contact@ujurobot.co.kr', 'hssteel@naver.com', 'dstek@daum.net', 'shmetal@sh.com', 'info@samoo.co.kr', 'sales@kngroup.com'];
+                const rounds = ['1일차', '9일차', '10일차'];
+                const statuses = ['성공', '실패'];
+                const details = ['Gmail API 발송 완료', 'SMTP connection timeout', '수신인 이메일 사서함 용량 초과'];
+                const notes = ['비고 없음', '재발송 필요', '휴폐업 업체 확인'];
+
+                const compIdx = Math.floor(Math.random() * companies.length);
+                const company = companies[compIdx];
+                const email = emails[compIdx];
+                const round = rounds[Math.floor(Math.random() * rounds.length)];
+                const status = Math.random() > 0.15 ? '성공' : '실패'; // 85% success rate
+                const detail = status === '성공' ? details[0] : details[Math.floor(Math.random() * (details.length - 1)) + 1];
+                const note = Math.random() > 0.5 ? notes[Math.floor(Math.random() * notes.length)] : '';
+
+                loadLocalData();
+
+                if (status === '성공') analyticsData.visits.success++;
+                else analyticsData.visits.fail++;
+
+                if (analyticsData.visits.pending > 0) {
+                    analyticsData.visits.pending--;
+                }
+
+                const nextId = analyticsData.quotes.length > 0 ? Math.max(...analyticsData.quotes.map(q => q.id)) + 1 : 201;
+                const newLog = {
+                    id: nextId,
+                    date: new Date().toISOString(),
+                    company: company,
+                    name: email,
+                    phone: round,
+                    email: status,
+                    product: detail,
+                    specs: note,
+                    source: status === '성공' ? 'success' : 'fail'
+                };
+
+                analyticsData.quotes.push(newLog);
+                localStorage.setItem('dhsteel_mailling_sim_analytics', JSON.stringify(analyticsData));
+                updateDashboardUI();
+                return;
+            }
 
             const companies = ['(주)태진산업', '일우기계', '명성파이프', '영남제관', '중앙금속', '서원정밀', '한국파이프'];
             const names = ['강준우 과장', '임지은 대리', '최동식 부장', '오영호 대표', '윤서아 실장', '서태수 팀장'];
@@ -1540,7 +1785,7 @@
             const spec = specs[prodIdx];
             const source = sources[Math.floor(Math.random() * sources.length)];
 
-            loadData();
+            loadLocalData();
             
             const additionalVisits = Math.floor(Math.random() * 10) + 5;
             for(let i = 0; i < additionalVisits; i++) {
@@ -1572,6 +1817,26 @@
 
         // Reset Data
         function resetAnalytics() {
+            if (currentSite === 'mailling') {
+                const targetRealKey = 'dhsteel_mailling_analytics';
+                const targetSimKey = 'dhsteel_mailling_sim_analytics';
+                const defaultSimObj = defaultMailSimData;
+
+                if (dashboardMode === 'realtime') {
+                    if (confirm('실제 메일 발송 로그 데이터를 초기화하시겠습니까?')) {
+                        const cleanData = { visits: { success: 0, fail: 0, pending: 0 }, quotes: [] };
+                        localStorage.setItem(targetRealKey, JSON.stringify(cleanData));
+                        updateDashboardUI();
+                    }
+                } else {
+                    if (confirm('메일 시뮬레이터 데모 데이터를 초기 상태로 리셋하시겠습니까?')) {
+                        localStorage.setItem(targetSimKey, JSON.stringify(defaultSimObj));
+                        updateDashboardUI();
+                    }
+                }
+                return;
+            }
+
             const targetRealKey = currentSite === 'catalog' ? 'dhsteel_analytics' : 'dhsteel_main_analytics';
             const targetSimKey = currentSite === 'catalog' ? 'dhsteel_sim_analytics' : 'dhsteel_main_sim_analytics';
             const defaultSimObj = currentSite === 'catalog' ? defaultSimData : defaultMainSimData;
@@ -1654,18 +1919,67 @@
             const quote = analyticsData.quotes.find(q => q.id === id);
             if (!quote) return;
 
-            document.getElementById('modal-company').textContent = quote.company;
-            document.getElementById('modal-name').textContent = quote.name;
-            document.getElementById('modal-phone').textContent = quote.phone;
-            document.getElementById('modal-email').textContent = quote.email;
-            document.getElementById('modal-product').textContent = quote.product;
-            document.getElementById('modal-specs').textContent = quote.specs;
-
-            let sourceText = '';
-            if (quote.source === 'google_ads') sourceText = '🟢 Google Ads 광고 유입';
-            else if (quote.source === 'search') sourceText = '🔵 검색엔진 (Organic Search) 유입';
-            else sourceText = '⚪ 직접 방문 (Direct)';
-            document.getElementById('modal-source').textContent = sourceText;
+            if (currentSite === 'mailling') {
+                document.querySelector('.modal-title').textContent = "메일 발송 이력 상세 보기";
+                document.querySelector('.info-grid').innerHTML = `
+                    <div class="info-item">
+                        <label>회사명</label>
+                        <p>${quote.company}</p>
+                    </div>
+                    <div class="info-item">
+                        <label>수신 이메일</label>
+                        <p>${quote.name}</p>
+                    </div>
+                    <div class="info-item">
+                        <label>발송 회차</label>
+                        <p>${quote.phone}</p>
+                    </div>
+                    <div class="info-item">
+                        <label>발송 상태</label>
+                        <p>${quote.email === '성공' ? '🟢 성공' : '🔴 실패'}</p>
+                    </div>
+                    <div class="info-item info-item-full">
+                        <label>세부 결과</label>
+                        <p>${quote.product}</p>
+                    </div>
+                    <div class="info-item info-item-full">
+                        <label>비고</label>
+                        <div class="specs-display-box">${quote.specs || '비고 없음'}</div>
+                    </div>
+                `;
+            } else {
+                document.querySelector('.modal-title').textContent = "견적 요청 상세 보기";
+                document.querySelector('.info-grid').innerHTML = `
+                    <div class="info-item">
+                        <label>회사/현장명</label>
+                        <p id="modal-company">${quote.company}</p>
+                    </div>
+                    <div class="info-item">
+                        <label>담당자</label>
+                        <p id="modal-name">${quote.name}</p>
+                    </div>
+                    <div class="info-item">
+                        <label>연락처</label>
+                        <p id="modal-phone">${quote.phone}</p>
+                    </div>
+                    <div class="info-item">
+                        <label>이메일</label>
+                        <p id="modal-email">${quote.email}</p>
+                    </div>
+                    <div class="info-item">
+                        <label>가공 서비스</label>
+                        <p><span class="badge-product" id="modal-product">${quote.product}</span></p>
+                    </div>
+                    <div class="info-item">
+                        <label>유입 경로</label>
+                        <p id="modal-source">${quote.source === 'google_ads' ? '🟢 Google Ads 광고 유입' : quote.source === 'search' ? '🔵 검색엔진 유입' : '⚪ 직접 방문'}</p>
+                    </div>
+                    <div class="info-item info-item-full">
+                        <label>희망 규격 및 요청 수량</label>
+                        <div class="specs-display-box" id="modal-specs">${quote.specs}</div>
+                    </div>
+                `;
+            }
 
             document.getElementById('quoteModal').classList.add('active');
         }

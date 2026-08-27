@@ -3,20 +3,29 @@
 // ─── Google Ads 전환 추적 ───────────────────────────────
 const GOOGLE_ADS_CONVERSION = {
   // TODO: Google Ads 계정(651-167-5293)에서 전환 태그 발급 후 아래 값 교체
-  sendTo: 'AW-CONVERSION_ID/CONVERSION_LABEL'
+  sendTo: 'AW-740713573/DzIKCKP9zeQcEOXImeEC'
 };
 
 function fireConversion() {
   if (typeof gtag === 'function') {
     gtag('event', 'conversion', { 'send_to': GOOGLE_ADS_CONVERSION.sendTo });
+  } else if (window.dataLayer && Array.isArray(window.dataLayer)) {
+    // gtag 가 로드되지 않은 시점이라면 데이터 레이어에 직접 큐잉 처리
+    window.dataLayer.push('event', 'conversion', { 'send_to': GOOGLE_ADS_CONVERSION.sendTo });
+  } else {
+    // 안전장치로 전역 큐 생성
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push('event', 'conversion', { 'send_to': GOOGLE_ADS_CONVERSION.sendTo });
   }
 }
 
-// ─── 파일 선택 표시 ────────────────────────────────────
+// ─── 파일 선택 및 드래그앤드롭 표시 ────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
   const fileInput = document.getElementById('fileAttachment');
   const fileName  = document.getElementById('fileName');
-  if (fileInput && fileName) {
+  const wrapper   = document.querySelector('.file-upload-wrapper');
+
+  if (fileInput && fileName && wrapper) {
     fileInput.addEventListener('change', () => {
       const f = fileInput.files[0];
       if (f) {
@@ -32,13 +41,62 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
+    // 드래그앤드롭 효과 구현
+    ['dragenter', 'dragover'].forEach(eventName => {
+      wrapper.addEventListener(eventName, (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        wrapper.classList.add('dragover');
+      }, false);
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+      wrapper.addEventListener(eventName, (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        wrapper.classList.remove('dragover');
+      }, false);
+    });
+
+    wrapper.addEventListener('drop', (e) => {
+      const dt = e.dataTransfer;
+      const files = dt.files;
+      if (files.length > 0) {
+        const f = files[0];
+        if (f.size > 10 * 1024 * 1024) {
+          showToast('파일 크기는 10MB 이하만 가능합니다.', 'error');
+          fileInput.value = '';
+          fileName.textContent = '선택된 파일 없음 (최대 10MB)';
+          return;
+        }
+        fileInput.files = files;
+        fileName.textContent = f.name;
+      }
+    });
+
     // 파일 업로드 박스 클릭 시 파일 선택
-    const wrapper = document.querySelector('.file-upload-wrapper');
-    if (wrapper) {
-      wrapper.addEventListener('click', () => fileInput.click());
-    }
+    wrapper.addEventListener('click', (e) => {
+      if (e.target !== fileInput) {
+        fileInput.click();
+      }
+    });
   }
 });
+
+// 완료 팝업 관련 전역 함수
+function showSuccessModal() {
+  const modal = document.getElementById('successModal');
+  if (modal) {
+    modal.classList.add('active');
+  }
+}
+
+function closeSuccessModal() {
+  const modal = document.getElementById('successModal');
+  if (modal) {
+    modal.classList.remove('active');
+  }
+}
 
 // ─── 서비스 선택 → 폼 스크롤 ──────────────────────────
 function selectService(serviceName) {
@@ -112,7 +170,7 @@ function handleQuoteSubmit(event) {
     if (loading) loading.classList.remove('active');
     if (response.ok) {
       fireConversion();
-      showToast('견적 문의가 성공적으로 접수되었습니다!\n빠른 시간 내에 연락드리겠습니다.', 'success');
+      showSuccessModal();
       event.target.reset();
       document.getElementById('fileName').textContent = '선택된 파일 없음 (최대 10MB)';
     } else {

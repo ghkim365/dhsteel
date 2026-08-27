@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>대흥정밀 B2B 영업 자동화 WBS 계획서 (2026)</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      line-height: 1.7;
+      color: #334155;
+      max-width: 1100px;
+      margin: 40px auto;
+      padding: 0 20px;
+      background-color: #f8fafc;
+    }
+    .card {
+      background: #ffffff;
+      padding: 35px;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -2px rgba(0,0,0,0.05);
+      border: 1px solid #e2e8f0;
+      margin-bottom: 24px;
+    }
+    h1 {
+      font-size: 26px;
+      color: #0f172a;
+      border-bottom: 2px solid #e2e8f0;
+      padding-bottom: 12px;
+      margin-top: 0;
+    }
+    h2 {
+      font-size: 18px;
+      color: #1e293b;
+      margin-top: 32px;
+      border-bottom: 1px solid #f1f5f9;
+      padding-bottom: 8px;
+    }
+    h3 {
+      font-size: 15px;
+      color: #0f172a;
+      margin-top: 22px;
+      font-weight: 700;
+    }
+    .meta-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13.5px;
+      margin: 16px 0 0 0;
+    }
+    .meta-table th, .meta-table td {
+      border: 1px solid #e2e8f0;
+      padding: 8px 12px;
+      text-align: left;
+    }
+    .meta-table th {
+      background-color: #f8fafc;
+      font-weight: 600;
+      color: #475569;
+      white-space: nowrap;
+    }
+    .meta-table td { color: #334155; }
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 16px;
+      margin: 20px 0;
+    }
+    .summary-card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 16px;
+      text-align: center;
+    }
+    .summary-card .num {
+      font-size: 28px;
+      font-weight: 700;
+      color: #1e40af;
+    }
+    .summary-card .label {
+      font-size: 12px;
+      color: #64748b;
+      margin-top: 4px;
+    }
+    /* Task checklist */
+    .task-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 10px;
+      flex-wrap: nowrap;
+      width: 100%;
+    }
+    .task-item.completed .task-text {
+      text-decoration: line-through;
+      opacity: 0.6;
+    }
+    .task-item input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .task-text {
+      flex: 1;
+      font-size: 14px;
+      min-width: 0;
+    }
+    .task-text a { color: #2563eb; text-decoration: none; font-weight: 600; }
+    .task-text a:hover { text-decoration: underline; }
+    .task-date-input {
+      font-size: 11px;
+      border: 1px solid #cbd5e1;
+      border-radius: 4px;
+      padding: 2px 4px;
+      color: #475569;
+      background-color: #f8fafc;
+      outline: none;
+      width: 115px;
+      flex-shrink: 0;
+    }
+    .task-memo-input {
+      font-size: 11px;
+      border: 1px solid #e2e8f0;
+      border-radius: 4px;
+      padding: 2px 6px;
+      color: #334155;
+      background-color: #ffffff;
+      outline: none;
+      width: 260px;
+      flex-shrink: 0;
+      transition: border-color 0.2s;
+    }
+    .task-memo-input:focus { border-color: #3b82f6; }
+    .info-box {
+      background: #eff6ff;
+      border-left: 4px solid #3b82f6;
+      padding: 12px 16px;
+      border-radius: 4px;
+      font-size: 13.5px;
+      color: #1e40af;
+      margin: 12px 0 20px 0;
+    }
+    .warn-box {
+      background: #fef9c3;
+      border-left: 4px solid #f59e0b;
+      padding: 12px 16px;
+      border-radius: 4px;
+      font-size: 13.5px;
+      color: #92400e;
+      margin: 12px 0 20px 0;
+    }
+    .success-box {
+      background: #f0fdf4;
+      border-left: 4px solid #22c55e;
+      padding: 12px 16px;
+      border-radius: 4px;
+      font-size: 13.5px;
+      color: #166534;
+      margin: 12px 0 20px 0;
+    }
+    ul.plain { list-style: none; padding-left: 0; margin: 0; }
+    code {
+      font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
+      background-color: #f1f5f9;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 13px;
+      color: #0f172a;
+    }
+    .section-divider {
+      border: none;
+      border-top: 2px solid #e2e8f0;
+      margin: 32px 0;
+    }
+    .arch-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      margin: 16px 0;
+    }
+    .arch-table th, .arch-table td {
+      border: 1px solid #e2e8f0;
+      padding: 8px 12px;
+      text-align: left;
+    }
+    .arch-table th {
+      background-color: #f8fafc;
+      font-weight: 600;
+      color: #475569;
+    }
+    .badge-green  { display:inline-block; background:#dcfce7; color:#15803d; font-size:11px; font-weight:600; padding:2px 8px; border-radius:99px; }
+    .badge-blue   { display:inline-block; background:#dbeafe; color:#1d4ed8; font-size:11px; font-weight:600; padding:2px 8px; border-radius:99px; }
+    .badge-yellow { display:inline-block; background:#fef9c3; color:#a16207; font-size:11px; font-weight:600; padding:2px 8px; border-radius:99px; }
+    .badge-red    { display:inline-block; background:#fee2e2; color:#b91c1c; font-size:11px; font-weight:600; padding:2px 8px; border-radius:99px; }
+  </style>
+</head>
+<body>
+<div class="card">
+  <h1>🏭 대흥정밀 B2B 영업 자동화 WBS 계획서 (2026)</h1>
+
+  <p>대흥정밀(경기도 시흥) 소구경 파이프 임가공 전문업체를 위한 B2B 디지털 영업·마케팅 자동화 종합 구축 현황입니다.
+    모바일 카탈로그 사이트 구축, 아웃바운드 이메일 자동화, 인바운드 리드 수집 자동화, 광고 연동까지의 전체 진행 상태와 잔여 과제를 체크리스트로 관리할 수 있습니다.</p>
+
+  <table class="meta-table">
+    <tr><th>프로젝트명</th><td>builder-dhsteel-sales</td><th>고객사</th><td>대흥정밀 (daeheungsteel.co.kr)</td></tr>
+    <tr><th>위치</th><td>경기도 시흥시</td><th>업종</th><td>소구경 파이프 임가공 (22Φ ~ 50Φ)</td></tr>
+    <tr><th>광고 계정</th><td>651-167-5293 (dnsteel7@gmail.com)</td><th>배포 URL</th><td><a href="https://dhsteel.vercel.app/" target="_blank">https://dhsteel.vercel.app/</a></td></tr>
+    <tr><th>프로젝트 경로</th><td colspan="3"><code>D:\Antigravity\builder-dhsteel-sales</code></td></tr>
+  </table>
+
+  <h2>📊 현황 요약</h2>
+  <div class="summary-grid">
+    <div class="summary-card"><div class="num">5</div><div class="label">주요 가공 서비스</div></div>
+    <div class="summary-card"><div class="num">41</div><div class="label">갤러리 이미지</div></div>
+    <div class="summary-card"><div class="num">4</div><div class="label">제품 스펙 이미지</div></div>
+    <div class="summary-card"><div class="num">4</div><div class="label">리드 수집 스크립트</div></div>
+    <div class="summary-card"><div class="num">2</div><div class="label">이메일 템플릿</div></div>
+    <div class="summary-card"><div class="num">6</div><div class="label">워크플로우 문서</div></div>
+  </div>
+
+  <hr class="section-divider">
+
+  <!-- PHASE 1 -->
+  <h2>1️⃣ PHASE 1 — 모바일 카탈로그 사이트 구축</h2>
+  <div class="info-box">
+    💡 B2B 고객이 스마트폰으로도 즉시 견적을 요청할 수 있는 <strong>파이프 임가공 전문 랜딩 페이지</strong>를 구축하는 단계입니다.
+    메인 파일: <code>catalog/index.html</code> + <code>catalog/styles.css</code> + <code>catalog/app.js</code>
+  </div>
+  <h3>📌 1-1. 페이지 구조 · 콘텐츠</h3>
+  <ul class="plain">
+    <li class="task-item"><input type="checkbox" id="ph1-hero"><span class="task-text">히어로 섹션 — 주력 서비스·CTA 버튼 (스웨이징·벤딩·포밍·주문제작)</span><input type="date" class="task-date-input" id="ph1-hero-date"><input type="text" class="task-memo-input" id="ph1-hero-memo" placeholder="비고/메모 입력"></li>
+    <li class="task-item"><input type="checkbox" id="ph1-spec"><span class="task-text">규격 및 설비 섹션 — 가공 범위 스펙 이미지 4장 (spec_01~04)</span><input type="date" class="task-date-input" id="ph1-spec-date"><input type="text" class="task-memo-input" id="ph1-spec-memo" placeholder="비고/메모 입력"></li>
+    <li class="task-item"><input type="checkbox" id="ph1-services"><span class="task-text">제품소개 섹션 — 5개 가공 서비스 카드 (스웨이징·벤딩·포밍·인발·주문제작)</span><input type="date" class="task-date-input" id="ph1-services-date"><input type="text" class="task-memo-input" id="ph1-services-memo" placeholder="비고/메모 입력"></li>
+    <li class="task-item"><input type="checkbox" id="ph1-gallery"><span class="task-text">갤러리 섹션 — 41장 실제 가공 이미지 (탭별 분류)</span><input type="date" class="task-date-input" id="ph1-gallery-date"><input type="text" class="task-memo-input" id="ph1-gallery-memo" placeholder="비고/메모 입력"></li>
+    <li class="task-item"><input type="checkbox" id="ph1-whyus"><span class="task-text">왜 대흥정밀인가 섹션 — 강점·특장점 3가지</span><input type="date" class="task-date-input" id="ph1-whyus-date"><input type="text" class="task-memo-input" id="ph1-whyus-memo" placeholder="비고/메모 입력"></li>
+    <li class="task-item"><input type="checkbox" id="ph1-quoteform"><span class="task-text">견적 문의 폼 — 회사명·담당자·연락처·이메일·서비스·규격·파일첨부</span><input type="date" class="task-date-input" id="ph1-quoteform-date"><input type="text" class="task-memo-input" id="ph1-quoteform-memo" placeholder="비고/메모 입력"></li>
+    <li class="task-item"><input type="checkbox" id="ph1-responsive"><span class="task-text">반응형 레이아웃 — 모바일/태블릿/PC 전 해상도 대응</span><input type="date" class="task-date-input" id="ph1-responsive-date"><input type="text" class="task-memo-input" id="ph1-responsive-memo" placeholder="비고/메모 입력"></li>
+    <li class="task-item"><input type="checkbox" id="ph1-pwa"><span class="task-text">PWA 설정 — manifest.json + 아이콘 + Service Worker</span><input type="date" class="task-date-input" id="ph1-pwa-date"><input type="text" class="task-memo-input" id="ph1-pwa-memo" placeholder="비고/메모 입력"></li>
+  </ul>
+  <h3>📌 1-2. 폼 기능 · UX</h3>
+  <ul class="plain">
+    <li class="task-item"><input type="checkbox" id="ph1-formsubmit"><span class="task-text">Formspree AJAX 전송 — 파일 첨부 포함 multipart 전송</span><input type="date" class="task-date-input" id="ph1-formsubmit-date"><input type="text" class="task-memo-input" id="ph1-formsubmit-memo" placeholder="비고/메모 입력"></li>
+    <li class="task-item"><input type="checkbox" id="ph1-mailto-fallback"><span class="task-text">mailto: 폴백 — AJAX 실패 시 기본 메일 클라이언트 실행</span><input type="date" class="task-date-input" id="ph1-mailto-fallback-date"><input type="text" class="task-memo-input" id="ph1-mailto-fallback-memo" placeholder="비고/메모 입력"></li>
+    <li class="task-item"><input type="checkbox" id="ph1-utm"><span class="task-text">UTM 키워드 자동 첨부 — sessionStorage에 저장된 네이버 광고 키워드를 규격 란에 자동 기입</span><input type="date" class="task-date-input" id="ph1-utm-date"><input type="text" class="task-memo-input" id="ph1-utm-memo" placeholder="비고/메모 입력"></li>
+    <li class="task-item"><input type="checkbox" id="ph1-toast"><span class="task-text">토스트 알림 팝업 — 성공/오류 메시지 표시</span><input type="date" class="task-date-input" id="ph1-toast-date"><input type="text" class="task-memo-input" id="ph1-toast-memo" placeholder="비고/메모 입력"></li>
+    <li class="task-item"><input type="checkbox" id="ph1-loading"><span class="task-text">로딩 오버레이 — 전송 중 스피너 표시</span><input type="date" class="task-date-input" id="ph1-loading-date"><input type="text" class="task-memo-input" id="ph1-loading-memo" placeholder="비고/메모 입력"></li>
+    <li class="task-item"><input type="checkbox" id="ph1-filecheck"><span class="task-text">파일 용량 검사 — 10MB 초과 시 오류 토스트</span><input type="date" class="task-date-input" id="ph1-filecheck-date"><input type="text" class="task-memo-input" id="ph1-filecheck-memo" placeholder="비고/메모 입력"></li>
+    <li class="task-item"><input type="checkbox" id="ph1-servicelink"><span class="task-text">서비스 카드 클릭 → 견적 폼 스크롤 + 서비스 자동 선택</span><input type="date" class="task-date-input" id="ph1-servicelink-date"><input type="text" class="task-memo-input" id="ph1-servicelink-memo" placeholder="비고/메모 입력"></li>
+  </ul>
+  <h3>📌 1-3. SEO</h3>
+  <ul class="plain">
+    <li class="task-item"><input type="checkbox" id="ph1-title"><span class="task-text">Title 태그 — "대흥정밀 | 파이프가공업체 – 파이프벤딩·축관·확관·인발·스웨이징·주문제작"</span><input type="date" class="task-date-input" id="ph1-title-date"><input type="text" class="task-memo-input" id="ph1-title-memo" placeholder="비고/메모 입력"></li>
+    <li class="task-item"><input type="checkbox" id="ph1-meta-desc"><span class="task-text">Meta Description — 주요 가공 키워드 포함 150자 이내 작성</span><input type="date" class="task-date-input" id="ph1-meta-desc-date"><input type="text" class="task-memo-input" id="ph1-meta-desc-memo" placeholder="비고/메모 입력"></li>
+    <li class="task-item"><input type="checkbox" id="ph1-canonical"><span class="task-text">Canonical URL — https://daeheungsteel.co.kr/ 설정</span><input type="date" class="task-date-input" id="ph1-canonical-date"><input type="text" class="task-memo-input" id="ph1-canonical-memo" placeholder="비고/메모 입력"></li>
+    <li class="task-item"><input type="checkbox" id="ph1-keywords"><span class="task-text">Meta Keywords — 파이프가공업체, 파이프밴딩, 파이프벤딩, 스웨이징 등 10개 키워드</span><input type="date" class="task-date-input" id="ph1-keywords-date"><input type="text" class="task-memo-input" id="ph1-keywords-memo" placeholder="비고/메모 입력"></li>
+  </ul>
+
+  <hr class="section-divider">
+
+  <!-- PHASE 2 -->
+  <h2>2️⃣ PHASE 2 — B2B 아웃바운드 이메일 자동화</h2>
+  <div class="info-box">
+    💡 Google Apps Script(GAS)를 스프레드시트에 설치하여 체크박스 선택 → 버튼 1회 클릭으로
+    맞춤형 HTML 제안서를 대량 발송합니다.<br>
+    핵심 파일: <code>google_apps_script_outbound.js</code>
+  </div>
+  <h3>📌 2-1. GAS 자동화 스크립트</h3>
+  <ul class="plain">
+    <li class="task-item"><input type="checkbox" id="ph2-onopen"><span class="task-text">onOpen() — "대흥 아웃바운드 > 선택 제안서 발송" 메뉴 생성</span><input type="date" class="task-date-input" id="ph2-onopen-date"><input type="text" class="task-memo-input" id="ph2-onopen-memo" placeholder="비고/메모 입력"></li>
+    <li class="task-item"><input type="checkbox" id="ph2-header-parse"><span class="task-text">헤더 자동 탐지 — 이메일/회사명 열 헤더명으로 자동 인식</span><input type="date" class="task-date-input" id="ph2-header-parse-date"><input type="text" class="task-memo-input" id="ph2-header-parse-memo" placeholder="비고/메모 입력"></li>
+    <li class="task-item"><input type="checkbox" id="ph2-checkbox-pick"><span class="task-text">A열 체크박스 TRUE/true 필터로 발송 대상 선택</span><input type="date" class="task-date-input" id="ph2-checkbox-pick-date"><input type="text" class="task-memo-input" id="ph2-checkbox-pick-memo" placeholder="비고/메모 입력"></li>
+    <li class="task-item"><input type="checkbox" id="ph2-confirm"><span class="task-text">발송 전 확인 팝업 — "총 N개 업체에 발송하시겠습니까?" YES/NO</span><input type="date" class="task-date-input" id="ph2-confirm-date"><input type="text" class="task-memo-input" id="ph2-confirm-memo" placeholder="비고/메모 입력"></li>
+    <li class="task-item"><input type="checkbox" id="ph2-template-load"><span class="task-text">HTML 템플릿 로드 — BASE_URL: https://dhsteel.vercel.app/ → templates/dhsteel_proposal.html</span><input type="date" class="task-date-input" id="ph2-template-load-date"><input type="text" class="task-memo-input" id="ph2-template-load-memo" placeholder="비고/메모 입력"></li>
+    <li class="task-item"><input type="checkbox" id="ph2-inline-images"><span class="task-text">인라인 이미지 CID — 27장 (logo + swaging 7장 + bending 8장 + forming 8장 + custom + processing_13)</span><input type="date" class="task-date-input" id="ph2-inline-images-date"><input type="text" class="task-memo-input" id="ph2-inline-images-memo" placeholder="비고/메모 입력"></li>
+    <li class="task-item"><input type="checkbox" id="ph2-personalize"><span class="task-text">개인화 치환 — htmlTemplate.replace(/{회사명}/g, companyName)</span><input type="date" class="task-date-input" id="ph2-personalize-date"><input type="text" class="task-memo-input" id="ph2-personalize-memo" placeholder="비고/메모 입력"></li>
+    <li class="task-item"><input type="checkbox" id="ph2-send-log"><span class="task-text">발송 기록 — 체크박스 자동 해제 + "발송완료 (yyyy-MM-dd HH:mm:ss)" 시트 기록</span><input type="date" class="task-date-input" id="ph2-send-log-date"><input type="text" class="task-memo-input" id="ph2-send-log-memo" placeholder="비고/메모 입력"></li>
+    <li class="task-item"><input type="checkbox" id="ph2-result-popup"><span class="task-text">결과 팝업 — "성공: N건 / 실패: N건" 최종 출력</span><input type="date" class="task-date-input" id="ph2-result-popup-date"><input type="text" class="task-memo-input" id="ph2-result-popup-memo" placeholder="비고/메모 입력"></li>
+  </ul>
+  <h3>📌 2-2. HTML 제안서 템플릿</h3>
+  <ul class="plain">
+    <li class="task-item"><input type="checkbox" id="ph2-tmpl-header"><span class="task-text">헤더 — #1e293b 배경 + logo CID 인라인 이미지</span><input type="date" class="task-date-input" id="ph2-tmpl-header-date"><input type="text" class="task-memo-input" id="ph2-tmpl-header-memo" placeholder="비고/메모 입력"></li>
+    <li class="task-item"><input type="checkbox" id="ph2-tmpl-hero"><span class="task-text">히어로 — "{회사명} 대표님/담당자님" 개인화 + B2B 파트너 뱃지</span><input type="date" class="task-date-input" id="ph2-tmpl-hero-date"><input type="text" class="task-memo-input" id="ph2-tmpl-hero-memo" placeholder="비고/메모 입력"></li>
+    <li class="task-item"><input type="checkbox" id="ph2-tmpl-swaging"><span class="task-text">스웨이징 섹션 — 50Φ 이하 원형 파이프 + 갤러리 8장</span><input type="date" class="task-date-input" id="ph2-tmpl-swaging-date"><input type="text" class="task-memo-input" id="ph2-tmpl-swaging-memo" placeholder="비고/메모 입력"></li>
+    <li class="task-item"><input type="checkbox" id="ph2-tmpl-bending"><span class="task-text">벤딩 섹션 — 파이프벤딩 가공 범위 + 갤러리 이미지</span><input type="date" class="task-date-input" id="ph2-tmpl-bending-date"><input type="text" class="task-memo-input" id="ph2-tmpl-bending-memo" placeholder="비고/메모 입력"></li>
+    <li class="task-item"><input type="checkbox" id="ph2-tmpl-forming"><span class="task-text">포밍 섹션 — 파이프포밍/주문제작 + forming 갤러리</span><input type="date" class="task-date-input" id="ph2-tmpl-forming-date"><input type="text" class="task-memo-input" id="ph2-tmpl-forming-memo" placeholder="비고/메모 입력"></li>
+    <li class="task-item"><input type="checkbox" id="ph2-tmpl-cta"><span class="task-text">CTA 섹션 — 카탈로그 링크 + 전화 + 이메일 버튼</span><input type="date" class="task-date-input" id="ph2-tmpl-cta-date"><input type="text" class="task-memo-input" id="ph2-tmpl-cta-memo" placeholder="비고/메모 입력"></li>
+  </ul>
+
+  <hr class="section-divider">
+
+  <!-- PHASE 3 -->
+  <h2>3️⃣ PHASE 3 — 이메일 인프라 이원화 (Gmail 발송 / Naver 수신)</h2>
+  <ul class="plain">
+    <li class="task-item"><input type="checkbox" id="ph3-gmail-sender"><span class="task-text">Gmail 발송 엔진 — dnsteel7@gmail.com → GAS GmailApp.sendEmail()</span><input type="date" class="task-date-input" id="ph3-gmail-sender-date"><input type="text" class="task-memo-input" id="ph3-gmail-sender-memo" placeholder="비고/메모 입력"></li>
+    <li class="task-item"><input type="checkbox" id="ph3-naver-receiver"><span class="task-text">Naver 수신 전용 — daeheungsteel@naver.com 대외 연락처 유지</span><input type="date" class="task-date-input" id="ph3-naver-receiver-date"><input type="text" class="task-memo-input" id="ph3-naver-receiver-memo" placeholder="비고/메모 입력"></li>
+    <li class="task-item"><input type="checkbox" id="ph3-forwarding"><span class="task-text">Gmail → 네이버 자동 전달 설정 여부 확인</span><input type="date" class="task-date-input" id="ph3-forwarding-date"><input type="text" class="task-memo-input" id="ph3-forwarding-memo" placeholder="비고/메모 입력"></li>
+    <li class="task-item"><input type="checkbox" id="ph3-blog-template"><span class="task-text">블로그 이메일 시안 — 네이버 스타일 모방 HTML (max-width: 780px)</span><input type="date" class="task-date-input" id="ph3-blog-template-date"><input type="text" class="task-memo-input" id="ph3-blog-template-memo" placeholder="비고/메모 입력"></li>
+    <li class="task-item"><input type="checkbox" id="ph3-blog-preview"><span class="task-text">블로그 미리보기 — dhsteel_blog_post_preview.html 완성</span><input type="date" class="task-date-input" id="ph3-blog-preview-date"><input type="text" class="task-memo-input" id="ph3-blog-preview-memo" placeholder="비고/메모 입력"></li>
+    <li class="task-item"><input type="checkbox" id="ph3-blog-manual"><span class="task-text">블로그 수동 발행 가이드 — 1분 복사-붙여넣기 가이드 완성</span><input type="date" class="task-date-input" id="ph3-blog-manual-date"><input type="text" class="task-memo-input" id="ph3-blog-manual-memo" placeholder="비고/메모 입력"></li>
+    <li class="task-item"><input type="checkbox" id="ph3-blog-pptx"><span class="task-text">블로그+이메일 통합 가이드 PPT — dhsteel_blog_email_integration_guide.pptx</span><input type="date" class="task-date-input" id="ph3-blog-pptx-date"><input type="text" class="task-memo-input" id="ph3-blog-pptx-memo" placeholder="비고/메모 입력"></li>
+  </ul>
+
+  <hr class="section-divider">
+
+  <!-- PHASE 4 -->
+  <h2>4️⃣ PHASE 4 — 인바운드 리드 수집 자동화 (Python 크롤링)</h2>
+  <div class="info-box">💡 전국 산업 지역 네이버 지도 검색으로 B2B 타겟 업체를 자동 수집하고 Google Sheet에 저장합니다.</div>
+  <h3>📌 4-1. A안: 기존 시트 정제</h3>
+  <ul class="plain">
+    <li class="task-item"><input type="checkbox" id="ph4-a-spreadsheet-id"><span class="task-text">SPREADSHEET_ID 설정 — 4개 스크립트 모두 대흥정밀 시트 ID로 교체</span><input type="date" class="task-date-input" id="ph4-a-spreadsheet-id-date"><input type="text" class="task-memo-input" id="ph4-a-spreadsheet-id-memo" placeholder="비고/메모 입력"></li>
+    <li class="task-item"><input type="checkbox" id="ph4-a-run"><span class="task-text">plan_a_clean_enrich.py 실행 — 비타겟 업종 제거</span><input type="date" class="task-date-input" id="ph4-a-run-date"><input type="text" class="task-memo-input" id="ph4-a-run-memo" placeholder="비고/메모 입력"></li>
+    <li class="task-item"><input type="checkbox" id="ph4-a-verify"><span class="task-text">실행 결과 확인 — Google Sheet에서 삭제 행 검증</span><input type="date" class="task-date-input" id="ph4-a-verify-date"><input type="text" class="task-memo-input" id="ph4-a-verify-memo" placeholder="비고/메모 입력"></li>
+  </ul>
+  <h3>📌 4-2. B안: 전국 확대 수집</h3>
+  <ul class="plain">
+    <li class="task-item"><input type="checkbox" id="ph4-b-keywords"><span class="task-text">수집 키워드 설정 — 철망/용접철망/메쉬/휀스/메쉬휀스/건재상/철물/금속/금속인테리어 9개</span><input type="date" class="task-date-input" id="ph4-b-keywords-date"><input type="text" class="task-memo-input" id="ph4-b-keywords-memo" placeholder="비고/메모 입력"></li>
+    <li class="task-item"><input type="checkbox" id="ph4-b-regions"><span class="task-text">수집 지역 설정 — 부산/대구/광주/대전/울산/창원/전주/청주 등 전국 20개 지역</span><input type="date" class="task-date-input" id="ph4-b-regions-date"><input type="text" class="task-memo-input" id="ph4-b-regions-memo" placeholder="비고/메모 입력"></li>
+    <li class="task-item"><input type="checkbox" id="ph4-b-playwright"><span class="task-text">plan_b_nationwide.py 실행 (Playwright 헤드리스) — 소요 30~50분</span><input type="date" class="task-date-input" id="ph4-b-playwright-date"><input type="text" class="task-memo-input" id="ph4-b-playwright-memo" placeholder="비고/메모 입력"></li>
+    <li class="task-item"><input type="checkbox" id="ph4-b-complete"><span class="task-text">✅ B안 완료! 신규 X개 메일 마케팅 타겟 추가 완료 출력 확인</span><input type="date" class="task-date-input" id="ph4-b-complete-date"><input type="text" class="task-memo-input" id="ph4-b-complete-memo" placeholder="비고/메모 입력"></li>
+    <li class="task-item"><input type="checkbox" id="ph4-b-sheet-check"><span class="task-text">Google Sheet company 워크시트 신규 행 추가 확인</span><input type="date" class="task-date-input" id="ph4-b-sheet-check-date"><input type="text" class="task-memo-input" id="ph4-b-sheet-check-memo" placeholder="비고/메모 입력"></li>
+  </ul>
+  <h3>📌 4-3. C단계: 주소 보강</h3>
+  <ul class="plain">
+    <li class="task-item"><input type="checkbox" id="ph4-c-range"><span class="task-text">처리 범위 설정 — I2~I501 (end_idx 조정 가능)</span><input type="date" class="task-date-input" id="ph4-c-range-date"><input type="text" class="task-memo-input" id="ph4-c-range-memo" placeholder="비고/메모 입력"></li>
+    <li class="task-item"><input type="checkbox" id="ph4-c-run"><span class="task-text">enhance_addresses_robust.py 실행 — 소요 15~20분 (500행 기준)</span><input type="date" class="task-date-input" id="ph4-c-run-date"><input type="text" class="task-memo-input" id="ph4-c-run-memo" placeholder="비고/메모 입력"></li>
+    <li class="task-item"><input type="checkbox" id="ph4-c-log"><span class="task-text">실패 항목 수동 검증 — address_enrichment_log.txt 확인</span><input type="date" class="task-date-input" id="ph4-c-log-date"><input type="text" class="task-memo-input" id="ph4-c-log-memo" placeholder="비고/메모 입력"></li>
+    <li class="task-item"><input type="checkbox" id="ph4-c-round3"><span class="task-text">Round 3 크롤링 — crawl_round3_playwright.py (12,520 bytes) 대기 중</span><input type="date" class="task-date-input" id="ph4-c-round3-date"><input type="text" class="task-memo-input" id="ph4-c-round3-memo" placeholder="비고/메모 입력"></li>
+  </ul>
+  <h3>📌 4-4. D단계: 보고서 PPT</h3>
+  <ul class="plain">
+    <li class="task-item"><input type="checkbox" id="ph4-d-ppt-script"><span class="task-text">generate_report_ppt.py — 삼협에서 복사 후 SPREADSHEET_ID 대흥 ID로 교체</span><input type="date" class="task-date-input" id="ph4-d-ppt-script-date"><input type="text" class="task-memo-input" id="ph4-d-ppt-script-memo" placeholder="비고/메모 입력"></li>
+    <li class="task-item"><input type="checkbox" id="ph4-d-ppt-run"><span class="task-text">PPT 보고서 생성 실행</span><input type="date" class="task-date-input" id="ph4-d-ppt-run-date"><input type="text" class="task-memo-input" id="ph4-d-ppt-run-memo" placeholder="비고/메모 입력"></li>
+  </ul>
+
+  <hr class="section-divider">
+
+  <!-- PHASE 5 -->
+  <h2>5️⃣ PHASE 5 — Google Ads 광고 연동</h2>
+  <div class="info-box">
+    💡 Google Ads 전환 추적 태그를 웹사이트에 삽입하여 견적 폼 제출 완료를 광고 전환으로 측정합니다.
+    계정: <strong>651-167-5293</strong> (dnsteel7@gmail.com)
+    문서: <code>ads/google_ads_setup.md</code> | 키워드: <code>ads/대흥정밀 - 키워드 목록_swaging 20260717.xlsx</code>
+  </div>
+  <h3>📌 5-1. 전환 태그 설정</h3>
+  <ul class="plain">
+    <li class="task-item"><input type="checkbox" id="ph5-conversion-action"><span class="task-text">Google Ads 전환 액션 생성 — 카테고리: "견적 요청", 전환명: "견적문의완료", 값: 1 KRW</span><input type="date" class="task-date-input" id="ph5-conversion-action-date"><input type="text" class="task-memo-input" id="ph5-conversion-action-memo" placeholder="비고/메모 입력"></li>
+    <li class="task-item"><input type="checkbox" id="ph5-tag-id"><span class="task-text"><code>catalog/index.html</code> — AW-740713573 글로벌 태그 삽입 완료</span><input type="date" class="task-date-input" id="ph5-tag-id-date"><input type="text" class="task-memo-input" id="ph5-tag-id-memo" placeholder="비고/메모 입력"></li>
+    <li class="task-item"><input type="checkbox" id="ph5-appjs-label"><span class="task-text"><code>catalog/app.js</code> — GOOGLE_ADS_CONVERSION.sendTo: 'AW-740713573/DzIKCKP9zeQcEOXImeEC' 반영 완료</span><input type="date" class="task-date-input" id="ph5-appjs-label-date"><input type="text" class="task-memo-input" id="ph5-appjs-label-memo" placeholder="비고/메모 입력"></li>
+  </ul>
+  <h3>📌 5-2. 전환 발동 & 검증</h3>
+  <ul class="plain">
+    <li class="task-item"><input type="checkbox" id="ph5-fire-ajax"><span class="task-text">AJAX 전송 성공 시 fireConversion() 발동 확인</span><input type="date" class="task-date-input" id="ph5-fire-ajax-date"><input type="text" class="task-memo-input" id="ph5-fire-ajax-memo" placeholder="비고/메모 입력"></li>
+    <li class="task-item"><input type="checkbox" id="ph5-fire-fallback"><span class="task-text">mailto: 폴백 시에도 fireConversion() 발동 확인 (이중 추적)</span><input type="date" class="task-date-input" id="ph5-fire-fallback-date"><input type="text" class="task-memo-input" id="ph5-fire-fallback-memo" placeholder="비고/메모 입력"></li>
+    <li class="task-item"><input type="checkbox" id="ph5-tag-assistant"><span class="task-text">Google Tag Assistant 크롬 확장으로 견적 폼 제출 테스트 검증</span><input type="date" class="task-date-input" id="ph5-tag-assistant-date"><input type="text" class="task-memo-input" id="ph5-tag-assistant-memo" placeholder="비고/메모 입력"></li>
+    <li class="task-item"><input type="checkbox" id="ph5-network-check"><span class="task-text">DevTools Network 탭 — <code>googleadservices.com/pagead/conversion/</code> 요청 확인</span><input type="date" class="task-date-input" id="ph5-network-check-date"><input type="text" class="task-memo-input" id="ph5-network-check-memo" placeholder="비고/메모 입력"></li>
+    <li class="task-item"><input type="checkbox" id="ph5-ads-dashboard"><span class="task-text">Google Ads 대시보드 → 목표 → 전환 → 요약: 데이터 반영 확인 (24~48시간 소요)</span><input type="date" class="task-date-input" id="ph5-ads-dashboard-date"><input type="text" class="task-memo-input" id="ph5-ads-dashboard-memo" placeholder="비고/메모 입력"></li>
+    <li class="task-item"><input type="checkbox" id="ph5-keyword-list"><span class="task-text">키워드 리스트 구성 완료 — <code>ads/대흥정밀 - 키워드 목록_swaging 20260717.xlsx</code></span><input type="date" class="task-date-input" id="ph5-keyword-list-date"><input type="text" class="task-memo-input" id="ph5-keyword-list-memo" placeholder="비고/메모 입력"></li>
+  </ul>
+
+  <hr class="section-divider">
+
+  <!-- PHASE 6 -->
+  <h2>6️⃣ PHASE 6 — 관리자 대시보드</h2>
+  <ul class="plain">
+    <li class="task-item"><input type="checkbox" id="ph6-dark-theme"><span class="task-text">다크 테마 대시보드 — 블루/오렌지 글래스모피즘, 1707줄 대규모 구성</span><input type="date" class="task-date-input" id="ph6-dark-theme-date"><input type="text" class="task-memo-input" id="ph6-dark-theme-memo" placeholder="비고/메모 입력"></li>
+    <li class="task-item"><input type="checkbox" id="ph6-chartjs"><span class="task-text">Chart.js CDN 적용 — 월별 통계, 서비스별 현황 시각화 차트</span><input type="date" class="task-date-input" id="ph6-chartjs-date"><input type="text" class="task-memo-input" id="ph6-chartjs-memo" placeholder="비고/메모 입력"></li>
+    <li class="task-item"><input type="checkbox" id="ph6-realtime"><span class="task-text">실시간 견적 모니터링 패널 — dashboard.html (66,731 bytes)</span><input type="date" class="task-date-input" id="ph6-realtime-date"><input type="text" class="task-memo-input" id="ph6-realtime-memo" placeholder="비고/메모 입력"></li>
+    <li class="task-item"><input type="checkbox" id="ph6-blog-link"><span class="task-text">"✍️ 공식 블로그 시안" 버튼 → 블로그 미리보기 페이지 링크</span><input type="date" class="task-date-input" id="ph6-blog-link-date"><input type="text" class="task-memo-input" id="ph6-blog-link-memo" placeholder="비고/메모 입력"></li>
+  </ul>
+
+  <hr class="section-divider">
+
+  <!-- PHASE 7 -->
+  <h2>7️⃣ PHASE 7 — 배포 및 운영</h2>
+  <ul class="plain">
+    <li class="task-item"><input type="checkbox" id="ph7-vercel"><span class="task-text">Vercel 배포 — https://dhsteel.vercel.app/ (GAS BASE_URL 확인)</span><input type="date" class="task-date-input" id="ph7-vercel-date"><input type="text" class="task-memo-input" id="ph7-vercel-memo" placeholder="비고/메모 입력"></li>
+    <li class="task-item"><input type="checkbox" id="ph7-custom-domain"><span class="task-text">커스텀 도메인 — daeheungsteel.co.kr → Vercel CNAME 등록 확인</span><input type="date" class="task-date-input" id="ph7-custom-domain-date"><input type="text" class="task-memo-input" id="ph7-custom-domain-memo" placeholder="비고/메모 입력"></li>
+    <li class="task-item"><input type="checkbox" id="ph7-gas-install"><span class="task-text">GAS 스크립트 설치 — 스프레드시트 Apps Script에 google_apps_script_outbound.js 설치</span><input type="date" class="task-date-input" id="ph7-gas-install-date"><input type="text" class="task-memo-input" id="ph7-gas-install-memo" placeholder="비고/메모 입력"></li>
+    <li class="task-item"><input type="checkbox" id="ph7-first-outbound"><span class="task-text">첫 실발송 테스트 — 소규모 5~10건 테스트 권장 (대량 전 검증)</span><input type="date" class="task-date-input" id="ph7-first-outbound-date"><input type="text" class="task-memo-input" id="ph7-first-outbound-memo" placeholder="비고/메모 입력"></li>
+    <li class="task-item"><input type="checkbox" id="ph7-credentials"><span class="task-text">인증 파일 확인 — ghkim_credentials_crawler-hifus_20260221.json (D:\Antigravity\credentials\ghkim\)</span><input type="date" class="task-date-input" id="ph7-credentials-date"><input type="text" class="task-memo-input" id="ph7-credentials-memo" placeholder="비고/메모 입력"></li>
+    <li class="task-item"><input type="checkbox" id="ph7-send-test"><span class="task-text">send_test.bat 존재 확인 — 284 bytes</span><input type="date" class="task-date-input" id="ph7-send-test-date"><input type="text" class="task-memo-input" id="ph7-send-test-memo" placeholder="비고/메모 입력"></li>
+  </ul>
+
+  <hr class="section-divider">
+
+  <!-- PHASE 8 -->
+  <h2>8️⃣ PHASE 8 — 기획 문서 및 보고서 산출물</h2>
+  <div class="info-box">💡 아래 파일들은 모두 <code>workflow/</code> 폴더에 있습니다.</div>
+  <ul class="plain">
+    <li class="task-item"><input type="checkbox" id="ph8-work-instruction"><span class="task-text">B2B 리드 수집·주소 보강 작업 지침서 — dhsteel_work_instruction.md 7,244 bytes</span><input type="date" class="task-date-input" id="ph8-work-instruction-date"><input type="text" class="task-memo-input" id="ph8-work-instruction-memo" placeholder="비고/메모 입력"></li>
+    <li class="task-item"><input type="checkbox" id="ph8-blog-guide"><span class="task-text">블로그·이메일 통합 가이드 — dhsteel_blog_email_integration_guide.md 4,030 bytes</span><input type="date" class="task-date-input" id="ph8-blog-guide-date"><input type="text" class="task-memo-input" id="ph8-blog-guide-memo" placeholder="비고/메모 입력"></li>
+    <li class="task-item"><input type="checkbox" id="ph8-blog-guide-pptx"><span class="task-text">블로그·이메일 통합 가이드 PPTX — dhsteel_blog_email_integration_guide.pptx 36,761 bytes</span><input type="date" class="task-date-input" id="ph8-blog-guide-pptx-date"><input type="text" class="task-memo-input" id="ph8-blog-guide-pptx-memo" placeholder="비고/메모 입력"></li>
+    <li class="task-item"><input type="checkbox" id="ph8-content-plan"><span class="task-text">B2B 영업 콘텐츠 기획안 PPTX — 대흥정밀_B2B_영업_콘텐츠_기획안.pptx 1,340,751 bytes</span><input type="date" class="task-date-input" id="ph8-content-plan-date"><input type="text" class="task-memo-input" id="ph8-content-plan-memo" placeholder="비고/메모 입력"></li>
+    <li class="task-item"><input type="checkbox" id="ph8-lead-report"><span class="task-text">B2B 리드 현황 보고서 — 대흥정밀_B2B리드현황보고서.pptx 36,918 bytes</span><input type="date" class="task-date-input" id="ph8-lead-report-date"><input type="text" class="task-memo-input" id="ph8-lead-report-memo" placeholder="비고/메모 입력"></li>
+    <li class="task-item"><input type="checkbox" id="ph8-site-plan"><span class="task-text">B2B 영업지원사이트 구축계획서 — 대흥정밀_B2B영업지원사이트_구축계획서.pptx 43,704 bytes</span><input type="date" class="task-date-input" id="ph8-site-plan-date"><input type="text" class="task-memo-input" id="ph8-site-plan-memo" placeholder="비고/메모 입력"></li>
+    <li class="task-item"><input type="checkbox" id="ph8-mail-target"><span class="task-text">메일 발송 대상 업체 목록 — 메일 발송 대상 업체_1.xlsx (28,346 bytes) + PDF (270,231 bytes)</span><input type="date" class="task-date-input" id="ph8-mail-target-date"><input type="text" class="task-memo-input" id="ph8-mail-target-memo" placeholder="비고/메모 입력"></li>
+    <li class="task-item"><input type="checkbox" id="ph8-proposal-preview"><span class="task-text">B2B 파이프 임가공 제안서 미리보기 — 대흥정밀 B2B 파이프 임가공 제안서_미리보기.html 8,009 bytes</span><input type="date" class="task-date-input" id="ph8-proposal-preview-date"><input type="text" class="task-memo-input" id="ph8-proposal-preview-memo" placeholder="비고/메모 입력"></li>
+  </ul>
+
+  <hr class="section-divider">
+
+  <!-- PHASE 9 -->
+  <h2>9️⃣ PHASE 9 — 잔여 과제 (미완료 / 진행 예정)</h2>
+  <div class="warn-box">⚠️ 아래 항목은 아직 완료되지 않았거나 추가 작업이 필요한 사항입니다.</div>
+  <ul class="plain">
+    <li class="task-item"><input type="checkbox" id="todo-spreadsheet-id"><span class="task-text">🔴 CRITICAL — 대흥정밀 실제 SPREADSHEET_ID 확인 및 모든 스크립트에 반영</span><input type="date" class="task-date-input" id="todo-spreadsheet-id-date"><input type="text" class="task-memo-input" id="todo-spreadsheet-id-memo" placeholder="비고/메모 입력"></li>
+    <li class="task-item"><input type="checkbox" id="todo-conversion-tag"><span class="task-text">🔴 CRITICAL — Google Ads 전환 ID/라벨 발급 후 index.html + app.js 실제 값으로 교체</span><input type="date" class="task-date-input" id="todo-conversion-tag-date"><input type="text" class="task-memo-input" id="todo-conversion-tag-memo" placeholder="비고/메모 입력"></li>
+    <li class="task-item"><input type="checkbox" id="todo-crawl-run"><span class="task-text">🟡 PENDING — 대흥정밀 기준 B2B 리드 크롤링 실행 (plan_b_nationwide.py)</span><input type="date" class="task-date-input" id="todo-crawl-run-date"><input type="text" class="task-memo-input" id="todo-crawl-run-memo" placeholder="비고/메모 입력"></li>
+    <li class="task-item"><input type="checkbox" id="todo-address-enrich"><span class="task-text">🟡 PENDING — 주소 보강 실행 (enhance_addresses_robust.py) 및 실패 항목 수동 검증</span><input type="date" class="task-date-input" id="todo-address-enrich-date"><input type="text" class="task-memo-input" id="todo-address-enrich-memo" placeholder="비고/메모 입력"></li>
+    <li class="task-item"><input type="checkbox" id="todo-gas-real-send"><span class="task-text">🟡 PENDING — GAS 실발송 테스트 (10건 미만 소규모 발송 권장)</span><input type="date" class="task-date-input" id="todo-gas-real-send-date"><input type="text" class="task-memo-input" id="todo-gas-real-send-memo" placeholder="비고/메모 입력"></li>
+    <li class="task-item"><input type="checkbox" id="todo-custom-domain"><span class="task-text">🟡 PENDING — daeheungsteel.co.kr 도메인 Vercel CNAME 연동 확인</span><input type="date" class="task-date-input" id="todo-custom-domain-date"><input type="text" class="task-memo-input" id="todo-custom-domain-memo" placeholder="비고/메모 입력"></li>
+    <li class="task-item"><input type="checkbox" id="todo-blog-post"><span class="task-text">🟡 PENDING — 공식 블로그 포스트 수동 발행 (1분 가이드 참조)</span><input type="date" class="task-date-input" id="todo-blog-post-date"><input type="text" class="task-memo-input" id="todo-blog-post-memo" placeholder="비고/메모 입력"></li>
+    <li class="task-item"><input type="checkbox" id="todo-naver-ads"><span class="task-text">🟡 PENDING — 네이버 파워링크 광고 등록 준비</span><input type="date" class="task-date-input" id="todo-naver-ads-date"><input type="text" class="task-memo-input" id="todo-naver-ads-memo" placeholder="비고/메모 입력"></li>
+  </ul>
+</div>
+
+<script>
+  const prefix = 'dhsteel_plan_2026_';
+  const defaults = {
+    // ── PHASE 1 ──
+    'ph1-hero':            { checked: true,  date: '2026-08-12', memo: '' },
+    'ph1-spec':            { checked: true,  date: '2026-08-12', memo: '' },
+    'ph1-services':        { checked: true,  date: '2026-08-12', memo: '' },
+    'ph1-gallery':         { checked: true,  date: '2026-08-12', memo: '' },
+    'ph1-whyus':           { checked: true,  date: '2026-08-12', memo: '' },
+    'ph1-quoteform':       { checked: true,  date: '2026-08-12', memo: '' },
+    'ph1-responsive':      { checked: true,  date: '2026-08-12', memo: '' },
+    'ph1-pwa':             { checked: true,  date: '2026-08-12', memo: 'PWA 설정 완료 및 manifest.json 구성 완료' },
+    'ph1-formsubmit':      { checked: true,  date: '2026-08-12', memo: 'Formspree 연동 완료' },
+    'ph1-mailto-fallback': { checked: true,  date: '2026-08-12', memo: '기본 메일 클라이언트 실행 처리 완료' },
+    'ph1-utm':             { checked: true,  date: '2026-08-12', memo: 'sessionStorage 연동 완료' },
+    'ph1-toast':           { checked: true,  date: '2026-08-12', memo: '토스트 팝업 UI 구현 완료' },
+    'ph1-loading':         { checked: true,  date: '2026-08-12', memo: '로딩 오버레이 구현 완료' },
+    'ph1-filecheck':       { checked: true,  date: '2026-08-12', memo: '10MB 용량 체크 구현 완료' },
+    'ph1-servicelink':     { checked: true,  date: '2026-08-12', memo: '서비스 선택 시 폼 자동 입력 구현 완료' },
+    'ph1-title':           { checked: true,  date: '2026-08-12', memo: 'SEO 최적화 타이틀 반영 완료' },
+    'ph1-meta-desc':       { checked: true,  date: '2026-08-12', memo: 'SEO 최적화 Meta Description 반영 완료' },
+    'ph1-canonical':       { checked: true,  date: '2026-08-12', memo: 'https://daeheungsteel.co.kr/ 설정' },
+    'ph1-keywords':        { checked: true,  date: '2026-08-12', memo: '파이프가공업체, 파이프밴딩, 파이프벤딩, 스웨이징 등 10개 키워드' },
+    // ── PHASE 2 ──
+    'ph2-onopen':          { checked: true,  date: '2026-07-20', memo: '"대흥 아웃바운드 > 선택 제안서 발송" 메뉴 생성' },
+    'ph2-header-parse':    { checked: true,  date: '2026-07-20', memo: '이메일/회사명 열 헤더명으로 자동 탐지' },
+    'ph2-checkbox-pick':   { checked: true,  date: '2026-07-20', memo: 'A열 체크박스 TRUE/true 필터' },
+    'ph2-confirm':         { checked: true,  date: '2026-07-20', memo: '"총 N개 업체에 발송하시겠습니까?" YES/NO' },
+    'ph2-template-load':   { checked: true,  date: '2026-07-20', memo: 'BASE_URL: https://dhsteel.vercel.app/' },
+    'ph2-inline-images':   { checked: true,  date: '2026-07-20', memo: '27장 CID 인라인 이미지 구성 완료' },
+    'ph2-personalize':     { checked: true,  date: '2026-07-20', memo: 'htmlTemplate.replace(/{회사명}/g, companyName)' },
+    'ph2-send-log':        { checked: true,  date: '2026-07-20', memo: '체크박스 자동 해제 + 발송완료 시트 기록' },
+    'ph2-result-popup':    { checked: true,  date: '2026-07-20', memo: '"성공: N건 / 실패: N건" 최종 팝업' },
+    'ph2-tmpl-header':     { checked: true,  date: '2026-07-19', memo: '#1e293b 배경 + logo CID 인라인 이미지' },
+    'ph2-tmpl-hero':       { checked: true,  date: '2026-07-19', memo: '"{회사명} 대표님/담당자님" 개인화 + B2B 파트너 뱃지' },
+    'ph2-tmpl-swaging':    { checked: true,  date: '2026-07-19', memo: '50Φ 이하 원형 파이프 갤러리 8장' },
+    'ph2-tmpl-bending':    { checked: true,  date: '2026-07-19', memo: '파이프벤딩 가공 범위 + 갤러리 이미지 포함' },
+    'ph2-tmpl-forming':    { checked: true,  date: '2026-07-19', memo: '파이프포밍/주문제작 + forming 갤러리 포함' },
+    'ph2-tmpl-cta':        { checked: true,  date: '2026-07-19', memo: '카탈로그 링크 + 전화 + 이메일 버튼' },
+    // ── PHASE 3 ──
+    'ph3-gmail-sender':    { checked: true,  date: '',           memo: 'dnsteel7@gmail.com → GAS GmailApp 발송 엔진' },
+    'ph3-naver-receiver':  { checked: true,  date: '',           memo: 'daeheungsteel@naver.com 대외 연락처 유지' },
+    'ph3-forwarding':      { checked: false, date: '',           memo: '⚠️ Gmail → 네이버 메일 자동 전달 설정 여부 현황 확인 필요' },
+    'ph3-blog-template':   { checked: true,  date: '2026-07-19', memo: '네이버 스타일 모방 HTML 시안 (max-width: 780px)' },
+    'ph3-blog-preview':    { checked: true,  date: '2026-07-19', memo: 'dhsteel_blog_post_preview.html 14,893 bytes' },
+    'ph3-blog-manual':     { checked: true,  date: '',           memo: '수동 복사-붙여넣기 1분 발행 가이드 완성' },
+    'ph3-blog-pptx':       { checked: true,  date: '',           memo: 'dhsteel_blog_email_integration_guide.pptx 36,761 bytes' },
+    // ── PHASE 4 ──
+    'ph4-a-spreadsheet-id':{ checked: true,  date: '2026-08-20', memo: '대흥정밀 스프레드시트 ID로 스크립트 반영 완료' },
+    'ph4-a-run':           { checked: false, date: '',           memo: '⚠️ SPREADSHEET_ID 교체 후 실행' },
+    'ph4-a-verify':        { checked: false, date: '',           memo: '' },
+    'ph4-b-keywords':      { checked: true,  date: '',           memo: '철망/용접철망/메쉬/휀스 등 9개 키워드 설정 완료' },
+    'ph4-b-regions':       { checked: true,  date: '',           memo: '부산/대구/광주 등 전국 20개 지역 설정 완료' },
+    'ph4-b-playwright':    { checked: false, date: '',           memo: '⚠️ SPREADSHEET_ID 교체 후 실행. 소요 30~50분' },
+    'ph4-b-complete':      { checked: false, date: '',           memo: '' },
+    'ph4-b-sheet-check':   { checked: false, date: '',           memo: '' },
+    'ph4-c-range':         { checked: false, date: '',           memo: '처리 범위: I2~I501' },
+    'ph4-c-run':           { checked: false, date: '',           memo: '소요 15~20분 (500행 기준)' },
+    'ph4-c-log':           { checked: false, date: '',           memo: '⚠️ 실패 항목은 address_enrichment_log.txt에서 수동 검증' },
+    'ph4-c-round3':        { checked: false, date: '',           memo: 'crawl_round3_playwright.py 대기 중' },
+    'ph4-d-ppt-script':    { checked: false, date: '',           memo: '삼협 generate_report_ppt.py 복사 후 SPREADSHEET_ID 교체' },
+    'ph4-d-ppt-run':       { checked: false, date: '',           memo: '' },
+    // ── PHASE 5 ──
+    'ph5-conversion-action':{ checked: true,  date: '2026-08-20', memo: '모바일카탈로그_견적완료 수동 전환 액션 생성 완료' },
+    'ph5-tag-id':          { checked: true,  date: '2026-08-20', memo: 'index.html에 글로벌 태그(AW-740713573) 연동 완료' },
+    'ph5-appjs-label':     { checked: true,  date: '2026-08-20', memo: 'app.js에 실제 전환 라벨(DzIKCKP9zeQcEOXImeEC) 반영 완료' },
+    'ph5-fire-ajax':       { checked: false, date: '',           memo: '전환 태그 설정 완료 후 테스트' },
+    'ph5-fire-fallback':   { checked: false, date: '',           memo: '' },
+    'ph5-tag-assistant':   { checked: false, date: '',           memo: '' },
+    'ph5-network-check':   { checked: false, date: '',           memo: 'F12 → Network → googleadservices.com/pagead/conversion/ 요청 확인' },
+    'ph5-ads-dashboard':   { checked: false, date: '',           memo: '데이터 반영까지 24~48시간 소요' },
+    'ph5-keyword-list':    { checked: true,  date: '2026-07-17', memo: '대흥정밀 - 키워드 목록_swaging 20260717.xlsx (13,067 bytes)' },
+    // ── PHASE 6 ──
+    'ph6-dark-theme':      { checked: true,  date: '2026-08-12', memo: '블루/오렌지 글래스모피즘, 1707줄 대규모 구성' },
+    'ph6-chartjs':         { checked: true,  date: '2026-08-12', memo: 'Chart.js CDN: https://cdn.jsdelivr.net/npm/chart.js' },
+    'ph6-realtime':        { checked: true,  date: '2026-08-12', memo: '실시간 견적 모니터링 패널 포함 (66,731 bytes)' },
+    'ph6-blog-link':       { checked: true,  date: '2026-08-12', memo: '"✍️ 공식 블로그 시안" 버튼 → 블로그 미리보기 페이지 링크' },
+    // ── PHASE 7 ──
+    'ph7-vercel':          { checked: true,  date: '',           memo: 'Vercel 배포 완료: https://dhsteel.vercel.app/' },
+    'ph7-custom-domain':   { checked: false, date: '',           memo: '⚠️ daeheungsteel.co.kr → Vercel CNAME 등록 미확인' },
+    'ph7-gas-install':     { checked: false, date: '',           memo: '⚠️ 스프레드시트 Apps Script에 google_apps_script_outbound.js 설치 필요' },
+    'ph7-first-outbound':  { checked: false, date: '',           memo: '소규모 5~10건 테스트 발송 권장' },
+    'ph7-credentials':     { checked: true,  date: '',           memo: 'ghkim_credentials_crawler-hifus_20260221.json 확인' },
+    'ph7-send-test':       { checked: true,  date: '',           memo: 'send_test.bat 284 bytes 존재 확인' },
+    // ── PHASE 8 ──
+    'ph8-work-instruction':{ checked: true,  date: '',           memo: 'dhsteel_work_instruction.md 7,244 bytes' },
+    'ph8-blog-guide':      { checked: true,  date: '',           memo: 'dhsteel_blog_email_integration_guide.md 4,030 bytes' },
+    'ph8-blog-guide-pptx': { checked: true,  date: '',           memo: 'dhsteel_blog_email_integration_guide.pptx 36,761 bytes' },
+    'ph8-content-plan':    { checked: true,  date: '',           memo: '대흥정밀_B2B_영업_콘텐츠_기획안.pptx 1,340,751 bytes' },
+    'ph8-lead-report':     { checked: true,  date: '',           memo: '대흥정밀_B2B리드현황보고서.pptx 36,918 bytes' },
+    'ph8-site-plan':       { checked: true,  date: '',           memo: '대흥정밀_B2B영업지원사이트_구축계획서.pptx 43,704 bytes' },
+    'ph8-mail-target':     { checked: true,  date: '',           memo: '메일 발송 대상 업체_1.xlsx (28,346 bytes) + PDF (270,231 bytes)' },
+    'ph8-proposal-preview':{ checked: true,  date: '',           memo: '대흥정밀 B2B 파이프 임가공 제안서_미리보기.html 8,009 bytes' },
+    // ── PHASE 9 ──
+    'todo-spreadsheet-id': { checked: true,  date: '2026-08-20', memo: '구글 시트 ID "1kEdvR2hLPBc60vkNwq_ArqOGn0In5J-nN2LCoj2tMic" 검증 및 3개 파이썬 파일 반영 완료' },
+    'todo-conversion-tag': { checked: true,  date: '2026-08-20', memo: 'Google Ads 전환 ID 및 라벨 발급 및 코드 반영 완료 (AW-740713573/DzIKCKP9zeQcEOXImeEC)' },
+    'todo-crawl-run':      { checked: false, date: '',           memo: '' },
+    'todo-address-enrich': { checked: false, date: '',           memo: '' },
+    'todo-gas-real-send':  { checked: false, date: '',           memo: '' },
+    'todo-custom-domain':  { checked: false, date: '',           memo: '' },
+    'todo-blog-post':      { checked: false, date: '',           memo: '' },
+    'todo-naver-ads':      { checked: false, date: '',           memo: '' }
+  };
+
+  const checkboxes = document.querySelectorAll('.task-item input[type="checkbox"]');
+  checkboxes.forEach(cb => {
+    const def       = defaults[cb.id] || {};
+    const dateInput = document.getElementById(cb.id + '-date');
+    const memoInput = document.getElementById(cb.id + '-memo');
+
+    const savedCheck = localStorage.getItem(prefix + cb.id);
+    const savedDate  = localStorage.getItem(prefix + cb.id + '_date');
+    const savedMemo  = localStorage.getItem(prefix + cb.id + '_memo');
+
+    const isChecked = savedCheck !== null ? savedCheck === 'true' : (def.checked || false);
+    const dateVal   = savedDate  !== null ? savedDate  : (def.date  || '');
+    const memoVal   = savedMemo  !== null ? savedMemo  : (def.memo  || '');
+
+    cb.checked = isChecked;
+    if (isChecked) cb.closest('.task-item').classList.add('completed');
+    if (dateInput && dateVal) dateInput.value = dateVal;
+    if (memoInput && memoVal) memoInput.value = memoVal;
+
+    if (savedCheck === null && def.checked !== undefined) localStorage.setItem(prefix + cb.id, isChecked);
+    if (savedDate  === null && dateVal) localStorage.setItem(prefix + cb.id + '_date', dateVal);
+    if (savedMemo  === null && memoVal) localStorage.setItem(prefix + cb.id + '_memo', memoVal);
+
+    cb.addEventListener('change', () => {
+      localStorage.setItem(prefix + cb.id, cb.checked);
+      cb.closest('.task-item').classList.toggle('completed', cb.checked);
+      if (cb.checked && dateInput && !dateInput.value) {
+        const today = new Date().toISOString().split('T')[0];
+        dateInput.value = today;
+        localStorage.setItem(prefix + cb.id + '_date', today);
+      } else if (!cb.checked && dateInput) {
+        dateInput.value = '';
+        localStorage.removeItem(prefix + cb.id + '_date');
+      }
+    });
+    if (dateInput) {
+      dateInput.addEventListener('change', () => {
+        localStorage.setItem(prefix + cb.id + '_date', dateInput.value);
+      });
+    }
+    if (memoInput) {
+      memoInput.addEventListener('input', () => {
+        localStorage.setItem(prefix + cb.id + '_memo', memoInput.value);
+      });
+    }
+  });
+</script>
+</body>
+</html>

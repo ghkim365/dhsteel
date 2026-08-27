@@ -1,22 +1,27 @@
 'use strict';
 
-// ─── Google Ads 전환 추적 ───────────────────────────────
 const GOOGLE_ADS_CONVERSION = {
-  // TODO: Google Ads 계정(651-167-5293)에서 전환 태그 발급 후 아래 값 교체
-  sendTo: 'AW-CONVERSION_ID/CONVERSION_LABEL'
+  sendTo: 'AW-740713573/DzIKCKP9zeQcEOXImeEC'
 };
 
 function fireConversion() {
   if (typeof gtag === 'function') {
     gtag('event', 'conversion', { 'send_to': GOOGLE_ADS_CONVERSION.sendTo });
+  } else if (window.dataLayer && Array.isArray(window.dataLayer)) {
+    window.dataLayer.push('event', 'conversion', { 'send_to': GOOGLE_ADS_CONVERSION.sendTo });
+  } else {
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push('event', 'conversion', { 'send_to': GOOGLE_ADS_CONVERSION.sendTo });
   }
 }
 
-// ─── 파일 선택 표시 ────────────────────────────────────
+// ─── 파일 선택 및 드래그앤드롭 표시 ────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
   const fileInput = document.getElementById('fileAttachment');
   const fileName  = document.getElementById('fileName');
-  if (fileInput && fileName) {
+  const wrapper   = document.querySelector('.file-upload-wrapper');
+
+  if (fileInput && fileName && wrapper) {
     fileInput.addEventListener('change', () => {
       const f = fileInput.files[0];
       if (f) {
@@ -32,13 +37,62 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
+    // 드래그앤드롭 효과 구현
+    ['dragenter', 'dragover'].forEach(eventName => {
+      wrapper.addEventListener(eventName, (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        wrapper.classList.add('dragover');
+      }, false);
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+      wrapper.addEventListener(eventName, (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        wrapper.classList.remove('dragover');
+      }, false);
+    });
+
+    wrapper.addEventListener('drop', (e) => {
+      const dt = e.dataTransfer;
+      const files = dt.files;
+      if (files.length > 0) {
+        const f = files[0];
+        if (f.size > 10 * 1024 * 1024) {
+          showToast('파일 크기는 10MB 이하만 가능합니다.', 'error');
+          fileInput.value = '';
+          fileName.textContent = '선택된 파일 없음 (최대 10MB)';
+          return;
+        }
+        fileInput.files = files; // input에 파일 바인딩
+        fileName.textContent = f.name;
+      }
+    });
+
     // 파일 업로드 박스 클릭 시 파일 선택
-    const wrapper = document.querySelector('.file-upload-wrapper');
-    if (wrapper) {
-      wrapper.addEventListener('click', () => fileInput.click());
-    }
+    wrapper.addEventListener('click', (e) => {
+      if (e.target !== fileInput) {
+        fileInput.click();
+      }
+    });
   }
 });
+
+// 완료 팝업 관련 전역 함수
+function showSuccessModal() {
+  const modal = document.getElementById('successModal');
+  if (modal) {
+    modal.classList.add('active');
+  }
+}
+
+function closeSuccessModal() {
+  const modal = document.getElementById('successModal');
+  if (modal) {
+    modal.classList.remove('active');
+  }
+}
 
 // ─── 서비스 선택 → 폼 스크롤 ──────────────────────────
 function selectService(serviceName) {
@@ -112,7 +166,8 @@ function handleQuoteSubmit(event) {
     if (loading) loading.classList.remove('active');
     if (response.ok) {
       fireConversion();
-      showToast('견적 문의가 성공적으로 접수되었습니다!\n빠른 시간 내에 연락드리겠습니다.', 'success');
+      recordQuote(companyName, contactPerson, contactPhone, contactEmail, serviceSelect, specsInput);
+      showSuccessModal();
       event.target.reset();
       document.getElementById('fileName').textContent = '선택된 파일 없음 (최대 10MB)';
     } else {
@@ -136,6 +191,39 @@ function handleQuoteSubmit(event) {
     submitBtn.disabled = false;
     submitBtn.textContent = '견적 문의 전송하기';
   });
+}
+
+// ─── 대시보드 견적 기록 ────────────────────────────────────
+function recordQuote(company, name, phone, email, product, specs) {
+  try {
+    const ANALYTICS_KEY = 'dhsteel_analytics';
+    const raw = localStorage.getItem(ANALYTICS_KEY);
+    const data = raw ? JSON.parse(raw) : { visits: { google_ads: 0, search: 0, direct: 0 }, quotes: [] };
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const gclid = urlParams.get('gclid');
+    const utmSource = urlParams.get('utm_source') || '';
+    const referrer = document.referrer || '';
+    let source = 'direct';
+    if (gclid || utmSource.toLowerCase().includes('google')) source = 'google_ads';
+    else if (referrer && !referrer.includes(window.location.hostname)) source = 'search';
+
+    const nextId = data.quotes.length > 0 ? Math.max(...data.quotes.map(q => q.id)) + 1 : 1;
+    data.quotes.push({
+      id: nextId,
+      date: new Date().toISOString(),
+      company: company,
+      name: name,
+      phone: phone,
+      email: email,
+      product: product,
+      specs: specs || '',
+      source: source
+    });
+    localStorage.setItem(ANALYTICS_KEY, JSON.stringify(data));
+  } catch(e) {
+    console.warn('Quote recording error:', e);
+  }
 }
 
 // ─── 토스트 알림 ───────────────────────────────────────
@@ -243,11 +331,38 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-// 네이버 UTM 키워드 분석 및 세션 보존
+// ─── 네이버 UTM 키워드 분석 및 세션 보존 ──────────────────
 (function() {
   const urlParams = new URLSearchParams(window.location.search);
   const utmTerm = urlParams.get('utm_term');
   if (utmTerm) {
     sessionStorage.setItem('dhsteel_session_term', utmTerm);
+  }
+})();
+
+// ─── 대시보드 방문 기록 (dhsteel_analytics) ────────────────
+(function() {
+  try {
+    const ANALYTICS_KEY = 'dhsteel_analytics';
+    const raw = localStorage.getItem(ANALYTICS_KEY);
+    const data = raw ? JSON.parse(raw) : { visits: { google_ads: 0, search: 0, direct: 0 }, quotes: [] };
+
+    // 방문 소스 판별: gclid/utm_source=google → google_ads, referrer → search, 나머지 → direct
+    const urlParams = new URLSearchParams(window.location.search);
+    const gclid = urlParams.get('gclid');
+    const utmSource = urlParams.get('utm_source') || '';
+    const referrer = document.referrer || '';
+
+    let source = 'direct';
+    if (gclid || utmSource.toLowerCase().includes('google')) {
+      source = 'google_ads';
+    } else if (referrer && !referrer.includes(window.location.hostname)) {
+      source = 'search';
+    }
+
+    data.visits[source] = (data.visits[source] || 0) + 1;
+    localStorage.setItem(ANALYTICS_KEY, JSON.stringify(data));
+  } catch(e) {
+    console.warn('Analytics tracking error:', e);
   }
 })();

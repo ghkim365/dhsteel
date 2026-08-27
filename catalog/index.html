@@ -15,16 +15,13 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700;900&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 
   <!-- Google tag (gtag.js) - Google Ads: dhsteel 651-167-5293 -->
-  <!-- TODO: 아래 AW-XXXXXXXX를 실제 전환 ID로 교체 -->
-  <!--
-  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-XXXXXXXX"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-740713573"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-    gtag('config', 'AW-XXXXXXXX');
+    gtag('config', 'AW-740713573');
   </script>
-  -->
 </head>
 <body>
 
@@ -827,6 +824,19 @@
       </div>
     </div>
   </footer>
+
+  <!-- 견적 문의 완료 팝업 모달 -->
+  <div id="successModal" class="success-modal-overlay">
+    <div class="success-modal-card">
+      <div class="success-modal-icon">✓</div>
+      <h3>견적 문의 접수 완료!</h3>
+      <p>
+        작성하신 견적 문의가 성공적으로 전송되었습니다.<br>
+        도면 및 규격 검토 후 빠른 시간 내에 연락드리겠습니다.
+      </p>
+      <button onclick="closeSuccessModal()" class="btn btn-primary" style="width: 120px;">확인</button>
+    </div>
+  </div>
 
   <script src="app.js"></script>
 </body>
