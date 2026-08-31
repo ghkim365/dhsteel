@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ko">
 
 <head>
@@ -479,6 +479,50 @@
           버튼</span><input type="date" class="task-date-input" id="ph2-tmpl-cta-date"><input type="text"
           class="task-memo-input" id="ph2-tmpl-cta-memo" placeholder="비고/메모 입력"></li>
     </ul>
+
+    <!-- 발송 방식 비교 의견 추가 -->
+    <h3>💡 아웃바운드 이메일 발송 방식 비교 (검토 안)</h3>
+    <p>지속 가능한 대량 발송 및 계정 정지(스팸 차단) 리스크 회피를 위해 세 가지 발송 모델의 장단점을 다음과 같이 분석하여 기록합니다.</p>
+    <table class="arch-table">
+      <thead>
+        <tr>
+          <th>구분</th>
+          <th>1안. 완전 수동 (체크 후 직접 발송)</th>
+          <th>2안. 완전 자동 (스케줄 기반 일괄 발송)</th>
+          <th>3안. 반자동 하이브리드 (권장)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>작동 방식</strong></td>
+          <td>시트에서 보낼 대상을 하나씩 체크하고 직접 발송 메뉴 클릭</td>
+          <td>매일 특정 시각에 맞춰 대상 추출 및 Gmail 자동 일괄 발송</td>
+          <td>새벽에 보낼 대상 필터링 및 <strong>자동 체크</strong> → 출근 후 <strong>눈으로 최종 검토</strong> → <strong>원클릭 발송</strong></td>
+        </tr>
+        <tr>
+          <td><strong>장점</strong></td>
+          <td>완벽한 오발송 제어, 발송 시각(골든 타임) 유연한 조정 가능</td>
+          <td>관리에 손이 전혀 가지 않음, 시간 소모 제로</td>
+          <td>업무 효율 극대화 (선택 시간 단축) + 오발송 리스크 완전 방지</td>
+        </tr>
+        <tr>
+          <td><strong>단점/리스크</strong></td>
+          <td>매일 아침 시트 확인 및 발송 대상 체크에 일정 시간 소요</td>
+          <td>
+            <span class="badge-red">위험</span> 스팸 메일 계정 일시 차단 리스크 높음<br>
+            <span class="badge-red">위험</span> 주말/명절 새벽 등 불적절한 시간 발송 위험<br>
+            <span class="badge-red">위험</span> 대외 협력 진행/오류 주소 필터링 불가
+          </td>
+          <td>최소 하루 1회 스프레드시트 접속 및 발송 버튼 클릭 필요</td>
+        </tr>
+        <tr>
+          <td><strong>최종 의견</strong></td>
+          <td>초기 20~50개 발송 테스트 시 적합</td>
+          <td>장기 운영 시 도메인 안전성 문제로 비권장</td>
+          <td><strong>본 발송 정착 및 효율성과 안전성을 확보하기 위해 가장 추천</strong></td>
+        </tr>
+      </tbody>
+    </table>
 
     <hr class="section-divider">
 

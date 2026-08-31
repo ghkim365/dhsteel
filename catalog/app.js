@@ -124,7 +124,7 @@ function handleQuoteSubmit(event) {
     specsInput = (specsInput ? specsInput + '\n\n' : '') + `[네이버 광고 유입 키워드: ${sessionTerm}]`;
   }
 
-  if (!companyName || !contactPerson || !contactPhone || !contactEmail || !serviceSelect) {
+  if (!companyName || !contactPerson || !contactPhone || !contactEmail || serviceSelect === "") {
     showToast('필수 항목을 모두 입력해 주세요.', 'error');
     return;
   }
@@ -142,55 +142,80 @@ function handleQuoteSubmit(event) {
   submitBtn.textContent = '전송 중...';
   if (loading) loading.classList.add('active');
 
-  // FormData 구성
-  const formData = new FormData();
-  formData.append('회사명_현장명', companyName);
-  formData.append('담당자명', contactPerson);
-  formData.append('연락처', contactPhone);
-  formData.append('이메일', contactEmail);
-  formData.append('가공_서비스', serviceSelect);
-  formData.append('희망_규격_수량', specsInput || '(미입력)');
-  formData.append('_subject', `[대흥정밀 견적문의] ${serviceSelect} - ${companyName}`);
-  formData.append('_captcha', 'false');
-  formData.append('_template', 'table');
+  // 배포된 구글 앱스 스크립트 웹앱 주소 (나중에 대표님이 배포한 실제 URL로 갱신 가능)
+  // 현재 스프레드시트의 웹앱 주소 (삼협/대흥 매칭되는 실제 앱 주소)
+  const GAS_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbyhaL-hickGBpFzDLMKVBZ0SCf0xx1tQ580Ms5hd0D4bsGvcGp8aDQzxc7_1AAYqmEU/exec";
 
-  if (fileAttachment && fileAttachment.files[0]) {
-    formData.append('attachment', fileAttachment.files[0]);
-  }
+  const payload = {
+    '회사명_현장명': companyName,
+    '담당자명': contactPerson,
+    '연락처': contactPhone,
+    '이메일': contactEmail,
+    '가공_서비스': serviceSelect,
+    '희망_규격_수량': specsInput || '(미입력)'
+  };
 
-  fetch('https://formsubmit.co/ajax/dhsteel7@gmail.com', {
-    method: 'POST',
-    body: formData
-  })
-  .then(response => {
-    if (loading) loading.classList.remove('active');
-    if (response.ok) {
+  const sendRequest = (data) => {
+    // GAS CORS 이슈 방지용 파라미터 구성
+    const searchParams = new URLSearchParams();
+    for (const key in data) {
+      searchParams.append(key, data[key]);
+    }
+
+    fetch(GAS_WEBAPP_URL, {
+      method: 'POST',
+      mode: 'no-cors', // Apps Script 리다이렉트 대응
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      body: searchParams.toString()
+    })
+    .then(() => {
+      // no-cors 모드는 response.ok 체크가 불가능하여 통신 성공(catch 안 됨) 시 성공 처리
+      if (loading) loading.classList.remove('active');
       fireConversion();
       recordQuote(companyName, contactPerson, contactPhone, contactEmail, serviceSelect, specsInput);
       showSuccessModal();
       event.target.reset();
       document.getElementById('fileName').textContent = '선택된 파일 없음 (최대 10MB)';
-    } else {
-      throw new Error('서버 응답 오류');
-    }
-  })
-  .catch(error => {
-    if (loading) loading.classList.remove('active');
-    console.error('Submit error:', error);
+    })
+    .catch(error => {
+      if (loading) loading.classList.remove('active');
+      console.error('Submit error:', error);
 
-    // Fallback: mailto
-    fireConversion();
-    const subject = encodeURIComponent(`[대흥정밀 견적문의] ${serviceSelect} - ${companyName}`);
-    const body = encodeURIComponent(
-      `회사명/현장명: ${companyName}\n담당자: ${contactPerson}\n연락처: ${contactPhone}\n이메일: ${contactEmail}\n가공 서비스: ${serviceSelect}\n규격/수량: ${specsInput || '미입력'}`
-    );
-    window.location.href = `mailto:dhsteel7@gmail.com?subject=${subject}&body=${body}`;
-    showToast('직접 메일을 통해 견적을 보내드리겠습니다.', 'error');
-  })
-  .finally(() => {
-    submitBtn.disabled = false;
-    submitBtn.textContent = '견적 문의 전송하기';
-  });
+      // Fallback: mailto
+      fireConversion();
+      const subject = encodeURIComponent(`[대흥정밀 견적문의] ${serviceSelect} - ${companyName}`);
+      const body = encodeURIComponent(
+        `회사명/현장명: ${companyName}\n담당자: ${contactPerson}\n연락처: ${contactPhone}\n이메일: ${contactEmail}\n가공 서비스: ${serviceSelect}\n규격/수량: ${specsInput || '미입력'}`
+      );
+      window.location.href = `mailto:daeheungsteel@naver.com?subject=${subject}&body=${body}`;
+      showToast('직접 메일을 통해 견적을 보내드리겠습니다.', 'error');
+    })
+    .finally(() => {
+      submitBtn.disabled = false;
+      submitBtn.textContent = '견적 문의 전송하기';
+    });
+  };
+
+  // 첨부파일 존재 시 Base64 변환 후 전송
+  if (fileAttachment && fileAttachment.files[0]) {
+    const file = fileAttachment.files[0];
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      payload.fileData = e.target.result;
+      payload.fileName = file.name;
+      payload.fileType = file.type;
+      sendRequest(payload);
+    };
+    reader.onerror = function() {
+      payload.fileData = '';
+      sendRequest(payload);
+    };
+    reader.readAsDataURL(file);
+  } else {
+    sendRequest(payload);
+  }
 }
 
 // ─── 대시보드 견적 기록 ────────────────────────────────────

@@ -142,7 +142,7 @@ cell_list = []
 for row_num, day_label in batch_updates:
     cell_list.append(gspread.Cell(row_num, m_idx + 1, day_label))
 
-ws.update_cells(cell_list, value_input_option='RAW')
+ws.update_cells(cell_list, value_input_option='RAW') if cell_list else None
 print(f"✅ 총 {len(cell_list)}개 업체에 발송대기(일차) 배정 완료!\n")
 
 # ── 결과 요약 ─────────────────────────────────────────────

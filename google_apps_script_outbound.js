@@ -1,65 +1,56 @@
 /**
- * 대흥정밀 B2B 아웃바운드 이메일 자동 발송 Google Apps Script (GAS)
- * 
- * [설치 및 사용 방법]
- * 1. 구글 스프레드시트에서 [확장 프로그램] > [Apps Script]를 클릭합니다.
- * 2. 기존 코드가 있다면 하단에 붙여넣거나 새 스크립트 파일을 만들어 본 코드를 입력합니다.
- * 3. 저장 후 스프레드시트를 새로고침하면 상단에 "대흥 아웃바운드" 메뉴가 나타납니다.
- * 4. "company" 시트의 A열 체크박스를 선택한 후, "대흥 아웃바운드" > "선택 제안서 발송"을 누릅니다.
- * 
- * [company 시트 컬럼 구조]
- * A열: 체크 (체크박스) | B열: 연번 | C열: 회사명 | D열: 주요품목 | E열: 대표번호
- * F열: 이메일 | G열: 사이트 주소 | H열: 지역 | I열: 주소 | J열: 사이트 상태
- * K열: 전화번호 상태 | L열: 품질 | M열: 발송대기(회차) | N열: 발송상태
- * O열: 최종발송일 (수식: =IFERROR(MAXIFS(mail_log!C:C,mail_log!D:D,C2),""))
- * P열: 발송경과 (수식: =IF(ISBLANK(O2),"",TODAY()-O2))
- * Q열: 누적발송횟수 (수식: =COUNTIF(mail_log!D:D,C2))
- *
- * [mail_log 시트 컬럼 구조]
- * A열: 체크 (사용자 관리) | B열: 연번 (자동) | C열: 발송일자 | D열: 회사명
- * E열: 이메일 주소 | F열: 발송회차 | G열: 발송상태 | H열: 세부결과 | I열: 비고
+ * 대흥정밀 아웃바운드 메일 발송 스크립트 v3
+ * [company 시트 컬럼] A=체크, B=연번, C=회사명, F=이메일, M=발송대기(회차)
+ * [mail_log 시트 컬럼] A=체크, B=연번, C=발송일자, D=회사명, E=이메일, F=발송회차, G=발송상태, H=세부결과, I=비고
  */
 
-// Vercel 배포 주소에 맞춰 설정 (catalog 디렉토리 반영)
 var BASE_URL = "https://dhsteel.vercel.app/";
+var SS_ID = "1kEdvR2hLPBc60vkNwq_ArqOGn0In5J-nN2LCoj2tMic";
 
 function onOpen() {
-  var ui = SpreadsheetApp.getUi();
-  ui.createMenu('대흥 아웃바운드')
+  SpreadsheetApp.getUi()
+    .createMenu('대흥 아웃바운드')
     .addItem('선택 제안서 발송', 'sendOutboundEmails')
     .addToUi();
 }
 
-/**
- * mail_log 시트에 발송 이력 기록
- * @param {string} companyName - 회사명
- * @param {string} email - 이메일 주소
- * @param {string} round - 발송회차 (예: '1일차', '9일차')
- * @param {string} status - 발송상태 ('성공' 또는 '실패')
- * @param {string} detail - 세부결과 (API 로그 또는 에러 메시지)
- */
+// 딱 한 번만 실행 (트리거 설치)
+function installTrigger() {
+  var ss = SpreadsheetApp.openById(SS_ID);
+  ScriptApp.getProjectTriggers().forEach(function (t) { ScriptApp.deleteTrigger(t); });
+  ScriptApp.newTrigger('onOpen').forSpreadsheet(ss).onOpen().create();
+  Browser.msgBox('트리거 설치 완료!');
+}
+
 function writeMailLog(companyName, email, round, status, detail) {
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
-  var logSheet = ss.getSheetByName("mail_log");
-
-  // mail_log 시트가 없으면 신규 생성
-  if (!logSheet) {
-    logSheet = ss.insertSheet("mail_log");
-    logSheet.appendRow(["체크", "연번", "발송일자", "회사명", "이메일 주소", "발송회차", "발송상태", "세부결과", "비고"]);
-    logSheet.getRange("A1:I1").setFontWeight("bold").setBackground("#f1f5f9");
+  try {
+    var ss = SpreadsheetApp.openById(SS_ID);
+    var log = ss.getSheetByName("mail_log");
+    if (!log) {
+      log = ss.insertSheet("mail_log");
+      log.appendRow(["체크", "연번", "발송일자", "회사명", "이메일 주소", "발송회차", "발송상태", "세부결과", "비고"]);
+      log.getRange("A1:I1").setFontWeight("bold").setBackground("#f1f5f9");
+    }
+    var formattedDate = Utilities.formatDate(new Date(), "Asia/Seoul", "yyyy-MM-dd HH:mm:ss");
+    var lastRow = log.getLastRow();
+    var seq = (lastRow <= 1) ? 1 : lastRow;
+    log.appendRow(["", seq, formattedDate, companyName, email, round, status, detail, ""]);
+  } catch (e) {
+    try {
+      SpreadsheetApp.getUi().alert("로그 작성 실패 에러: " + e.toString());
+    } catch (err) {
+      Logger.log("로그에러: " + e.toString());
+    }
   }
-
-  // 연번: 현재 마지막 행 번호 - 1 (헤더 제외)
-  var lastRow = logSheet.getLastRow();
-  var seqNum = lastRow; // 헤더(1행) 제외한 데이터 행 수 = 연번
-
-  var today = new Date();
-  // A열(체크)은 빈칸, B열(연번)은 자동 부여, C열부터 데이터
-  logSheet.appendRow(["", seqNum, today, companyName, email, round, status, detail, ""]);
 }
 
 function sendOutboundEmails() {
-  var sheet = SpreadsheetApp.getActiveSheet();
+  var ss = SpreadsheetApp.openById(SS_ID);
+  var sheet = ss.getSheetByName("company");
+  if (!sheet) {
+    SpreadsheetApp.getUi().alert("'company' 시트를 찾을 수 없습니다.");
+    return;
+  }
 
   var lastRow = sheet.getLastRow();
   if (lastRow < 2) {
@@ -67,215 +58,248 @@ function sendOutboundEmails() {
     return;
   }
 
-  // 헤더 파싱하여 회사명, 이메일, 발송회차 열 찾기
-  var headers = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0];
-  var emailColIdx = -1;
-  var companyColIdx = -1;
-  var roundColIdx = -1;
-
-  for (var i = 0; i < headers.length; i++) {
-    var header = headers[i].toString().trim();
-    if (header.indexOf('이메일') !== -1 || header === '메일' || header.toLowerCase().indexOf('email') !== -1) {
-      emailColIdx = i + 1;
-    }
-    if (header === '회사명' || header === '업체명' || header === '상호' || header === '회사' || header === '수신처') {
-      companyColIdx = i + 1;
-    }
-    if (header.indexOf('발송대기') !== -1 || header.indexOf('발송회차') !== -1 || header.indexOf('회차') !== -1) {
-      roundColIdx = i + 1;
-    }
-  }
-
-  // 감지 실패 시 기본값 설정
-  // company 시트: A=체크, B=연번, C=회사명, F=이메일, M=발송대기(회차)
-  if (companyColIdx === -1) companyColIdx = 3; // 기본 C열 (회사명)
-  if (emailColIdx === -1) emailColIdx = 6;     // 기본 F열 (이메일)
-  if (roundColIdx === -1) roundColIdx = 13;    // 기본 M열 (발송대기/회차)
-
-  var dataRange = sheet.getRange(2, 1, lastRow - 1, sheet.getLastColumn());
-  var values = dataRange.getValues();
-
+  var values = sheet.getRange(2, 1, lastRow - 1, sheet.getLastColumn()).getValues();
   var targets = [];
+
   for (var r = 0; r < values.length; r++) {
-    var rowNum = r + 2;
-    var isChecked = values[r][0]; // A열 (체크박스)
-
-    if (isChecked === true || isChecked === 'TRUE') {
-      var companyName = values[r][companyColIdx - 1].toString().trim();
-      var emailAddress = values[r][emailColIdx - 1].toString().trim();
-      var round = values[r][roundColIdx - 1].toString().trim() || '1일차';
-
-      if (emailAddress) {
-        targets.push({
-          rowNum: rowNum,
-          companyName: companyName || '대표님',
-          emailAddress: emailAddress,
-          round: round
-        });
-      }
+    if (values[r][0] !== true) continue;
+    var company = values[r][2].toString().trim();   // C열 회사명
+    var email = values[r][5].toString().trim();   // F열 이메일
+    var round = values[r][12].toString().trim() || '1일차'; // M열 발송회차
+    if (email) {
+      targets.push({ row: r + 2, company: company || '대표님', email: email, round: round });
     }
   }
 
   if (targets.length === 0) {
-    SpreadsheetApp.getUi().alert('알림: A열 체크박스에 체크된 대상이 없습니다.');
+    SpreadsheetApp.getUi().alert('A열 체크박스에 체크된 대상이 없습니다.');
     return;
   }
 
-  // 확인 창 표시
-  var confirmUi = SpreadsheetApp.getUi().alert(
-    '이메일 발송 확인',
-    '총 ' + targets.length + '개 업체에 B2B 제안서를 발송하시겠습니까?',
-    SpreadsheetApp.getUi().ButtonSet.YES_NO
-  );
+  var ui = SpreadsheetApp.getUi();
+  var confirm = ui.alert('발송 확인', targets.length + '개 업체에 발송하시겠습니까?', ui.ButtonSet.YES_NO);
+  if (confirm !== ui.Button.YES) return;
 
-  if (confirmUi !== SpreadsheetApp.getUi().Button.YES) {
+  // 템플릿 로드 (이미지는 Vercel URL 직접 참조)
+  var resp = UrlFetchApp.fetch(BASE_URL + "templates/dhsteel_proposal.html", { muteHttpExceptions: true });
+  if (resp.getResponseCode() !== 200) {
+    ui.alert('템플릿 로드 실패: HTTP ' + resp.getResponseCode());
     return;
   }
+  var html = resp.getContentText("UTF-8");
 
-  // 1. 템플릿 파일 로드
-  var htmlTemplate = "";
-  try {
-    var response = UrlFetchApp.fetch(BASE_URL + "templates/dhsteel_proposal.html");
-    htmlTemplate = response.getContentText("UTF-8");
-  } catch (err) {
-    SpreadsheetApp.getUi().alert('템플릿 로드 실패: ' + BASE_URL + 'templates/dhsteel_proposal.html 주소를 확인해주세요. (에러: ' + err.toString() + ')');
-    return;
-  }
-
-  // 2. 인라인 이미지 목록 정의 및 Blob 미리 가져오기
-  var imageCids = [
-    'logo',
-    'pipe_swaging', 'pipe_bending', 'pipe_custom',
-    'swaging_02', 'swaging_03', 'swaging_04', 'swaging_05',
-    'swaging_06', 'swaging_07', 'swaging_08', 'processing_13',
-    'bending_02', 'bending_03', 'bending_04', 'bending_05',
-    'bending_06', 'bending_07', 'bending_08', 'bending_09',
-    'forming_02', 'forming_03', 'forming_04', 'forming_05',
-    'forming_06', 'forming_07', 'forming_08', 'forming_01'
-  ];
-
-  var inlineImages = {};
-  for (var i = 0; i < imageCids.length; i++) {
-    var cid = imageCids[i];
-    var url = "";
-    if (cid === 'logo') {
-      url = BASE_URL + "images/logo_dhsteel.png";
-    } else if (cid === 'pipe_swaging') {
-      url = BASE_URL + "gallery/swaging_01.jpg";
-    } else if (cid === 'pipe_bending') {
-      url = BASE_URL + "gallery/bending_01.jpg";
-    } else if (cid === 'pipe_custom') {
-      url = BASE_URL + "gallery/custom_01.jpg";
-    } else {
-      url = BASE_URL + "gallery/" + cid + ".jpg";
-    }
-
-    try {
-      var imgBlob = UrlFetchApp.fetch(url).getBlob();
-      imgBlob.setName(cid);
-      inlineImages[cid] = imgBlob;
-    } catch (err) {
-      Logger.log("이미지 로드 실패 (CID: " + cid + "): " + url + " - " + err.toString());
-    }
-  }
-
-  // 3. 순차 발송 진행
-  var successCount = 0;
-  var failCount = 0;
-
+  var ok = 0, fail = 0;
   for (var t = 0; t < targets.length; t++) {
-    var target = targets[t];
-
-    // 회사명 개인화 치환
-    var personalizedHtml = htmlTemplate.replace(/{회사명}/g, target.companyName);
-
+    var tgt = targets[t];
+    var body = html.replace(/{회사명}/g, tgt.company);
     try {
       GmailApp.sendEmail(
-        target.emailAddress,
-        "[대흥정밀] " + target.companyName + " 귀사 파이프 임가공 협력 제안",
-        "본 메일은 B2B 협력 제안서 메일입니다. HTML 형식을 지원하는 메일 클라이언트에서 확인해주세요.",
-        {
-          htmlBody: personalizedHtml,
-          inlineImages: inlineImages
-        }
+        tgt.email,
+        "[대흥정밀] " + tgt.company + " 귀사 파이프 임가공 협력 제안",
+        "본 메일은 HTML 형식입니다.",
+        { htmlBody: body }
       );
-
-      // 발송 완료 후 체크 해제
-      sheet.getRange(target.rowNum, 1).setValue(false);
-
-      // mail_log 시트에 성공 이력 기록
-      writeMailLog(target.companyName, target.emailAddress, target.round, '성공', 'Gmail API 발송 완료');
-
-      successCount++;
-    } catch (err) {
-      Logger.log("메일 발송 에러 (" + target.emailAddress + "): " + err.toString());
-
-      // mail_log 시트에 실패 이력 기록
-      writeMailLog(target.companyName, target.emailAddress, target.round, '실패', err.toString());
-
-      failCount++;
+      sheet.getRange(tgt.row, 1).setValue(false);
+      var nowStr = Utilities.formatDate(new Date(), "Asia/Seoul", "yyyy-MM-dd HH:mm:ss");
+      sheet.getRange(tgt.row, 14).setValue('성공'); // N열 (발송상태)
+      sheet.getRange(tgt.row, 15).setValue(nowStr);  // O열 (발송일)
+      sheet.getRange(tgt.row, 16).setValue('Gmail API 발송 완료'); // P열 (발송결과)
+      writeMailLog(tgt.company, tgt.email, tgt.round, '성공', 'Gmail API 발송 완료');
+      ok++;
+    } catch (e) {
+      var nowStr = Utilities.formatDate(new Date(), "Asia/Seoul", "yyyy-MM-dd HH:mm:ss");
+      sheet.getRange(tgt.row, 14).setValue('실패'); // N열 (발송상태)
+      sheet.getRange(tgt.row, 15).setValue(nowStr);  // O열 (발송일)
+      sheet.getRange(tgt.row, 16).setValue(e.toString()); // P열 (발송결과)
+      writeMailLog(tgt.company, tgt.email, tgt.round, '실패', e.toString());
+      fail++;
     }
   }
 
-  SpreadsheetApp.getUi().alert(
-    '이메일 발송 완료\n\n' +
-    '- 성공: ' + successCount + '건\n' +
-    '- 실패: ' + failCount + '건'
-  );
+  ui.alert('발송 완료\n\n성공: ' + ok + '건\n실패: ' + fail + '건');
 }
 
-/**
- * 대시보드 실시간 연동 Web App API (doGet)
- * 배포 후 대시보드에서 ?site=mailling&callback=xxx 형태로 호출
- *
- * [mail_log 시트 row 인덱스 기준 (0-based)]
- * row[0]=체크, row[1]=연번, row[2]=발송일자, row[3]=회사명
- * row[4]=이메일, row[5]=발송회차, row[6]=발송상태, row[7]=세부결과, row[8]=비고
- */
 function doGet(e) {
   var site = e.parameter.site;
-  var callback = e.parameter.callback;
-  var responseData = {};
+  var cb = e.parameter.callback;
+  var data = {};
 
   if (site === 'mailling') {
-    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var ss = SpreadsheetApp.openById(SS_ID);
     var logSheet = ss.getSheetByName("mail_log");
+    var companySheet = ss.getSheetByName("company");
     var logs = [];
     var visits = { success: 0, fail: 0 };
 
-    if (logSheet) {
-      var data = logSheet.getDataRange().getValues();
-
-      // 역순 정렬 (최신 로그 우선), 헤더(0행) 제외
-      for (var i = data.length - 1; i >= 1; i--) {
-        var row = data[i];
-        var status = row[6]; // G열: 발송상태
-
-        if (status === "성공") visits.success++;
-        else if (status === "실패") visits.fail++;
-
-        logs.push({
-          id: row[1],          // B열: 연번
-          date: row[2],        // C열: 발송일자
-          company: row[3],     // D열: 회사명
-          email: row[4],       // E열: 이메일 주소
-          round: row[5],       // F열: 발송회차
-          status: status,      // G열: 발송상태
-          detail: row[7],      // H열: 세부결과
-          note: row[8] || ""   // I열: 비고
-        });
+    // ── company 시트에서 회사명 → 상세정보 맵 생성 ──
+    var companyMap = {};
+    if (companySheet) {
+      var cRows = companySheet.getDataRange().getValues();
+      for (var c = 1; c < cRows.length; c++) {
+        var cName = (cRows[c][2] || '').toString().trim();
+        if (cName) {
+          companyMap[cName] = {
+            phone: (cRows[c][4] || '').toString().trim(),  // E열: 대표번호
+            site: (cRows[c][6] || '').toString().trim(),  // G열: 사이트 주소
+            region: (cRows[c][7] || '').toString().trim(),  // H열: 지역
+            address: (cRows[c][8] || '').toString().trim()   // I열: 주소
+          };
+        }
       }
     }
 
-    responseData = {
-      visits: visits,
-      logs: logs
-    };
-  } else {
-    // 기존 catalog, main_site 처리 로직 (필요 시 확장)
+    if (logSheet) {
+      var rows = logSheet.getDataRange().getValues();
+      for (var i = rows.length - 1; i >= 1; i--) {
+        var s = rows[i][6];
+        if (s === '성공') visits.success++;
+        else if (s === '실패') visits.fail++;
+        var companyName = rows[i][3];
+        var info = companyMap[companyName] || { phone: '', site: '', region: '', address: '' };
+        logs.push({
+          id: rows[i][1],
+          date: rows[i][2],
+          company: companyName,
+          email: rows[i][4],
+          round: rows[i][5],
+          status: s,
+          detail: rows[i][7],
+          note: rows[i][8] || '',
+          phone: info.phone,
+          site: info.site,
+          region: info.region,
+          address: info.address
+        });
+      }
+    }
+    data = { visits: visits, logs: logs };
   }
 
-  // JSONP 규격으로 래핑하여 리턴 (CORS 회피)
-  var result = callback + "(" + JSON.stringify(responseData) + ")";
-  return ContentService.createTextOutput(result).setMimeType(ContentService.MimeType.JAVASCRIPT);
+  return ContentService
+    .createTextOutput(cb + "(" + JSON.stringify(data) + ")")
+    .setMimeType(ContentService.MimeType.JAVASCRIPT);
+}
+
+// 홈페이지(https://dhsteel.vercel.app/) 견적 문의 데이터 수신 및 파일 업로드 처리 API
+function doPost(e) {
+  try {
+    var params = e.parameter;
+    
+    // JSON body로 들어오는 경우 예외 처리
+    if (e.postData && e.postData.contents) {
+      try {
+        var json = JSON.parse(e.postData.contents);
+        params = json;
+      } catch(err) {}
+    }
+
+    var company = params['회사명_현장명'] || params['companyName'] || '미기입';
+    var name = params['담당자명'] || params['contactPerson'] || '미기입';
+    var phone = params['연락처'] || params['contactPhone'] || '미기입';
+    var email = params['이메일'] || params['contactEmail'] || '미기입';
+    var service = params['가공_서비스'] || params['serviceSelect'] || '미선택';
+    var specs = params['희망_규격_수량'] || params['specsInput'] || '미기입';
+    
+    var fileUrl = "첨부파일 없음";
+    
+    // 첨부파일 처리 (Base64 형식으로 올라올 경우 구글 드라이브에 저장)
+    if (params.fileData && params.fileName) {
+      try {
+        var base64Data = params.fileData.split(",")[1] || params.fileData;
+        var decoded = Utilities.base64Decode(base64Data);
+        var blob = Utilities.newBlob(decoded, params.fileType || 'application/octet-stream', params.fileName);
+        
+        // 구글 드라이브 '대흥정밀_견적도면' 폴더에 저장
+        var folder;
+        var folders = DriveApp.getFoldersByName("대흥정밀_견적도면");
+        if (folders.hasNext()) {
+          folder = folders.next();
+        } else {
+          folder = DriveApp.createFolder("대흥정밀_견적도면");
+        }
+        
+        var file = folder.createFile(blob);
+        file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+        fileUrl = file.getUrl();
+      } catch(fileErr) {
+        fileUrl = "파일 저장 실패: " + fileErr.toString();
+      }
+    }
+
+    // 이메일 본문 생성
+    var emailBody = 
+      "🏭 [대흥정밀 홈페이지 견적 문의 접수]\n\n" +
+      "1. 회사/현장명: " + company + "\n" +
+      "2. 담당자명: " + name + "\n" +
+      "3. 연락처: " + phone + "\n" +
+      "4. 이메일: " + email + "\n" +
+      "5. 가공 서비스: " + service + "\n" +
+      "6. 희망 규격 및 수량:\n" + specs + "\n\n" +
+      "📁 도면 첨부파일 링크:\n" + fileUrl + "\n\n" +
+      "---본 메일은 B2B 영업시스템 API에 의해 자동 발송되었습니다.---";
+
+    // 대표님 네이버 이메일로 알림 전송
+    MailApp.sendEmail({
+      to: "daeheungsteel@naver.com",
+      subject: "[대흥정밀 견적문의] " + service + " - " + company,
+      body: emailBody
+    });
+
+    return ContentService
+      .createTextOutput(JSON.stringify({ status: "success", fileUrl: fileUrl }))
+      .setMimeType(ContentService.MimeType.JSON);
+
+  } catch (error) {
+    return ContentService
+      .createTextOutput(JSON.stringify({ status: "error", message: error.toString() }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+}
+
+// 20개 발송건에 대해 company 시트에 N, O, P열 데이터 동기화
+function syncPastLogsToCompany() {
+  var ss = SpreadsheetApp.openById(SS_ID);
+  var logSheet = ss.getSheetByName("mail_log");
+  var companySheet = ss.getSheetByName("company");
+  
+  if (!logSheet || !companySheet) {
+    SpreadsheetApp.getUi().alert('시트를 찾을 수 없습니다.');
+    return;
+  }
+  
+  var logRows = logSheet.getDataRange().getValues();
+  var companyRows = companySheet.getDataRange().getValues();
+  
+  var logMap = {};
+  for (var i = 1; i < logRows.length; i++) {
+    var cName = (logRows[i][3] || '').toString().trim();
+    var status = (logRows[i][6] || '').toString().trim();
+    var date = logRows[i][2];
+    var detail = (logRows[i][7] || '').toString().trim();
+    
+    if (cName && status === '성공') {
+      logMap[cName] = {
+        date: date,
+        detail: detail
+      };
+    }
+  }
+  
+  var updatedCount = 0;
+  for (var r = 1; r < companyRows.length; r++) {
+    var companyName = (companyRows[r][2] || '').toString().trim();
+    if (companyName && logMap[companyName]) {
+      var logData = logMap[companyName];
+      var formattedDate = (logData.date instanceof Date) 
+        ? Utilities.formatDate(logData.date, "Asia/Seoul", "yyyy-MM-dd HH:mm:ss")
+        : logData.date.toString();
+        
+      companySheet.getRange(r + 1, 14).setValue('성공');
+      companySheet.getRange(r + 1, 15).setValue(formattedDate);
+      companySheet.getRange(r + 1, 16).setValue(logData.detail);
+      updatedCount++;
+    }
+  }
+  
+  SpreadsheetApp.getUi().alert('동기화 완료: 총 ' + updatedCount + '개 업체의 상태를 업데이트했습니다.');
 }

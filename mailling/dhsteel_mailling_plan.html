@@ -270,7 +270,7 @@
       <table>
         <thead>
           <tr>
-            <th>열 번호 (예시)</th>
+            <th>열 번호</th>
             <th>컬럼명</th>
             <th>설명 / 역할</th>
             <th>적용할 수식 또는 제어 방식</th>
@@ -279,21 +279,21 @@
         <tbody>
           <tr>
             <td><strong>M열</strong></td>
-            <td>발송대기 (회차)</td>
-            <td>현재 회차 발송 대상 여부 (예: 1일차, 9일차 등)</td>
-            <td>직접 입력 혹은 스케줄러 자동 입력</td>
+            <td>발송대기</td>
+            <td>현재 회차 발송 대상 여부 (체크박스 또는 대기 기입)</td>
+            <td>직접 선택 혹은 스케줄러 자동 제어</td>
           </tr>
           <tr>
             <td><strong>N열</strong></td>
             <td>발송상태</td>
             <td>메일 발송 작업 진행 상태</td>
-            <td>GAS가 발송 후 "발송완료" 또는 "실패"로 기록</td>
+            <td>GAS가 발송 후 "성공" 또는 "실패" 기록</td>
           </tr>
           <tr>
             <td><strong>O열</strong></td>
             <td>최종 발송일</td>
             <td>해당 업체에 마지막으로 메일을 발송한 날짜</td>
-            <td><code>=IFERROR(MAXIFS(mail_log!A:A, mail_log!B:B, B2), "")</code><br><span style="font-size:0.8rem; color:var(--text-muted);">(회사명 기준 가장 최근 로그 날짜 매칭)</span></td>
+            <td><code>=IFERROR(MAXIFS(mail_log!C:C, mail_log!D:D, C2), "")</code><br><span style="font-size:0.8rem; color:var(--text-muted);">(회사명 C2 기준 가장 최근 로그의 발송일자(mail_log!C:C) 매칭)</span></td>
           </tr>
           <tr>
             <td><strong>P열</strong></td>
@@ -301,42 +301,42 @@
             <td>최종 발송일로부터 오늘까지 지난 일수</td>
             <td><code>=IF(ISBLANK(O2), "", TODAY() - O2)</code></td>
           </tr>
-          <tr>
-            <td><strong>Q열</strong></td>
-            <td>누적 발송 횟수</td>
-            <td>지금까지 총 몇 번 메일을 발송했는지 카운트</td>
-            <td><code>=COUNTIF(mail_log!B:B, B2)</code></td>
-          </tr>
         </tbody>
       </table>
 
       <div class="highlight-rule">
         <strong>🎨 셀 색상 강조 자동화 (조건부 서식 설정 규칙)</strong><br>
         10일차 도래 시 눈에 띄게 셀 색상을 변경할 수 있도록 다음과 같이 조건부 서식을 지정합니다.<br>
-        <span class="highlight-box"></span> <strong>규칙:</strong> <code>P열 >= 10</code> 인 경우 셀 배경색을 연한 빨간색/오렌지색 계열로 채우기 적용.
+        <span class="highlight-box"></span> <strong>규칙:</strong> <code>P열 >= 10</code> 인 경우 셀 배경색을 연한 오렌지/빨간색 계열로 채우기 적용.
       </div>
 
-      <h3 style="margin-top:20px;">[신규 로그 시트: mail_log] 구조</h3>
+      <h3 style="margin-top:20px;">[로그 시트: mail_log] 구조</h3>
       <p>메일이 성공적으로 발송될 때마다 행이 추가되는 로그 시트입니다.</p>
       <table>
         <thead>
           <tr>
-            <th>A열 (발송일자)</th>
-            <th>B열 (회사명)</th>
-            <th>C열 (이메일 주소)</th>
-            <th>D열 (발송회차)</th>
-            <th>E열 (발송상태)</th>
-            <th>F열 (세부결과)</th>
+            <th>A열 (체크)</th>
+            <th>B열 (연번)</th>
+            <th>C열 (발송일자)</th>
+            <th>D열 (회사명)</th>
+            <th>E열 (이메일 주소)</th>
+            <th>F열 (발송회차)</th>
+            <th>G열 (발송상태)</th>
+            <th>H열 (세부결과)</th>
+            <th>I열 (비고)</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td>2026-08-26</td>
-            <td>대흥정밀 테스트</td>
-            <td>test@dhsteel.com</td>
+            <td>(선택)</td>
+            <td>1</td>
+            <td>2026-08-29 14:29:32</td>
+            <td>대흥정밀1</td>
+            <td>web355@naver.com</td>
             <td>1일차</td>
             <td>성공</td>
             <td>Gmail API 발송 완료</td>
+            <td>-</td>
           </tr>
         </tbody>
       </table>

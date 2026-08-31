@@ -10,17 +10,27 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root {
-            --bg-color: #0b0f19;
-            --glass-bg: rgba(17, 25, 40, 0.65);
-            --glass-border: rgba(255, 255, 255, 0.08);
-            --text-primary: #ffffff;
-            --text-secondary: #94a3b8;
-            --primary: #3b82f6;
-            --primary-glow: rgba(59, 130, 246, 0.5);
-            --accent: #f97316;
-            --accent-glow: rgba(249, 115, 22, 0.5);
-            --success: #10b981;
-            --danger: #ef4444;
+            --bg-color: #EEF0F4;
+            --panel-bg: #FFFFFF;
+            --border-color: #DDE1E7;
+            --border-light: #EAEDF1;
+            
+            --navy: #1C2B4A;
+            --navy-deep: #111B31;
+            --gold: #B8962A;
+            --gold-light: #F5EDD3;
+            
+            --text-primary: #1A1A2E;
+            --text-secondary: #4A5568;
+            --text-light: #718096;
+            
+            --primary: var(--navy);
+            --primary-glow: rgba(28, 43, 74, 0.1);
+            --accent: var(--gold);
+            --accent-glow: rgba(184, 150, 42, 0.1);
+            
+            --success: #2D6A4F;
+            --danger: #9B2335;
             --font-main: 'Inter', 'Noto Sans KR', sans-serif;
             --font-title: 'Outfit', 'Inter', 'Noto Sans KR', sans-serif;
         }
@@ -33,10 +43,6 @@
 
         body {
             background-color: var(--bg-color);
-            background-image: 
-                radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.15) 0%, transparent 40%),
-                radial-gradient(circle at 80% 70%, rgba(249, 115, 22, 0.1) 0%, transparent 40%);
-            background-attachment: fixed;
             color: var(--text-primary);
             font-family: var(--font-main);
             min-height: 100vh;
@@ -44,20 +50,18 @@
             padding-bottom: 50px;
         }
 
-        /* Glassmorphism utility */
+        /* Glassmorphism 대신 깔끔하고 명확한 비즈니스 패널 형태로 교체 */
         .glass-panel {
-            background: var(--glass-bg);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid var(--glass-border);
-            border-radius: 16px;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: all 0.2s ease;
         }
 
         .glass-panel:hover {
-            border-color: rgba(255, 255, 255, 0.15);
-            box-shadow: 0 8px 32px 0 rgba(59, 130, 246, 0.1);
+            border-color: var(--navy);
+            box-shadow: 0 4px 15px rgba(28, 43, 74, 0.06);
         }
 
         /* Layout Container */
@@ -71,12 +75,16 @@
         header {
             margin-top: 30px;
             margin-bottom: 30px;
-            padding: 20px;
+            padding: 20px 24px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
             gap: 20px;
+            background: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
         }
 
         .header-logo-group {
@@ -95,35 +103,40 @@
         .logo-symbol {
             width: 40px;
             height: 40px;
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            border-radius: 10px;
+            overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 800;
-            font-family: var(--font-title);
-            font-size: 20px;
-            box-shadow: 0 0 15px var(--primary-glow);
+            border-radius: 6px;
+        }
+
+        .logo-symbol img {
+            width: auto;
+            height: auto;
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
         }
 
         .logo-text h1 {
             font-family: var(--font-title);
-            font-size: 20px;
+            font-size: 19px;
             font-weight: 700;
+            color: var(--navy);
             letter-spacing: -0.5px;
         }
 
         .logo-text p {
-            font-size: 12px;
-            color: var(--text-secondary);
-            margin-top: 2px;
+            font-size: 11px;
+            color: var(--text-light);
+            margin-top: 1px;
         }
 
         /* Mode Selector Toggle buttons */
         .mode-selector {
             display: flex;
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: #EEF0F4;
+            border: 1px solid var(--border-color);
             padding: 4px;
             border-radius: 30px;
             align-items: center;
@@ -146,13 +159,14 @@
         }
 
         .mode-btn:hover {
-            color: #fff;
+            color: var(--navy);
+            background: rgba(28,43,74,0.08);
         }
 
         .mode-btn.active {
-            background: linear-gradient(135deg, var(--primary), #2563eb);
+            background: var(--navy);
             color: #fff;
-            box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3);
+            box-shadow: 0 4px 10px rgba(28,43,74,0.25);
         }
 
         /* Target Site Selector */
@@ -163,10 +177,10 @@
         }
 
         .site-select {
-            background: rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: var(--panel-bg);
+            border: 1px solid var(--border-color);
             border-radius: 8px;
-            color: #fff;
+            color: var(--navy);
             padding: 8px 14px;
             font-size: 12.5px;
             font-weight: 600;
@@ -177,26 +191,28 @@
         }
 
         .site-select:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 8px var(--primary-glow);
+            border-color: var(--navy);
+            box-shadow: 0 0 0 3px rgba(28,43,74,0.12);
         }
 
         .connection-status {
             display: flex;
-            gap: 15px;
+            gap: 10px;
             align-items: center;
+            flex-wrap: wrap;
         }
 
         .status-badge {
             display: flex;
             align-items: center;
             gap: 8px;
-            background: rgba(255, 255, 255, 0.05);
-            padding: 8px 14px;
+            background: #F3F5F8;
+            padding: 7px 13px;
             border-radius: 30px;
-            font-size: 12px;
+            font-size: 11.5px;
             font-weight: 500;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            color: var(--text-secondary);
+            border: 1px solid var(--border-color);
         }
 
         .status-indicator {
@@ -212,72 +228,90 @@
             animation: pulse 2s infinite;
         }
 
+        /* Google Sheets 바로가기 버튼 */
+        .btn-gsheet-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 7px 14px;
+            border-radius: 30px;
+            font-size: 11.5px;
+            font-weight: 600;
+            color: #1a6639;
+            background: #E8F5EE;
+            border: 1px solid #A8D5B8;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .btn-gsheet-link:hover {
+            background: #1a6639;
+            color: #fff;
+            border-color: #1a6639;
+            box-shadow: 0 3px 10px rgba(26, 102, 57, 0.25);
+            transform: translateY(-1px);
+        }
+
         @keyframes pulse {
             0% { transform: scale(0.9); opacity: 0.6; }
             50% { transform: scale(1.1); opacity: 1; }
             100% { transform: scale(0.9); opacity: 0.6; }
         }
 
-        /* KPI Bento Grid */
+        /* KPI Card Styles */
         .kpi-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 20px;
             margin-bottom: 30px;
         }
 
         .kpi-card {
             padding: 24px;
-            position: relative;
-            overflow: hidden;
+            border-left: 4px solid var(--navy) !important;
         }
 
-        .kpi-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 4px;
-            height: 100%;
-            background: var(--primary);
+        .kpi-card.ads {
+            border-left-color: var(--gold) !important;
         }
 
-        .kpi-card.ads::before {
-            background: var(--accent);
-        }
-
-        .kpi-card.cvr::before {
-            background: var(--success);
+        .kpi-card.cvr {
+            border-left-color: var(--success) !important;
         }
 
         .kpi-title {
-            font-size: 14px;
-            font-weight: 500;
-            color: var(--text-secondary);
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-light);
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            margin-bottom: 12px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .kpi-title span {
+            font-size: 18px;
+            opacity: 0.8;
         }
 
         .kpi-value {
-            font-size: 36px;
-            font-weight: 700;
             font-family: var(--font-title);
-            margin-bottom: 8px;
-            background: linear-gradient(to right, #ffffff, #e2e8f0);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--navy);
+            line-height: 1.1;
         }
 
         .kpi-subtitle {
-            font-size: 12px;
-            color: var(--text-secondary);
+            font-size: 11.5px;
+            color: var(--text-light);
+            margin-top: 6px;
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 6px;
         }
 
         .trend-up {
@@ -285,12 +319,17 @@
             font-weight: 600;
         }
 
-        /* Main Grid: Charts & Simulator */
+        .trend-down {
+            color: var(--danger);
+            font-weight: 600;
+        }
+
+        /* Main Grid Layout */
         .main-grid {
             display: grid;
             grid-template-columns: 2fr 1fr;
-            gap: 24px;
-            margin-bottom: 30px;
+            gap: 20px;
+            align-items: start;
         }
 
         @media (max-width: 1024px) {
@@ -299,23 +338,15 @@
             }
         }
 
+        /* Chart card styles */
         .chart-section {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
+            display: flex;
+            flex-direction: column;
             gap: 20px;
-        }
-
-        @media (max-width: 768px) {
-            .chart-section {
-                grid-template-columns: 1fr;
-            }
         }
 
         .chart-card {
             padding: 24px;
-            min-height: 340px;
-            display: flex;
-            flex-direction: column;
         }
 
         .chart-header {
@@ -323,176 +354,192 @@
         }
 
         .chart-title {
-            font-size: 16px;
-            font-weight: 600;
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: 4px;
         }
 
         .chart-desc {
-            font-size: 12px;
-            color: var(--text-secondary);
-            margin-top: 4px;
+            font-size: 11.5px;
+            color: var(--text-light);
         }
 
         .chart-container {
-            flex-grow: 1;
             position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            height: 280px;
+            width: 100%;
         }
 
-        /* Simulator Card */
+        /* Simulator card styles */
         .simulator-card {
             padding: 24px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
+            border-top: 4px solid var(--gold) !important;
         }
 
         .sim-title-area {
             margin-bottom: 20px;
         }
 
+        .sim-body {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
         .sim-row {
-            margin-bottom: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
         }
 
         .sim-label {
             display: flex;
             justify-content: space-between;
-            font-size: 13px;
+            font-size: 12px;
+            font-weight: 600;
             color: var(--text-secondary);
-            margin-bottom: 6px;
+        }
+
+        .sim-label span:last-child {
+            color: var(--navy);
+            font-weight: 700;
         }
 
         .sim-input-wrapper {
-            display: flex;
-            align-items: center;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            padding: 8px 12px;
-        }
-
-        .sim-input-wrapper input {
-            background: transparent;
-            border: none;
-            color: #fff;
             width: 100%;
-            font-family: var(--font-title);
-            font-size: 15px;
-            font-weight: 600;
-            outline: none;
-        }
-
-        .sim-unit {
-            font-size: 12px;
-            color: var(--text-secondary);
-            margin-left: 8px;
         }
 
         .sim-results {
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 12px;
-            padding: 16px;
-            border: 1px dashed rgba(255, 255, 255, 0.1);
-            margin-top: 10px;
+            margin-top: 14px;
+            padding-top: 14px;
+            border-top: 1px dashed var(--border-color);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
         }
 
         .sim-result-row {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 8px;
-            font-size: 13px;
-        }
-
-        .sim-result-row:last-child {
-            margin-bottom: 0;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-            padding-top: 8px;
-            font-weight: 600;
+            font-size: 11.5px;
+            color: var(--text-secondary);
         }
 
         .sim-result-val {
-            font-family: var(--font-title);
-            color: #fff;
+            font-weight: 700;
+            color: var(--navy);
         }
 
         .sim-result-val.highlight {
-            color: var(--accent);
-            font-size: 16px;
+            color: var(--gold);
+            font-size: 13px;
         }
 
-        /* Lead Table Section */
-        .leads-section {
-            padding: 24px;
+        /* Log / Data Section card styles */
+        .data-section {
+            margin-top: 48px;
         }
 
-        .leads-header {
+        .data-card {
+            padding: 28px 32px;
+        }
+
+        .data-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
             flex-wrap: wrap;
-            gap: 15px;
+            gap: 12px;
         }
 
-        .leads-title-group h2 {
-            font-size: 18px;
+        .data-title {
+            font-size: 15px;
             font-weight: 700;
+            color: var(--navy);
         }
 
-        .leads-title-group p {
-            font-size: 12px;
-            color: var(--text-secondary);
-            margin-top: 4px;
-        }
-
-        .action-buttons {
+        .data-actions {
             display: flex;
-            gap: 10px;
+            gap: 8px;
+            align-items: center;
         }
 
-        .btn {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: var(--text-primary);
+        /* Button design - 플랫 비즈니스 스타일 */
+        .btn-action {
             padding: 8px 16px;
-            border-radius: 8px;
-            font-size: 13px;
+            border-radius: 6px;
+            font-size: 12px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.2s;
+            border: 1px solid var(--border-color);
+            background: var(--panel-bg);
+            color: var(--text-secondary);
+            transition: all 0.15s ease;
             display: flex;
             align-items: center;
             gap: 6px;
         }
 
-        .btn:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(255, 255, 255, 0.2);
+        .btn-action:hover {
+            border-color: var(--navy);
+            color: var(--navy);
+            background: var(--bg-soft);
         }
 
-        .btn-primary {
-            background: linear-gradient(135deg, var(--primary), #2563eb);
-            border: none;
-            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        .btn-action.active {
+            background: var(--navy);
+            color: #fff;
+            border-color: var(--navy);
         }
-
-        .btn-primary:hover {
-            background: linear-gradient(135deg, #2563eb, #1d4ed8);
-            box-shadow: 0 4px 16px rgba(59, 130, 246, 0.5);
+        .btn-action.active:hover {
+            background: var(--navy-deep);
         }
 
         .btn-danger {
-            background: rgba(239, 68, 68, 0.1);
-            border: 1px solid rgba(239, 68, 68, 0.2);
-            color: #fca5a5;
+            background: #FFF5F5;
+            border: 1px solid #FEB2B2;
+            color: var(--danger);
         }
 
         .btn-danger:hover {
-            background: rgba(239, 68, 68, 0.2);
-            border-color: rgba(239, 68, 68, 0.4);
+            background: #FED7D7;
+            border-color: #E53E3E;
+        }
+
+        /* Leads Table Section */
+        .leads-section {
+            margin-top: 48px;
+            padding: 28px 32px;
+        }
+
+        .leads-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .leads-title-group h2 {
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: 4px;
+        }
+
+        .leads-title-group p {
+            font-size: 12px;
+            color: var(--text-light);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            flex-wrap: wrap;
         }
 
         /* Responsive Table styling */
@@ -505,20 +552,21 @@
             width: 100%;
             border-collapse: collapse;
             text-align: left;
-            font-size: 14px;
+            font-size: 12px;
         }
 
         th {
-            padding: 14px 16px;
+            padding: 11px 16px;
             color: var(--text-secondary);
-            font-weight: 500;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-            font-size: 13px;
+            font-weight: 600;
+            border-bottom: 2px solid var(--navy);
+            font-size: 11px;
+            background: var(--bg-soft);
         }
 
         td {
-            padding: 16px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 13px 16px;
+            border-bottom: 1px solid var(--border-light);
             color: var(--text-primary);
         }
 
@@ -527,12 +575,12 @@
         }
 
         tr {
-            transition: background-color 0.2s;
+            transition: background-color 0.15s;
             cursor: pointer;
         }
 
         tr:hover td {
-            background: rgba(255, 255, 255, 0.02);
+            background: var(--bg-soft);
         }
 
         .badge-source {
@@ -545,30 +593,30 @@
         }
 
         .badge-source.ads {
-            background: rgba(249, 115, 22, 0.15);
-            color: #fdba74;
-            border: 1px solid rgba(249, 115, 22, 0.3);
+            background: rgba(184, 150, 42, 0.12);
+            color: #92700E;
+            border: 1px solid rgba(184, 150, 42, 0.3);
         }
 
         .badge-source.search {
-            background: rgba(59, 130, 246, 0.15);
-            color: #93c5fd;
-            border: 1px solid rgba(59, 130, 246, 0.3);
+            background: rgba(28, 43, 74, 0.1);
+            color: var(--navy);
+            border: 1px solid rgba(28, 43, 74, 0.2);
         }
 
         .badge-source.direct {
-            background: rgba(148, 163, 184, 0.15);
-            color: #cbd5e1;
-            border: 1px solid rgba(148, 163, 184, 0.3);
+            background: #F0F2F5;
+            color: var(--text-secondary);
+            border: 1px solid var(--border-color);
         }
 
         .badge-product {
-            background: rgba(255, 255, 255, 0.05);
-            color: #e2e8f0;
+            background: #EEF0F4;
+            color: var(--text-primary);
             padding: 4px 8px;
             border-radius: 6px;
             font-size: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
         }
 
         .date-col {
@@ -787,7 +835,7 @@
             <header class="glass-panel">
                 <div class="header-logo-group">
                     <div class="header-logo">
-                        <div class="logo-symbol">D</div>
+                        <div class="logo-symbol"><img src="assets/logo_dhsteel.png" alt="대흥정밀" style="width:100%;height:100%;object-fit:contain;"></div>
                         <div class="logo-text">
                             <h1 id="brand-title">대흥정밀</h1>
                             <p id="brand-subtitle">파이프가공 카탈로그 모니터링 관리자</p>
@@ -829,6 +877,21 @@
                         <span class="status-indicator active"></span>
                         Google GA4 연동: Connected
                     </div>
+                    <a href="https://docs.google.com/spreadsheets/d/1kEdvR2hLPBc60vkNwq_ArqOGn0In5J-nN2LCoj2tMic/edit?pli=1&gid=1031257647#gid=1031257647"
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       id="btn-gsheet-link"
+                       class="btn-gsheet-link"
+                       title="Google Sheets 데이터 원본 열기">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                            <polyline points="14,2 14,8 20,8"/>
+                            <line x1="16" y1="13" x2="8" y2="13"/>
+                            <line x1="16" y1="17" x2="8" y2="17"/>
+                            <polyline points="10,9 9,9 8,9"/>
+                        </svg>
+                        Google Sheets
+                    </a>
                 </div>
             </header>
 
@@ -949,6 +1012,9 @@
                         <p id="table-mode-desc">파이프가공 서비스 문의를 통해 접수된 실시간 견적 목록</p>
                     </div>
                     <div class="action-buttons">
+                        <button class="btn btn-primary" id="btn-report-view" onclick="openMailReport()" style="display: none; background: linear-gradient(135deg, #7c3aed, #5b21b6); border: none; box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);">
+                            📋 보고서 출력
+                        </button>
                         <button class="btn btn-primary" id="btn-mock-generate" onclick="generateMockQuote()">
                             ⚡ 시뮬레이션: 가상 견적 접수
                         </button>
@@ -1033,7 +1099,7 @@
     <script>
         // [중요] 구글 스프레드시트 연동용 앱스 스크립트 웹 앱 URL을 배포 후 아래 빈칸에 붙여넣으세요.
         // 예: "https://script.google.com/macros/s/AKfycb.../exec"
-        const GAS_WEB_APP_URL = "https://script.google.com/macros/s/TODO_REPLACE_WITH_DHSTEEL_GAS_URL/exec";
+        const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbx2NZ1Ckh-TFJtp3WtJuNpIlr9EBE827WhaJslA6grqw6VCCm7nPP3fgHntFdnjCYY7/exec";
 
         let currentSite = 'catalog';   // 'catalog', 'main_site', or 'mailling'
         let dashboardMode = 'realtime'; // 'realtime' or 'simulator'
@@ -1246,26 +1312,35 @@
             const brandSubtitle = document.getElementById('brand-subtitle');
             const adsBadge = document.getElementById('badge-google-ads');
             const mockGenBtn = document.getElementById('btn-mock-generate');
+            const reportBtn = document.getElementById('btn-report-view');
 
             if (site === 'catalog') {
                 brandTitle.textContent = "대흥정밀";
                 brandSubtitle.textContent = "파이프가공 카탈로그 모니터링 관리자";
                 adsBadge.innerHTML = '<span class="status-indicator active"></span>Google Ads 연동 (dhsteel 651-167-5293): Active';
                 mockGenBtn.textContent = "⚡ 시뮬레이션: 가상 견적 접수";
+                reportBtn.style.display = 'none';
             } else if (site === 'mailling') {
                 brandTitle.textContent = "대흥정밀 B2B";
                 brandSubtitle.textContent = "아웃바운드 메일 발송 현황 관리자";
                 adsBadge.innerHTML = '<span class="status-indicator active"></span>Google Sheets 연동 (mail_log): Active';
                 mockGenBtn.textContent = "⚡ 시뮬레이션: 가상 발송 로그 생성";
+                reportBtn.style.display = 'inline-flex';
             } else {
                 brandTitle.textContent = "대흥정밀 공식홈";
                 brandSubtitle.textContent = "daeheungsteel.co.kr 마케팅 성과 관리자";
                 adsBadge.innerHTML = '<span class="status-indicator active"></span>Google Ads 연동 (Main-9802): Active';
                 mockGenBtn.textContent = "⚡ 시뮬레이션: 가상 견적 접수";
+                reportBtn.style.display = 'none';
             }
 
             // 모드 초기화 후 UI 새로고침
             updateDashboardUI();
+        }
+
+        // 보고서 페이지 새 탭으로 오픈
+        function openMailReport() {
+            window.open('mailling/mail_report.html', '_blank');
         }
 
         // 2. 모드 전환 함수 (실시간 LIVE vs 시뮬레이터)
@@ -1352,13 +1427,28 @@
             }
         }
 
-        // CORS 회피를 위한 JSONP 통신 헬퍼 함수 (로컬 file:// 실행 대응)
+        // CORS 회피를 위한 JSONP 통신 헬퍼 함수 (로컬 file:// 실행 대응, 5초 타임아웃)
         function fetchJSONP(url, callbackName) {
             return new Promise((resolve, reject) => {
                 const uniqueCallbackName = `${callbackName}_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
+                let done = false;
+                
+                // 5초 타임아웃: GAS URL이 잘못되거나 응답 없을 시 즉시 폴백
+                const timer = setTimeout(() => {
+                    if (!done) {
+                        done = true;
+                        reject(new Error('JSONP timeout after 5s'));
+                        cleanup();
+                    }
+                }, 5000);
+                
                 window[uniqueCallbackName] = (data) => {
-                    resolve(data);
-                    cleanup();
+                    if (!done) {
+                        done = true;
+                        clearTimeout(timer);
+                        resolve(data);
+                        cleanup();
+                    }
                 };
                 
                 function cleanup() {
@@ -1371,8 +1461,12 @@
                 const script = document.createElement('script');
                 script.src = `${url}${url.includes('?') ? '&' : '?'}callback=${uniqueCallbackName}`;
                 script.onerror = (err) => {
-                    reject(err);
-                    cleanup();
+                    if (!done) {
+                        done = true;
+                        clearTimeout(timer);
+                        reject(err);
+                        cleanup();
+                    }
                 };
                 document.body.appendChild(script);
             });
@@ -1380,8 +1474,13 @@
 
         // Render metrics to UI
         function updateDashboardUI() {
-            if (GAS_WEB_APP_URL && GAS_WEB_APP_URL.startsWith('http') && dashboardMode === 'realtime') {
-                // 구글 시트에서 실시간 데이터 로드 (CORS가 없는 JSONP 방식 사용)
+            // GAS URL이 설정되지 않았거나 더미(TODO 포함)인 경우 즉시 로컬 폴백
+            const gasReady = GAS_WEB_APP_URL &&
+                GAS_WEB_APP_URL.startsWith('http') &&
+                !GAS_WEB_APP_URL.includes('TODO');
+
+            if (gasReady && dashboardMode === 'realtime') {
+                // 구글 시트에서 실시간 데이터 로드 (JSONP 방식, 5초 타임아웃)
                 const fetchUrl = `${GAS_WEB_APP_URL}?site=${currentSite}`;
                 
                 // 로딩 상태 표시
@@ -1390,16 +1489,38 @@
                 
                 fetchJSONP(fetchUrl, 'gas_callback')
                     .then(data => {
-                        analyticsData = data;
+                        // [핵심] GAS가 반환하는 { visits, logs } 구조를
+                        // 대시보드가 기대하는 { visits, quotes } 구조로 변환
+                        if (currentSite === 'mailling' && data.logs) {
+                            analyticsData = {
+                                visits: data.visits || { success: 0, fail: 0, pending: 0 },
+                                quotes: data.logs.map(log => ({
+                                    id: log.id,
+                                    date: String(log.date),   // Date 객체 → 문자열 강제 변환
+                                    company: log.company,
+                                    name: log.email,          // 수신 이메일 → name 필드에 매핑
+                                    phone: log.round,         // 발송회차 → phone 필드에 매핑
+                                    email: log.status,        // 발송상태(성공/실패) → email 필드에 매핑
+                                    product: log.detail,      // 세부결과 → product 필드에 매핑
+                                    specs: log.note,          // 비고 → specs 필드에 매핑
+                                    source: log.status === '성공' ? 'success' : 'fail'
+                                }))
+                            };
+                            // 실시간 데이터를 로컬스토리지에도 캐시 (오프라인 대비)
+                            localStorage.setItem('dhsteel_mailling_analytics', JSON.stringify(analyticsData));
+                        } else {
+                            analyticsData = data;
+                        }
                         renderDashboardData();
                     })
                     .catch(err => {
-                        console.error('Error fetching data from GAS via JSONP:', err);
-                        // 에러 시 로컬스토리지 폴백
+                        console.error('GAS 연동 실패 (로컬 폴백 적용):', err);
+                        // 에러/타임아웃 시 로컬스토리지 폴백
                         loadLocalData();
                         renderDashboardData();
                     });
             } else {
+                // GAS URL 미설정 or 시뮬레이터 모드 → 즉시 로컬 데이터 표시
                 loadLocalData();
                 renderDashboardData();
             }
