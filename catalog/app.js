@@ -144,7 +144,7 @@ function handleQuoteSubmit(event) {
 
   // 배포된 구글 앱스 스크립트 웹앱 주소 (나중에 대표님이 배포한 실제 URL로 갱신 가능)
   // 현재 스프레드시트의 웹앱 주소 (삼협/대흥 매칭되는 실제 앱 주소)
-  const GAS_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbyhaL-hickGBpFzDLMKVBZ0SCf0xx1tQ580Ms5hd0D4bsGvcGp8aDQzxc7_1AAYqmEU/exec";
+  const GAS_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbwabxQZcdj-pBKeJckuy6mcHOjpWgPIQ2nfVwKq0Vypt8gG26OQfuM8vjTh4ez6jVA01Q/exec";
 
   const payload = {
     '회사명_현장명': companyName,

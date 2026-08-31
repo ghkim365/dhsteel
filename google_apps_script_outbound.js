@@ -303,3 +303,37 @@ function syncPastLogsToCompany() {
   
   SpreadsheetApp.getUi().alert('동기화 완료: 총 ' + updatedCount + '개 업체의 상태를 업데이트했습니다.');
 }
+
+// 반송된 4개 업체 데이터 일괄 실패 처리
+function markBouncedEmails() {
+  var ss = SpreadsheetApp.openById(SS_ID);
+  var sheet = ss.getSheetByName("company");
+  if (!sheet) {
+    SpreadsheetApp.getUi().alert("'company' 시트를 찾을 수 없습니다.");
+    return;
+  }
+  
+  var rows = sheet.getDataRange().getValues();
+  var bouncedCompanies = {
+    "에이피씨엠": "도메인 주소 오류 (sanner.co 찾을 수 없음)",
+    "세광부속": "수신 주소 없음 (sk_autodoor_light 계정 없음)",
+    "한일금속": "도메인 주소 오류 (kjc.or 찾을 수 없음)",
+    "현성산업": "수신 주소 없음 (hyunsung_industry 계정 없음)"
+  };
+  
+  var updated = 0;
+  var nowStr = Utilities.formatDate(new Date(), "Asia/Seoul", "yyyy-MM-dd HH:mm:ss");
+  
+  for (var i = 1; i < rows.length; i++) {
+    var companyName = (rows[i][2] || "").toString().trim();
+    if (bouncedCompanies.hasOwnProperty(companyName)) {
+      var reason = bouncedCompanies[companyName];
+      sheet.getRange(i + 1, 14).setValue("실패"); // N열
+      sheet.getRange(i + 1, 15).setValue(nowStr);   // O열
+      sheet.getRange(i + 1, 16).setValue(reason);   // P열
+      updated++;
+    }
+  }
+  
+  SpreadsheetApp.getUi().alert("반송 처리 완료: " + updated + "개 업체의 발송상태를 실패로 기록했습니다.");
+}
