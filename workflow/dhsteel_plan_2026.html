@@ -793,9 +793,18 @@
       <li class="task-item"><input type="checkbox" id="todo-blog-post"><span class="task-text">🟡 PENDING — 공식 블로그 포스트
           수동 발행 (1분 가이드 참조)</span><input type="date" class="task-date-input" id="todo-blog-post-date"><input type="text"
           class="task-memo-input" id="todo-blog-post-memo" placeholder="비고/메모 입력"></li>
-      <li class="task-item"><input type="checkbox" id="todo-naver-ads"><span class="task-text">🟡 PENDING — 네이버 파워링크 광고
-          등록 준비</span><input type="date" class="task-date-input" id="todo-naver-ads-date"><input type="text"
-          class="task-memo-input" id="todo-naver-ads-memo" placeholder="비고/메모 입력"></li>
+    <hr class="section-divider">
+
+    <!-- PHASE 14 -->
+    <h2>🔟 PHASE 14 — 신규 타깃 이관/발송 및 리마인드 자동화 구축 (2026-10-26 완료)</h2>
+    <div class="success-box">✅ 대흥정밀 사장님 승인에 따른 신규 리드 이관, 주소 전수 보강, 초도 발송(50건 100% 성공) 및 정기 리마인드(v2) 계절인사 자동화 시스템 구축 완결</div>
+    <ul class="plain">
+      <li class="task-item"><input type="checkbox" id="ph14-search-migrate"><span class="task-text"><strong>[1. 리드 이관]</strong> search 시트 발굴 업체 92개사 검증 후 91개사 company 시트(행 164~254, 연번 224~314) 안전 이관 완료 (중복 1개사 자동 스킵)</span><input type="date" class="task-date-input" id="ph14-search-migrate-date"><input type="text" class="task-memo-input" id="ph14-search-migrate-memo"></li>
+      <li class="task-item"><input type="checkbox" id="ph14-address-enrich"><span class="task-text"><strong>[2. 주소 보강]</strong> 이관 업체 중 주소 누락 56개사 전수 네이버 플레이스/웹 크롤링으로 주소(I열) 100% 보강 완료 (공란율 0%)</span><input type="date" class="task-date-input" id="ph14-address-enrich-date"><input type="text" class="task-memo-input" id="ph14-address-enrich-memo"></li>
+      <li class="task-item"><input type="checkbox" id="ph14-first-send-50"><span class="task-text"><strong>[3. 초도 발송]</strong> 신규 이관 업체 중 유효 이메일 50개사 대상 GAS 제안서(v1) 발송 (성공: 50건 / 실패: 0건, 100% 성공 달성)</span><input type="date" class="task-date-input" id="ph14-first-send-50-date"><input type="text" class="task-memo-input" id="ph14-first-send-50-memo"></li>
+      <li class="task-item"><input type="checkbox" id="ph14-bounce-refine"><span class="task-text"><strong>[4. 반송 정제]</strong> 반송 2건 정밀 처리 (코리아세일즈 도메인 오탈자 정정 후 재발송 / 아이디오 팩스 채널로 전환)</span><input type="date" class="task-date-input" id="ph14-bounce-refine-date"><input type="text" class="task-memo-input" id="ph14-bounce-refine-memo"></li>
+      <li class="task-item"><input type="checkbox" id="ph14-proposal-v2"><span class="task-text"><strong>[5. v2 리마인드]</strong> 기존 발송 업체(122개사) 전용 정기 리마인드 템플릿(dhsteel_proposal_v2.html) 신규 제작 및 Vercel 라이브 배포 완료</span><input type="date" class="task-date-input" id="ph14-proposal-v2-date"><input type="text" class="task-memo-input" id="ph14-proposal-v2-memo"></li>
+      <li class="task-item"><input type="checkbox" id="ph14-auto-season-gas"><span class="task-text"><strong>[6. 완전 자동화]</strong> Apps Script 엔진 개편 — 신규(v1)/기존(v2) 자동 분기 및 발송 월 기준 4계절 안부 인사({계절인사}) 자동 치환 시스템 탑재</span><input type="date" class="task-date-input" id="ph14-auto-season-gas-date"><input type="text" class="task-memo-input" id="ph14-auto-season-gas-memo"></li>
     </ul>
   </div>
 
@@ -900,7 +909,15 @@
       'todo-gas-real-send': { checked: true, date: '2026-08-20', memo: '완료 (Apps Script 설치 및 초도 발송)' },
       'todo-custom-domain': { checked: true, date: '2026-08-20', memo: '제외 완료 (기존 카페24 사이트로 광고 운영 중)' },
       'todo-blog-post': { checked: false, date: '', memo: '' },
-      'todo-naver-ads': { checked: false, date: '', memo: '' }
+      'todo-naver-ads': { checked: false, date: '', memo: '' },
+
+      // ── PHASE 14 (2026-10-26 완료) ──
+      'ph14-search-migrate': { checked: true, date: '2026-10-26', memo: 'search 시트 91개사 company 시트(164~254행) 이관 완료' },
+      'ph14-address-enrich': { checked: true, date: '2026-10-26', memo: '이관 업체 주소 공란 56개사 네이버/웹 크롤링 100% 보강 완료' },
+      'ph14-first-send-50': { checked: true, date: '2026-10-26', memo: '이메일 보유 50개사 발송 (성공: 50건 / 실패: 0건, 100% 성공)' },
+      'ph14-bounce-refine': { checked: true, date: '2026-10-26', memo: '코리아세일즈 오탈자 수정 재발송, 아이디오 팩스 채널 전환' },
+      'ph14-proposal-v2': { checked: true, date: '2026-10-26', memo: '기존 122개사용 정기 리마인드 템플릿(dhsteel_proposal_v2.html) Vercel 배포' },
+      'ph14-auto-season-gas': { checked: true, date: '2026-10-26', memo: 'GAS 발송 엔진 신규/기존 자동 분기 및 4계절 안부 인사({계절인사}) 자동 치환 탑재' }
     };
 
     const checkboxes = document.querySelectorAll('.task-item input[type="checkbox"]');
