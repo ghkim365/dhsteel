@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>대흥정밀(DHSTEEL) 공식 B2B 소구경 파이프 임가공 카탈로그 &amp; 견적 제안서 (A4 인쇄용)</title>
+  <!-- Tailwind CSS CDN with forms and container-queries -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <!-- Tailwind Custom Configuration -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              navy: '#15284D',
+              deep: '#0F172A',
+              blue: '#2563EB',
+              accent: '#1D4ED8',
+              slate: '#334155',
+              light: '#F8FAFC',
+              border: '#E2E8F0',
+              gold: '#D97706'
+            }
+          },
+          fontFamily: {
+            sans: ['Pretendard', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Noto Sans KR', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <!-- Typography & Global Sheet Styles -->
+  <style data-purpose="typography">
+    @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+    body {
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans KR", sans-serif;
+      -webkit-font-smoothing: antialiased;
+      background-color: #E2E8F0;
+      color: #334155;
+    }
+  </style>
+  <!-- Print and Layout Custom Sizing -->
+  <style data-purpose="a4-layout">
+    /* A4 simulation for web view and exact print fidelity */
+    .a4-page {
+      width: 100%;
+      max-width: 890px;
+      min-height: 1260px;
+      margin: 0 auto 32px auto;
+      background: #FFFFFF;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      page-break-after: always;
+      box-sizing: border-box;
+    }
+
+    @media print {
+      body {
+        background-color: #FFFFFF;
+        padding: 0;
+      }
+
+      .a4-page {
+        margin: 0;
+        box-shadow: none;
+        max-width: 100%;
+        min-height: 100vh;
+        page-break-after: always;
+      }
+
+      .no-print {
+        display: none !important;
+      }
+    }
+  </style>
+</head>
+
+<body class="text-slate-800 text-sm antialiased py-6 px-2 sm:px-4">
+
+  <!-- BEGIN: Floating Action Bar for Print & Quick Contact -->
+  <aside class="no-print fixed bottom-6 right-6 z-50 flex flex-col gap-2.5" data-purpose="quick-actions">
+    <button
+      class="flex items-center gap-2 bg-brand-navy hover:bg-slate-800 text-white font-medium px-4 py-2.5 rounded-full shadow-xl transition-all border border-slate-600 text-xs"
+      onclick="window.print()">
+      <svg class="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+      </svg>
+      <span>PDF 저장 / A4 인쇄</span>
+    </button>
+    <a class="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2.5 rounded-full shadow-xl transition-all text-xs"
+      href="tel:010-9014-9373">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+      </svg>
+      <span>가공 견적 문의: 010-9014-9373</span>
+    </a>
+  </aside>
+  <!-- END: Floating Action Bar -->
+
+  <!-- ========================================================================== -->
+  <!-- PAGE 1: 표지 및 회사 개요 & 메인 인프라 -->
+  <!-- ========================================================================== -->
+  <main class="a4-page p-8 sm:p-10 border border-slate-200" data-purpose="catalog-page-1" id="page-1">
+    <!-- Top Header -->
+    <header class="border-b-2 border-brand-navy pb-5">
+      <div class="flex flex-wrap justify-between items-start gap-4">
+        <!-- Logo Area -->
+        <div class="flex items-center gap-3.5" data-purpose="company-logo">
+          <img alt="대흥정밀 DHSTEEL" class="h-11 w-auto object-contain" src="images/logo_dhsteel.png" />
+          <div>
+            <div class="flex items-center gap-2">
+              <h1 class="text-2xl font-bold text-brand-navy tracking-tight">대흥정밀</h1>
+              <span class="text-xs px-2 py-0.5 bg-blue-100 text-blue-800 rounded font-semibold">공장직영 임가공</span>
+            </div>
+            <p class="text-[11px] font-medium text-slate-500 tracking-wider">DHSTEEL PRECISION TUBE FABRICATION</p>
+          </div>
+        </div>
+        <!-- Right Tag -->
+        <div class="text-right">
+          <span class="inline-block px-3 py-1 bg-slate-900 text-blue-300 text-xs font-semibold rounded-md shadow-sm border border-slate-700">
+            B2B 소구경 파이프 정밀 가공 카탈로그 &amp; 견적 제안서
+          </span>
+          <p class="text-[10px] text-slate-500 mt-1">소구경(22Φ~50Φ) 축관·확관·밴딩 전문 ｜ 경기도 시흥시 직영 가공공장</p>
+        </div>
+      </div>
+
+      <!-- Main Catchphrase Title -->
+      <div class="mt-5 bg-slate-50 p-5 rounded-lg border border-slate-200">
+        <h2 class="text-2xl sm:text-3xl font-bold text-brand-navy tracking-tight leading-tight">
+          소구경 파이프 정밀 성형 &amp; CNC 밴딩<br />
+          <span class="text-blue-600">원가 절감과 납기 안정화를 위한 최적의 파트너 (22Φ ~ 50Φ 전문)</span>
+        </h2>
+        <p class="mt-3 text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+          대흥정밀(DHSTEEL)은 <strong>소구경 원형 파이프(22Φ, 25Φ, 38Φ, 50Φ)</strong>를 전문으로 취급하며, 스웨이징 전용기, 확관·축관 포밍기, 유압/CNC 밴더, 정밀 드릴링 라인을 가동하여 철재 가구 다리/프레임, 기계·기구물 결합 부품, 안전 바 등 정밀 파이프 가공품을 <strong>공장직판 최저 단가와 엄격한 공차</strong>로 맞춤 생산·직송 공급합니다.
+        </p>
+      </div>
+    </header>
+
+    <!-- Main Factory & Core Facilities Showcase Visuals -->
+    <section class="my-5" data-purpose="factory-showcase">
+      <div class="mb-3 flex items-center justify-between">
+        <h3 class="text-sm font-semibold text-slate-800 flex items-center gap-2">
+          <span class="w-2 h-4 bg-blue-600 inline-block rounded-xs"></span>
+          시흥 직영 공장 전경 및 핵심 가공 설비 인프라
+        </h3>
+        <span class="text-[11px] text-slate-500">소구경 파이프 대량 양산 및 맞춤 임가공 라인</span>
+      </div>
+
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        <!-- Card 1 -->
+        <div class="border border-slate-200 rounded-lg overflow-hidden bg-white shadow-xs">
+          <div class="h-28 bg-slate-100 flex items-center justify-center overflow-hidden">
+            <img alt="시흥 직영 가공 공장 전경" class="w-full h-full object-cover" src="images/factory_warehouse.png" />
+          </div>
+          <div class="p-2 text-center bg-slate-900 text-white text-[11px] font-semibold">
+            시흥 직영 300평 가공 라인
+          </div>
+          <div class="p-2 text-center text-[10px] text-slate-600 bg-slate-50">
+            규격 원자재 실내 적재 보관
+          </div>
+        </div>
+        <!-- Card 2 -->
+        <div class="border border-slate-200 rounded-lg overflow-hidden bg-white shadow-xs">
+          <div class="h-28 bg-slate-100 flex items-center justify-center overflow-hidden">
+            <img alt="대용량 유압 프레스 라인" class="w-full h-full object-cover" src="images/factory_green_press.jpg" />
+          </div>
+          <div class="p-2 text-center bg-slate-900 text-white text-[11px] font-semibold">
+            대용량 유압 프레스 라인
+          </div>
+          <div class="p-2 text-center text-[10px] text-slate-600 bg-slate-50">
+            단부 성형 및 정밀 펀칭/피어싱
+          </div>
+        </div>
+        <!-- Card 3 -->
+        <div class="border border-slate-200 rounded-lg overflow-hidden bg-white shadow-xs">
+          <div class="h-28 bg-slate-100 flex items-center justify-center overflow-hidden">
+            <img alt="정밀 스웨이징 금형" class="w-full h-full object-cover" src="images/factory_swaging_die.jpg" />
+          </div>
+          <div class="p-2 text-center bg-slate-900 text-white text-[11px] font-semibold">
+            정밀 스웨이징/포밍 금형
+          </div>
+          <div class="p-2 text-center text-[10px] text-slate-600 bg-slate-50">
+            죠(Jaw) 공법 단부 축관 가공기
+          </div>
+        </div>
+        <!-- Card 4 -->
+        <div class="border border-slate-200 rounded-lg overflow-hidden bg-white shadow-xs">
+          <div class="h-28 bg-slate-100 flex items-center justify-center overflow-hidden">
+            <img alt="정밀 수직 드릴링 라인" class="w-full h-full object-cover" src="images/factory_vertical_drill.jpg" />
+          </div>
+          <div class="p-2 text-center bg-slate-900 text-white text-[11px] font-semibold">
+            정밀 수직 드릴링 설비
+          </div>
+          <div class="p-2 text-center text-[10px] text-slate-600 bg-slate-50">
+            다축 드릴링 및 관통 홀 가공
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Machinery & Capability Summary Table -->
+    <section class="mb-5" data-purpose="machinery-table">
+      <div class="mb-2">
+        <h3 class="text-xs font-semibold text-slate-900 flex items-center gap-1.5">
+          <span class="w-1.5 h-3.5 bg-brand-navy inline-block rounded-xs"></span>
+          대흥정밀 핵심 보유 설비 제원 및 가공 능력 요약 (소구경 중심)
+        </h3>
+      </div>
+      <div class="overflow-x-auto border border-slate-200 rounded-lg">
+        <table class="w-full text-left text-xs border-collapse">
+          <thead>
+            <tr class="bg-slate-100 text-slate-700 border-b border-slate-200 text-[11px]">
+              <th class="py-2 px-3 font-semibold">설비 및 공정 구분</th>
+              <th class="py-2 px-3 font-semibold">보유 라인</th>
+              <th class="py-2 px-3 font-semibold">가공 가능 규격 범위</th>
+              <th class="py-2 px-3 font-semibold">허용 공차</th>
+              <th class="py-2 px-3 font-semibold">주요 가공 품목 및 용도</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-200 text-[11px] text-slate-600">
+            <tr class="hover:bg-slate-50">
+              <td class="py-2 px-3 font-semibold text-slate-800">파이프 확관 (Expanding)</td>
+              <td class="py-2 px-3">단포밍기, 유압확관기</td>
+              <td class="py-2 px-3">외경 22Φ ~ 50Φ (단부 50mm 이하)</td>
+              <td class="py-2 px-3 text-blue-600 font-semibold">±0.10mm</td>
+              <td class="py-2 px-3">가구 결합 조인트, 슬리브 연결관</td>
+            </tr>
+            <tr class="hover:bg-slate-50 bg-slate-50/50">
+              <td class="py-2 px-3 font-semibold text-slate-800">파이프 축관 (Reducing/Swaging)</td>
+              <td class="py-2 px-3">로터리 스웨이징, 죠가공기</td>
+              <td class="py-2 px-3">원형 22Φ, 25Φ, 38Φ, 50Φ (길이 400mm 이하)</td>
+              <td class="py-2 px-3 text-blue-600 font-semibold">±0.08mm</td>
+              <td class="py-2 px-3">원추형 가구 다리, 안테나 폴, 결합축</td>
+            </tr>
+            <tr class="hover:bg-slate-50">
+              <td class="py-2 px-3 font-semibold text-slate-800">파이프 밴딩 (CNC Bending)</td>
+              <td class="py-2 px-3">유압·CNC 멀티 벤더</td>
+              <td class="py-2 px-3">원형 22Φ ~ 50Φ / 각파이프 20~40각</td>
+              <td class="py-2 px-3 text-blue-600 font-semibold">±0.2° / ±0.15mm</td>
+              <td class="py-2 px-3">가구 곡선 프레임, 안전 바, 기구물</td>
+            </tr>
+            <tr class="hover:bg-slate-50 bg-slate-50/50">
+              <td class="py-2 px-3 font-semibold text-slate-800">복합 임가공 (타공/절단)</td>
+              <td class="py-2 px-3">고속 톱기, 수직 드릴러</td>
+              <td class="py-2 px-3">정밀 면취, 관통 타공, 단면 슬로팅</td>
+              <td class="py-2 px-3 text-blue-600 font-semibold">±0.10mm</td>
+              <td class="py-2 px-3">볼트 체결 홀, 브라켓 용접 어셈블리</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Core Value & Advantages (4 Grid) -->
+    <section class="mb-4" data-purpose="core-competitiveness">
+      <div class="bg-blue-50/70 border border-blue-200 rounded-lg p-3.5">
+        <h3 class="text-xs font-bold text-brand-navy mb-2 flex items-center gap-1.5">
+          <svg class="w-4 h-4 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+            <path clip-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" fill-rule="evenodd"></path>
+          </svg>
+          대흥정밀 B2B 파트너십 핵심 경쟁력 (4대 약속)
+        </h3>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-2.5">
+          <div class="bg-white p-2.5 rounded border border-slate-200 shadow-2xs">
+            <p class="text-xs font-semibold text-blue-900 mb-1">① 공장 직영 원가 절감</p>
+            <p class="text-[11px] text-slate-600 leading-normal">
+              중간 벤더 유통 마진 없이 <strong>최대 15% 이상 가공 단가</strong>를 절감해 드립니다.
+            </p>
+          </div>
+          <div class="bg-white p-2.5 rounded border border-slate-200 shadow-2xs">
+            <p class="text-xs font-semibold text-blue-900 mb-1">② 정밀 금형 공차 관리</p>
+            <p class="text-[11px] text-slate-600 leading-normal">
+              30년 금형 제작 노하우로 <strong>±0.1mm 이내 초정밀 공차</strong>를 전수 보증합니다.
+            </p>
+          </div>
+          <div class="bg-white p-2.5 rounded border border-slate-200 shadow-2xs">
+            <p class="text-xs font-semibold text-blue-900 mb-1">③ 무상 초도 샘플 제작</p>
+            <p class="text-[11px] text-slate-600 leading-normal">
+              도면 또는 현물 확인 후 <strong>무상 초도 샘플</strong>을 제작하여 조립 품질을 검증합니다.
+            </p>
+          </div>
+          <div class="bg-white p-2.5 rounded border border-slate-200 shadow-2xs">
+            <p class="text-xs font-semibold text-blue-900 mb-1">④ 24시간 신속 견적·납품</p>
+            <p class="text-[11px] text-slate-600 leading-normal">
+              도면 및 사진 접수 즉시 <strong>당일 맞춤 견적 회신</strong> 및 전국 직송 시스템 운영.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Page 1 Footer -->
+    <footer class="mt-auto">
+      <div class="flex justify-between items-center text-[10px] text-slate-400 pt-2 border-t border-slate-200">
+        <span>대흥정밀 (DHSTEEL) ｜ 주소: 경기도 시흥시 범안로390번길 63 ｜ 문의직통: 010-9014-9373 ｜ 이메일: dhsteel7@gmail.com</span>
+        <span class="font-semibold text-slate-700 text-xs">- 1 -</span>
+      </div>
+    </footer>
+  </main>
+  <!-- END: CatalogPage1 -->
+
+  <!-- ========================================================================== -->
+  <!-- PAGE 2: 핵심 가공 기술 1 - 파이프 확관 & 축관 (소구경 22Φ ~ 50Φ 전문) -->
+  <!-- ========================================================================== -->
+  <main class="a4-page p-8 sm:p-10 border border-slate-200" data-purpose="catalog-page-2" id="page-2">
+    <!-- Top Sub-Header -->
+    <header class="border-b border-slate-200 pb-3 flex justify-between items-center">
+      <div class="flex items-center gap-2.5">
+        <img alt="대흥정밀 DHSTEEL" class="h-7 w-auto object-contain" src="images/logo_dhsteel.png" />
+        <span class="text-xs font-semibold text-brand-navy">정밀 파이프 가공 기술 제원 ｜ 소구경 확관(Expansion) &amp; 축관(Reduction)</span>
+      </div>
+      <span class="text-[10px] text-slate-400">대흥정밀 B2B 카탈로그</span>
+    </header>
+
+    <!-- SECTION 1: 파이프 확관 (Expansion & Forming) -->
+    <section class="mt-4" data-purpose="pipe-expanding">
+      <div class="flex flex-wrap items-center justify-between gap-2 mb-2.5">
+        <h2 class="text-base font-bold text-brand-navy flex items-center gap-2">
+          <span class="px-2 py-0.5 bg-blue-600 text-white text-xs rounded font-semibold">01</span>
+          파이프 확관 (Expanding / Flaring / Beading)
+        </h2>
+        <span class="text-xs text-blue-700 font-semibold bg-blue-50 px-2.5 py-1 rounded border border-blue-200">
+          가공 범위: 22Φ ~ 50Φ 원형 파이프 (단부 가공 50mm 이하)
+        </span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-3.5 mb-3">
+        <!-- Technical CAD Graphic -->
+        <div class="md:col-span-5 rounded-lg overflow-hidden border border-slate-200 bg-white p-2 flex items-center justify-center shadow-xs">
+          <img alt="소구경 파이프 확관 및 비딩 정밀 CAD 규격도" class="w-full h-40 object-contain" src="images/cad/fax_cad_pipe_forming_bead.png" />
+        </div>
+        <!-- Technical Description -->
+        <div class="md:col-span-7 flex flex-col justify-between">
+          <p class="text-xs text-slate-600 leading-relaxed">
+            소구경 원형 파이프(22Φ, 25Φ, 38Φ, 50Φ)의 단부(End) 내외경을 균일하게 확장하거나, 단차 턱(Step) 성형 및 원형 비딩(Beading)을 형성하여 <strong>상대 부품과의 슬리브 결합, 프레임 체결력 극대화, 조립 정밀도 향상</strong>을 구현합니다.
+          </p>
+          <div class="grid grid-cols-2 gap-2 mt-2 bg-slate-50 p-2.5 rounded border border-slate-200 text-[11px]">
+            <div><strong>적용 규격:</strong> 22Φ, 25Φ, 38Φ, 50Φ (두께 0.7~2.3t)</div>
+            <div><strong>성형 방식:</strong> 펀치 유압 확장식, 회전 롤 비딩 성형</div>
+            <div><strong>가공 한계:</strong> 단부 가공 50mm 이하 (공차 ±0.10mm)</div>
+            <div><strong>주요 용도:</strong> 가구 프레임 조인트, 결합용 슬리브, 연결관</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Expansion Specification Table -->
+      <div class="overflow-x-auto border border-slate-200 rounded-lg mb-3">
+        <table class="w-full text-left text-xs border-collapse">
+          <thead>
+            <tr class="bg-slate-100 text-slate-700 border-b border-slate-200 text-[11px]">
+              <th class="py-1.5 px-3 font-semibold">원관 외경(Φ)</th>
+              <th class="py-1.5 px-3 font-semibold">적용 두께(t)</th>
+              <th class="py-1.5 px-3 font-semibold">최대 확관 외경(mm)</th>
+              <th class="py-1.5 px-3 font-semibold">확관 유효 깊이</th>
+              <th class="py-1.5 px-3 font-semibold">정밀 공차</th>
+              <th class="py-1.5 px-3 font-semibold">주요 결합 형태</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-200 text-[11px] text-slate-600">
+            <tr class="hover:bg-slate-50">
+              <td class="py-1.5 px-3 font-semibold text-slate-800">22Φ</td>
+              <td class="py-1.5 px-3">0.7 ~ 1.6t</td>
+              <td class="py-1.5 px-3 text-blue-700 font-semibold">최대 Ø26.5mm</td>
+              <td class="py-1.5 px-3">10 ~ 45mm</td>
+              <td class="py-1.5 px-3">±0.10mm</td>
+              <td class="py-1.5 px-3">내경 삽입형 슬리브 결합</td>
+            </tr>
+            <tr class="hover:bg-slate-50 bg-slate-50/50">
+              <td class="py-1.5 px-3 font-semibold text-slate-800">25Φ</td>
+              <td class="py-1.5 px-3">0.8 ~ 1.8t</td>
+              <td class="py-1.5 px-3 text-blue-700 font-semibold">최대 Ø30.0mm</td>
+              <td class="py-1.5 px-3">15 ~ 50mm</td>
+              <td class="py-1.5 px-3">±0.10mm</td>
+              <td class="py-1.5 px-3">단차 비딩 턱 체결 및 조립</td>
+            </tr>
+            <tr class="hover:bg-slate-50">
+              <td class="py-1.5 px-3 font-semibold text-slate-800">38Φ</td>
+              <td class="py-1.5 px-3">1.0 ~ 2.0t</td>
+              <td class="py-1.5 px-3 text-blue-700 font-semibold">최대 Ø45.0mm</td>
+              <td class="py-1.5 px-3">15 ~ 50mm</td>
+              <td class="py-1.5 px-3">±0.12mm</td>
+              <td class="py-1.5 px-3">프레임 연결 조인트 체결</td>
+            </tr>
+            <tr class="hover:bg-slate-50 bg-slate-50/50">
+              <td class="py-1.5 px-3 font-semibold text-slate-800">50Φ</td>
+              <td class="py-1.5 px-3">1.2 ~ 2.3t</td>
+              <td class="py-1.5 px-3 text-blue-700 font-semibold">최대 Ø58.0mm</td>
+              <td class="py-1.5 px-3">20 ~ 50mm</td>
+              <td class="py-1.5 px-3">±0.12mm</td>
+              <td class="py-1.5 px-3">메인 지지관 슬리브 체결</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Expansion Gallery Samples (3 Tiles) -->
+      <div class="grid grid-cols-3 gap-2.5">
+        <div class="border border-slate-200 rounded overflow-hidden bg-white">
+          <div class="h-20 bg-slate-100 flex items-center justify-center overflow-hidden">
+            <img alt="다단 비딩 확관 샘플" class="w-full h-full object-cover" src="gallery/forming_01.jpg" />
+          </div>
+          <div class="p-1 text-center bg-slate-800 text-white text-[10px] font-medium">다단 비딩 확관 가공품</div>
+        </div>
+        <div class="border border-slate-200 rounded overflow-hidden bg-white">
+          <div class="h-20 bg-slate-100 flex items-center justify-center overflow-hidden">
+            <img alt="단차 슬리브 포밍 샘플" class="w-full h-full object-cover" src="gallery/forming_02.jpg" />
+          </div>
+          <div class="p-1 text-center bg-slate-800 text-white text-[10px] font-medium">단차 슬리브 포밍 샘플</div>
+        </div>
+        <div class="border border-slate-200 rounded overflow-hidden bg-white">
+          <div class="h-20 bg-slate-100 flex items-center justify-center overflow-hidden">
+            <img alt="플레어링 정밀 확관 샘플" class="w-full h-full object-cover" src="gallery/forming_03.jpg" />
+          </div>
+          <div class="p-1 text-center bg-slate-800 text-white text-[10px] font-medium">플레어링 정밀 확관</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: 파이프 축관 & 스웨이징 (Reducing & Swaging) -->
+    <section class="mt-5" data-purpose="pipe-reducing">
+      <div class="flex flex-wrap items-center justify-between gap-2 mb-2.5">
+        <h2 class="text-base font-bold text-brand-navy flex items-center gap-2">
+          <span class="px-2 py-0.5 bg-blue-600 text-white text-xs rounded font-semibold">02</span>
+          파이프 축관 &amp; 스웨이징 (Reducing / Rotary Swaging)
+        </h2>
+        <span class="text-xs text-blue-700 font-semibold bg-blue-50 px-2.5 py-1 rounded border border-blue-200">
+          가공 가능 규격: 22Φ, 25Φ, 38Φ, 50Φ (길이 400mm 이하)
+        </span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-3.5 mb-3">
+        <!-- Technical CAD Graphic (User Uploaded Official Diagram) -->
+        <div class="md:col-span-5 rounded-lg overflow-hidden border border-slate-200 bg-white p-2 flex items-center justify-center shadow-xs">
+          <img alt="파이프 축관 스웨이징 가공 가능 규격 22Φ ~ 50Φ CAD 규격도" class="w-full h-40 object-contain" src="images/cad/fax_cad_pipe_specs.png" />
+        </div>
+        <!-- Technical Description -->
+        <div class="md:col-span-7 flex flex-col justify-between">
+          <p class="text-xs text-slate-600 leading-relaxed">
+            원형 파이프 <strong>22Φ, 25Φ, 38Φ, 50Φ 규격의 축관, 스웨이징 가공(길이 400mm 이하, 단부 50mm 이하)</strong>을 전문으로 처리합니다. 전용 죠(Jaw) 금형을 사용하여 용접 없이 하나의 파이프를 가늘고 매끄러운 원추형(Taper)으로 압축 성형하여 탁월한 강도와 미려한 디자인을 완성합니다.
+          </p>
+          <div class="grid grid-cols-2 gap-2 mt-2 bg-slate-50 p-2.5 rounded border border-slate-200 text-[11px]">
+            <div><strong>적용 규격:</strong> 원형 22Φ, 25Φ, 38Φ, 50Φ 파이프</div>
+            <div><strong>가공 형태:</strong> 원추 테이퍼형(Taper), 단차 축관형(Step)</div>
+            <div><strong>가공 한계:</strong> 가공 길이 400mm 이하, 단부 50mm 이하</div>
+            <div><strong>주요 용도:</strong> 철재 의자/책상 다리 프레임, 기계 결합부 부품</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Reduction Specification Table -->
+      <div class="overflow-x-auto border border-slate-200 rounded-lg mb-3">
+        <table class="w-full text-left text-xs border-collapse">
+          <thead>
+            <tr class="bg-slate-100 text-slate-700 border-b border-slate-200 text-[11px]">
+              <th class="py-1.5 px-3 font-semibold">원관 외경(Φ)</th>
+              <th class="py-1.5 px-3 font-semibold">적용 두께(t)</th>
+              <th class="py-1.5 px-3 font-semibold">축관 후 선단 최소경</th>
+              <th class="py-1.5 px-3 font-semibold">테이퍼 가공 길이</th>
+              <th class="py-1.5 px-3 font-semibold">정밀 공차</th>
+              <th class="py-1.5 px-3 font-semibold">적용 가공 제품군</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-200 text-[11px] text-slate-600">
+            <tr class="hover:bg-slate-50">
+              <td class="py-1.5 px-3 font-semibold text-slate-800">22Φ</td>
+              <td class="py-1.5 px-3">0.8 ~ 1.6t</td>
+              <td class="py-1.5 px-3 text-blue-700 font-semibold">최소 Ø10.0mm</td>
+              <td class="py-1.5 px-3">최대 250mm</td>
+              <td class="py-1.5 px-3">±0.08mm</td>
+              <td class="py-1.5 px-3">슬림 의자 다리, 안테나 폴대</td>
+            </tr>
+            <tr class="hover:bg-slate-50 bg-slate-50/50">
+              <td class="py-1.5 px-3 font-semibold text-slate-800">25Φ</td>
+              <td class="py-1.5 px-3">0.8 ~ 1.8t</td>
+              <td class="py-1.5 px-3 text-blue-700 font-semibold">최소 Ø12.0mm</td>
+              <td class="py-1.5 px-3">최대 300mm</td>
+              <td class="py-1.5 px-3">±0.08mm</td>
+              <td class="py-1.5 px-3">인테리어 가구 프레임 다리</td>
+            </tr>
+            <tr class="hover:bg-slate-50">
+              <td class="py-1.5 px-3 font-semibold text-slate-800">38Φ</td>
+              <td class="py-1.5 px-3">1.0 ~ 2.0t</td>
+              <td class="py-1.5 px-3 text-blue-700 font-semibold">최소 Ø18.0mm</td>
+              <td class="py-1.5 px-3">최대 400mm</td>
+              <td class="py-1.5 px-3">±0.10mm</td>
+              <td class="py-1.5 px-3">책상 다리, 기계 결합축 부품</td>
+            </tr>
+            <tr class="hover:bg-slate-50 bg-slate-50/50">
+              <td class="py-1.5 px-3 font-semibold text-slate-800">50Φ</td>
+              <td class="py-1.5 px-3">1.2 ~ 2.3t</td>
+              <td class="py-1.5 px-3 text-blue-700 font-semibold">최소 Ø25.0mm</td>
+              <td class="py-1.5 px-3">최대 400mm</td>
+              <td class="py-1.5 px-3">±0.10mm</td>
+              <td class="py-1.5 px-3">중하중용 지지 기둥, 메인 프레임</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Reduction Gallery Samples (3 Tiles) -->
+      <div class="grid grid-cols-3 gap-2.5">
+        <div class="border border-slate-200 rounded overflow-hidden bg-white">
+          <div class="h-20 bg-slate-100 flex items-center justify-center overflow-hidden">
+            <img alt="가구 다리 원추 테이퍼 축관" class="w-full h-full object-cover" src="gallery/swaging_01.jpg" />
+          </div>
+          <div class="p-1 text-center bg-slate-800 text-white text-[10px] font-medium">원추 테이퍼 축관</div>
+        </div>
+        <div class="border border-slate-200 rounded overflow-hidden bg-white">
+          <div class="h-20 bg-slate-100 flex items-center justify-center overflow-hidden">
+            <img alt="단차 정밀 스웨이징 샘플" class="w-full h-full object-cover" src="gallery/swaging_02.jpg" />
+          </div>
+          <div class="p-1 text-center bg-slate-800 text-white text-[10px] font-medium">단차 스웨이징 샘플</div>
+        </div>
+        <div class="border border-slate-200 rounded overflow-hidden bg-white">
+          <div class="h-20 bg-slate-100 flex items-center justify-center overflow-hidden">
+            <img alt="죠가공 초경량 지지관" class="w-full h-full object-cover" src="gallery/swaging_03.jpg" />
+          </div>
+          <div class="p-1 text-center bg-slate-800 text-white text-[10px] font-medium">초경량 지지관 축관</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Page 2 Footer -->
+    <footer class="mt-auto">
+      <div class="flex justify-between items-center text-[10px] text-slate-400 pt-2 border-t border-slate-200">
+        <span>대흥정밀 (DHSTEEL) ｜ 직영 공장 도면 접수: 010-9014-9373 ｜ 이메일: dhsteel7@gmail.com</span>
+        <span class="font-semibold text-slate-700 text-xs">- 2 -</span>
+      </div>
+    </footer>
+  </main>
+  <!-- END: CatalogPage2 -->
+
+  <!-- ========================================================================== -->
+  <!-- PAGE 3: 핵심 가공 기술 2 - CNC 밴딩 & 복합 정밀 임가공 -->
+  <!-- ========================================================================== -->
+  <main class="a4-page p-8 sm:p-10 border border-slate-200" data-purpose="catalog-page-3" id="page-3">
+    <!-- Top Sub-Header -->
+    <header class="border-b border-slate-200 pb-3 flex justify-between items-center">
+      <div class="flex items-center gap-2.5">
+        <img alt="대흥정밀 DHSTEEL" class="h-7 w-auto object-contain" src="images/logo_dhsteel.png" />
+        <span class="text-xs font-semibold text-brand-navy">정밀 파이프 가공 기술 제원 ｜ CNC 밴딩 &amp; 복합 임가공</span>
+      </div>
+      <span class="text-[10px] text-slate-400">대흥정밀 B2B 카탈로그</span>
+    </header>
+
+    <!-- SECTION 1: CNC 파이프 밴딩 (CNC & Hydraulic Bending) -->
+    <section class="mt-4" data-purpose="pipe-bending">
+      <div class="flex flex-wrap items-center justify-between gap-2 mb-2.5">
+        <h2 class="text-base font-bold text-brand-navy flex items-center gap-2">
+          <span class="px-2 py-0.5 bg-blue-600 text-white text-xs rounded font-semibold">03</span>
+          CNC 파이프 밴딩 (CNC &amp; Hydraulic Tube Bending)
+        </h2>
+        <span class="text-xs text-blue-700 font-semibold bg-blue-50 px-2.5 py-1 rounded border border-blue-200">
+          원형 22Φ~50Φ ｜ 각파이프 20~40각 (각도 1°~180°)
+        </span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-3.5 mb-3">
+        <!-- Technical CAD Graphic -->
+        <div class="md:col-span-5 rounded-lg overflow-hidden border border-slate-200 bg-white p-2 flex items-center justify-center shadow-xs">
+          <img alt="정밀 파이프 밴딩 CAD 규격도" class="w-full h-40 object-contain" src="images/cad/fax_cad_pipe_bending.png" />
+        </div>
+        <!-- Technical Description -->
+        <div class="md:col-span-7 flex flex-col justify-between">
+          <p class="text-xs text-slate-600 leading-relaxed">
+            고성능 CNC 벤더 및 맨드릴(Mandrel) 내부 지지 공법을 적용하여 <strong>파이프 외경의 주름(Wrinkle)과 단면 찌그러짐(Ovality)을 최소화</strong>합니다. 소구경 원형 및 각파이프의 1°~180° 곡선 굽힘 및 3차원 공간 복합 밴딩을 정밀하게 수행합니다.
+          </p>
+          <div class="grid grid-cols-2 gap-2 mt-2 bg-slate-50 p-2.5 rounded border border-slate-200 text-[11px]">
+            <div><strong>가공 가능 형상:</strong> 원형 파이프(22Φ~50Φ), 각파이프(20~40각)</div>
+            <div><strong>곡률 반경(CLR):</strong> 파이프 외경 대비 1.5D ~ 4.0D 맞춤 금형 보유</div>
+            <div><strong>품질 관리:</strong> 각도 오차 ±0.2° 이내, 단면 편평율 95% 이상 유지</div>
+            <div><strong>주요 용도:</strong> 가구 곡선 프레임, 헬스기구, 장비 안전 바, 배관재</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bending Specification Table -->
+      <div class="overflow-x-auto border border-slate-200 rounded-lg mb-3">
+        <table class="w-full text-left text-xs border-collapse">
+          <thead>
+            <tr class="bg-slate-100 text-slate-700 border-b border-slate-200 text-[11px]">
+              <th class="py-1.5 px-3 font-semibold">파이프 규격(원형/각관)</th>
+              <th class="py-1.5 px-3 font-semibold">적용 두께(t)</th>
+              <th class="py-1.5 px-3 font-semibold">표준 곡률 반경(CLR R)</th>
+              <th class="py-1.5 px-3 font-semibold">최대 굽힘 각도</th>
+              <th class="py-1.5 px-3 font-semibold">각도/치수 공차</th>
+              <th class="py-1.5 px-3 font-semibold">가공 공법 특징</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-200 text-[11px] text-slate-600">
+            <tr class="hover:bg-slate-50">
+              <td class="py-1.5 px-3 font-semibold text-slate-800">원형 22Φ ~ 25Φ</td>
+              <td class="py-1.5 px-3">0.8 ~ 1.8t</td>
+              <td class="py-1.5 px-3 text-blue-700 font-semibold">R30 ~ R80mm</td>
+              <td class="py-1.5 px-3">180° 연속 곡률</td>
+              <td class="py-1.5 px-3">±0.2° / ±0.15mm</td>
+              <td class="py-1.5 px-3">고속 CNC 회전 드로잉 밴딩</td>
+            </tr>
+            <tr class="hover:bg-slate-50 bg-slate-50/50">
+              <td class="py-1.5 px-3 font-semibold text-slate-800">원형 38Φ ~ 50Φ</td>
+              <td class="py-1.5 px-3">1.0 ~ 2.3t</td>
+              <td class="py-1.5 px-3 text-blue-700 font-semibold">R60 ~ R150mm</td>
+              <td class="py-1.5 px-3">180° 단독/다단 굽힘</td>
+              <td class="py-1.5 px-3">±0.2° / ±0.15mm</td>
+              <td class="py-1.5 px-3">맨드릴 주름 방지 내부 지지 가공</td>
+            </tr>
+            <tr class="hover:bg-slate-50">
+              <td class="py-1.5 px-3 font-semibold text-slate-800">각파이프 20x20 ~ 20x40각</td>
+              <td class="py-1.5 px-3">1.0 ~ 2.0t</td>
+              <td class="py-1.5 px-3 text-blue-700 font-semibold">R60 ~ R160mm</td>
+              <td class="py-1.5 px-3">90° ~ 120°</td>
+              <td class="py-1.5 px-3">±0.3° / ±0.20mm</td>
+              <td class="py-1.5 px-3">각관 전용 금형 왜곡 방지 가공</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Bending Gallery Samples (3 Tiles) -->
+      <div class="grid grid-cols-3 gap-2.5">
+        <div class="border border-slate-200 rounded overflow-hidden bg-white">
+          <div class="h-20 bg-slate-100 flex items-center justify-center overflow-hidden">
+            <img alt="가구 곡선 프레임 밴딩" class="w-full h-full object-cover" src="gallery/bending_01.jpg" />
+          </div>
+          <div class="p-1 text-center bg-slate-800 text-white text-[10px] font-medium">가구 곡선 밴딩</div>
+        </div>
+        <div class="border border-slate-200 rounded overflow-hidden bg-white">
+          <div class="h-20 bg-slate-100 flex items-center justify-center overflow-hidden">
+            <img alt="3차원 복합 공간 밴딩" class="w-full h-full object-cover" src="gallery/bending_03.jpg" />
+          </div>
+          <div class="p-1 text-center bg-slate-800 text-white text-[10px] font-medium">3차원 복합 공간 밴딩</div>
+        </div>
+        <div class="border border-slate-200 rounded overflow-hidden bg-white">
+          <div class="h-20 bg-slate-100 flex items-center justify-center overflow-hidden">
+            <img alt="각파이프 정밀 밴딩품" class="w-full h-full object-cover" src="gallery/bending_05.jpg" />
+          </div>
+          <div class="p-1 text-center bg-slate-800 text-white text-[10px] font-medium">각파이프 정밀 밴딩</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: 복합 정밀 임가공 (드릴링/타공/절단/용접) -->
+    <section class="mt-5" data-purpose="pipe-complex-processing">
+      <div class="flex flex-wrap items-center justify-between gap-2 mb-2.5">
+        <h2 class="text-base font-bold text-brand-navy flex items-center gap-2">
+          <span class="px-2 py-0.5 bg-blue-600 text-white text-xs rounded font-semibold">04</span>
+          복합 정밀 임가공 (관통 드릴링 · 프레스 펀칭 · 절단 · 면취 · 조립)
+        </h2>
+        <span class="text-xs text-blue-700 font-semibold bg-blue-50 px-2.5 py-1 rounded border border-blue-200">
+          원자재 조달부터 완성품 조립까지 One-Stop 일관 공정
+        </span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-3.5 mb-3">
+        <!-- Technical CAD Graphic -->
+        <div class="md:col-span-5 rounded-lg overflow-hidden border border-slate-200 bg-white p-2 flex items-center justify-center shadow-xs">
+          <img alt="정밀 드릴링 및 관통 홀 가공 CAD 규격도" class="w-full h-40 object-contain" src="images/cad/fax_cad_pipe_drillijg.png" />
+        </div>
+        <!-- Technical Description -->
+        <div class="md:col-span-7 flex flex-col justify-between">
+          <p class="text-xs text-slate-600 leading-relaxed">
+            단순 파이프 절곡에 그치지 않고, <strong>고속 정밀 회전 절단, 양단 버(Burr) 제거 면취, 프레스 펀칭 홀타공, 수직 다축 관통 드릴링/탭핑, 브라켓 용접 조립</strong>까지 도면 사양 그대로 완성품 일괄 조달을 실현합니다.
+          </p>
+          <!-- Process Step Pills -->
+          <div class="mt-2 bg-slate-50 p-2.5 rounded border border-slate-200">
+            <p class="text-[11px] font-semibold text-slate-700 mb-1.5 flex items-center gap-1">
+              <span>🔄</span> 대흥정밀 원스톱(One-Stop) 복합 임가공 공정 흐름도
+            </p>
+            <div class="flex flex-wrap items-center gap-1 text-[10px]">
+              <span class="px-2 py-0.5 bg-white border border-slate-300 rounded text-slate-700 font-medium">1. 원자재 입고검사</span>
+              <span class="text-slate-400">→</span>
+              <span class="px-2 py-0.5 bg-white border border-slate-300 rounded text-slate-700 font-medium">2. 정밀절단·면취</span>
+              <span class="text-slate-400">→</span>
+              <span class="px-2 py-0.5 bg-blue-50 border border-blue-300 rounded text-blue-700 font-semibold">3. 확관/축관/밴딩</span>
+              <span class="text-slate-400">→</span>
+              <span class="px-2 py-0.5 bg-white border border-slate-300 rounded text-slate-700 font-medium">4. 드릴링·홀타공</span>
+              <span class="text-slate-400">→</span>
+              <span class="px-2 py-0.5 bg-white border border-slate-300 rounded text-slate-700 font-medium">5. 용접조립</span>
+              <span class="text-slate-400">→</span>
+              <span class="px-2 py-0.5 bg-slate-900 rounded text-white font-semibold">6. 전수검사·출하</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Complex Processing Gallery Samples (3 Tiles) -->
+      <div class="grid grid-cols-3 gap-2.5">
+        <div class="border border-slate-200 rounded overflow-hidden bg-white">
+          <div class="h-20 bg-slate-100 flex items-center justify-center overflow-hidden">
+            <img alt="정밀 관통 홀 드릴링 가공" class="w-full h-full object-cover" src="gallery/processing_01.jpg" />
+          </div>
+          <div class="p-1 text-center bg-slate-800 text-white text-[10px] font-medium">관통 홀 드릴링/타공</div>
+        </div>
+        <div class="border border-slate-200 rounded overflow-hidden bg-white">
+          <div class="h-20 bg-slate-100 flex items-center justify-center overflow-hidden">
+            <img alt="프레스 펀칭 및 슬롯 가공" class="w-full h-full object-cover" src="gallery/processing_05.jpg" />
+          </div>
+          <div class="p-1 text-center bg-slate-800 text-white text-[10px] font-medium">프레스 슬롯 펀칭</div>
+        </div>
+        <div class="border border-slate-200 rounded overflow-hidden bg-white">
+          <div class="h-20 bg-slate-100 flex items-center justify-center overflow-hidden">
+            <img alt="용접 조립 복합 가공품" class="w-full h-full object-cover" src="gallery/processing_09.jpg" />
+          </div>
+          <div class="p-1 text-center bg-slate-800 text-white text-[10px] font-medium">브라켓 용접 조립품</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Page 3 Footer -->
+    <footer class="mt-auto">
+      <div class="flex justify-between items-center text-[10px] text-slate-400 pt-2 border-t border-slate-200">
+        <span>대흥정밀 (DHSTEEL) ｜ 직영 공장 도면 접수: 010-9014-9373 ｜ 이메일: dhsteel7@gmail.com</span>
+        <span class="font-semibold text-slate-700 text-xs">- 3 -</span>
+      </div>
+    </footer>
+  </main>
+  <!-- END: CatalogPage3 -->
+
+  <!-- ========================================================================== -->
+  <!-- PAGE 4: 생산 갤러리 & 견적 요청서 & 오시는 길 -->
+  <!-- ========================================================================== -->
+  <main class="a4-page p-8 sm:p-10 border border-slate-200" data-purpose="catalog-page-4" id="page-4">
+    <!-- Top Sub-Header -->
+    <header class="border-b border-slate-200 pb-3 flex justify-between items-center">
+      <div class="flex items-center gap-2.5">
+        <img alt="대흥정밀 DHSTEEL" class="h-7 w-auto object-contain" src="images/logo_dhsteel.png" />
+        <span class="text-xs font-semibold text-brand-navy">대흥정밀 생산 실적 갤러리 ｜ 품질 보증 및 B2B 맞춤 견적 의뢰서</span>
+      </div>
+      <span class="text-[10px] text-slate-400">대흥정밀 B2B 카탈로그</span>
+    </header>
+
+    <!-- SECTION 1: Production Gallery (6 Representative Samples) -->
+    <section class="mt-4" data-purpose="production-gallery">
+      <div class="mb-2.5 flex items-center justify-between">
+        <h3 class="text-xs font-semibold text-slate-900 flex items-center gap-1.5">
+          <span class="w-1.5 h-3.5 bg-blue-600 inline-block rounded-xs"></span>
+          대흥정밀 주요 생산 실적 및 정밀 임가공 샘플 갤러리
+        </h3>
+        <span class="text-[10px] text-slate-500">100% 실물 가공품 촬영 기준</span>
+      </div>
+
+      <div class="grid grid-cols-3 sm:grid-cols-6 gap-2 mb-3.5">
+        <div class="border border-slate-200 rounded overflow-hidden bg-white shadow-2xs">
+          <div class="h-20 bg-slate-100 flex items-center justify-center overflow-hidden">
+            <img alt="정밀 조립 파이프 가공품" class="w-full h-full object-cover" src="gallery/processing_13.jpg" />
+          </div>
+          <div class="p-1 text-center bg-slate-900 text-white text-[9px] font-medium">정밀 조립 파이프</div>
+        </div>
+        <div class="border border-slate-200 rounded overflow-hidden bg-white shadow-2xs">
+          <div class="h-20 bg-slate-100 flex items-center justify-center overflow-hidden">
+            <img alt="구조용 체결 파이프" class="w-full h-full object-cover" src="gallery/processing_14.jpg" />
+          </div>
+          <div class="p-1 text-center bg-slate-900 text-white text-[9px] font-medium">구조용 체결관</div>
+        </div>
+        <div class="border border-slate-200 rounded overflow-hidden bg-white shadow-2xs">
+          <div class="h-20 bg-slate-100 flex items-center justify-center overflow-hidden">
+            <img alt="단차 확관 비딩 샘플" class="w-full h-full object-cover" src="gallery/forming_05.jpg" />
+          </div>
+          <div class="p-1 text-center bg-slate-900 text-white text-[9px] font-medium">단차 확관 비딩</div>
+        </div>
+        <div class="border border-slate-200 rounded overflow-hidden bg-white shadow-2xs">
+          <div class="h-20 bg-slate-100 flex items-center justify-center overflow-hidden">
+            <img alt="다단 밴딩 프레임재" class="w-full h-full object-cover" src="gallery/bending_07.jpg" />
+          </div>
+          <div class="p-1 text-center bg-slate-900 text-white text-[9px] font-medium">다단 밴딩 프레임</div>
+        </div>
+        <div class="border border-slate-200 rounded overflow-hidden bg-white shadow-2xs">
+          <div class="h-20 bg-slate-100 flex items-center justify-center overflow-hidden">
+            <img alt="슬림 원추 스웨이징" class="w-full h-full object-cover" src="gallery/swaging_06.jpg" />
+          </div>
+          <div class="p-1 text-center bg-slate-900 text-white text-[9px] font-medium">슬림 원추 축관</div>
+        </div>
+        <div class="border border-slate-200 rounded overflow-hidden bg-white shadow-2xs">
+          <div class="h-20 bg-slate-100 flex items-center justify-center overflow-hidden">
+            <img alt="특수 주문 복합 가공품" class="w-full h-full object-cover" src="gallery/custom_01.jpg" />
+          </div>
+          <div class="p-1 text-center bg-slate-900 text-white text-[9px] font-medium">특수 주문 맞춤품</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: B2B 맞춤 견적 의뢰 양식 (A4 작성/팩스/온라인 접수용) -->
+    <section class="mb-4" data-purpose="rfq-form">
+      <div class="mb-2">
+        <h3 class="text-xs font-semibold text-slate-900 flex items-center gap-1.5">
+          <span class="w-1.5 h-3.5 bg-brand-navy inline-block rounded-xs"></span>
+          대흥정밀 B2B 소구경 파이프 임가공 즉시 견적 의뢰서 (FAX 및 온라인 접수 양식)
+        </h3>
+      </div>
+      <div class="border border-slate-300 rounded-lg overflow-hidden bg-white">
+        <div class="bg-slate-100 px-3 py-1.5 border-b border-slate-300 text-[11px] text-slate-700 flex justify-between items-center">
+          <span class="font-semibold text-slate-800">※ 본 양식을 인쇄 후 작성하여 팩스(031-432-9374) 송부 또는 온라인(dhsteel.pages.dev)에 등록해 주시면 당일 견적서를 회신해 드립니다.</span>
+          <span class="text-blue-700 font-semibold">회신 소요시간: 24시간 이내</span>
+        </div>
+        <table class="w-full text-xs border-collapse">
+          <tbody class="divide-y divide-slate-200 text-[11px]">
+            <tr>
+              <td class="w-24 bg-slate-50 py-2 px-3 font-semibold text-slate-700 border-r border-slate-200">의뢰 업체명</td>
+              <td class="py-2 px-3 border-r border-slate-200 text-slate-400">예: (주)대한정밀</td>
+              <td class="w-24 bg-slate-50 py-2 px-3 font-semibold text-slate-700 border-r border-slate-200">담당자 / 직급</td>
+              <td class="py-2 px-3 text-slate-400">예: 홍길동 부장</td>
+            </tr>
+            <tr>
+              <td class="bg-slate-50 py-2 px-3 font-semibold text-slate-700 border-r border-slate-200">전화번호 / 직통</td>
+              <td class="py-2 px-3 border-r border-slate-200 text-slate-400">예: 010-1234-5678</td>
+              <td class="bg-slate-50 py-2 px-3 font-semibold text-slate-700 border-r border-slate-200">견적 회신 이메일</td>
+              <td class="py-2 px-3 text-slate-400">예: buyer@company.com</td>
+            </tr>
+            <tr>
+              <td class="bg-slate-50 py-2 px-3 font-semibold text-slate-700 border-r border-slate-200">희망 가공 공정</td>
+              <td colspan="3" class="py-2 px-3">
+                <span class="inline-block mr-3">□ 파이프 확관(22Φ~50Φ)</span>
+                <span class="inline-block mr-3">□ 파이프 축관(스웨이징)</span>
+                <span class="inline-block mr-3">□ CNC 파이프 밴딩</span>
+                <span class="inline-block mr-3">□ 관통 드릴링/타공</span>
+                <span class="inline-block">□ 복합 조립(용접)</span>
+              </td>
+            </tr>
+            <tr>
+              <td class="bg-slate-50 py-2 px-3 font-semibold text-slate-700 border-r border-slate-200">파이프 제원 사양</td>
+              <td colspan="3" class="py-2 px-3 text-slate-600">
+                <span><strong>가공 규격:</strong> □ 22Φ □ 25Φ □ 38Φ □ 50Φ □ 기타(____Φ) ｜ <strong>두께:</strong> ____ t ｜ <strong>길이:</strong> 최대 400mm</span><br />
+                <span class="text-slate-500 mt-1 inline-block"><strong>재질:</strong> □ 스틸(SPCC/STKM) □ 스테인리스(SUS304) □ 알루미늄 ｜ <strong>월 소요량:</strong> 약 ________ 개</span>
+              </td>
+            </tr>
+            <tr>
+              <td class="bg-slate-50 py-2 px-3 font-semibold text-slate-700 border-r border-slate-200">상세 요청사항</td>
+              <td colspan="3" class="py-2 px-3 text-slate-400 h-14 align-top">
+                도면 첨부 여부, 허용 공차 요구수준, 무상 초도 샘플 희망 일정 등을 자유롭게 기재해 주세요.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- SECTION 3: Comprehensive RFQ & Contact Footer Block (Brand Navy) -->
+    <section class="mt-2" data-purpose="comprehensive-contact">
+      <div class="bg-brand-navy rounded-lg p-4 text-white shadow-md border border-slate-700">
+        <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
+          <div class="text-center sm:text-left">
+            <h4 class="text-sm sm:text-base font-bold text-white flex items-center justify-center sm:justify-start gap-2">
+              <span class="w-2 h-2 rounded-full bg-yellow-400"></span>
+              대흥정밀 직영 공장 즉시 비교 견적 및 무상 샘플 상담
+            </h4>
+            <p class="text-xs text-slate-300 mt-1">
+              가공 도면(CAD/PDF) 또는 제품 사진만 보내주셔도 최적의 공장도 단가와 제작 일정을 당일 신속 산출해 드립니다.
+            </p>
+            <p class="text-[11px] text-slate-300 mt-1 font-normal">
+              직영공장: 경기도 시흥시 범안로390번길 63 (소구경 파이프 직영 가공공장) ｜ 팩스: 031-432-9374 ｜ 이메일: dhsteel7@gmail.com
+            </p>
+          </div>
+          <div class="text-center sm:text-right shrink-0">
+            <div class="text-yellow-300 font-bold text-xl sm:text-2xl tracking-tight">
+              010-9014-9373
+            </div>
+            <div class="text-xs text-blue-200 font-medium">
+              대표전화: 031-432-9373
+            </div>
+            <a href="https://dhsteel.pages.dev/" target="_blank" class="inline-block mt-1 text-[11px] text-white bg-blue-600 hover:bg-blue-500 px-2.5 py-0.5 rounded font-semibold transition-colors">
+              모바일 카탈로그 바로가기 ↗
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Page 4 Footer -->
+    <footer class="mt-auto">
+      <div class="flex justify-between items-center text-[10px] text-slate-400 pt-2 border-t border-slate-200">
+        <span>대흥정밀 (DHSTEEL) ｜ 직영 공장 도면 접수: 010-9014-9373 ｜ 웹사이트: dhsteel.pages.dev ｜ 이메일: dhsteel7@gmail.com</span>
+        <span class="font-semibold text-slate-700 text-xs">- 4 -</span>
+      </div>
+    </footer>
+  </main>
+  <!-- END: CatalogPage4 -->
+
+</body>
+</html>

@@ -4,7 +4,7 @@
  * [mail_log 시트 컬럼] A=체크, B=연번, C=발송일자, D=회사명, E=이메일, F=발송회차, G=발송상태, H=세부결과, I=비고
  */
 
-var BASE_URL = "https://dhsteel.vercel.app/";
+var BASE_URL = "https://dhsteel.pages.dev/";
 var SS_ID = "1kEdvR2hLPBc60vkNwq_ArqOGn0In5J-nN2LCoj2tMic";
 
 function onOpen() {
@@ -344,7 +344,7 @@ function doGet(e) {
     .setMimeType(ContentService.MimeType.JAVASCRIPT);
 }
 
-// 홈페이지(https://dhsteel.vercel.app/) 견적 문의 데이터 수신 및 파일 업로드 처리 API
+// 홈페이지(https://dhsteel.pages.dev/) 견적 문의 데이터 수신 및 파일 업로드 처리 API
 function doPost(e) {
   try {
     var params = e.parameter;

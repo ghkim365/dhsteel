@@ -1,0 +1,393 @@
+'use strict';
+
+const GOOGLE_ADS_CONVERSION = {
+  sendTo: 'AW-740713573/DzIKCKP9zeQcEOXImeEC'
+};
+
+function fireConversion() {
+  if (typeof gtag === 'function') {
+    gtag('event', 'conversion', { 'send_to': GOOGLE_ADS_CONVERSION.sendTo });
+  } else if (window.dataLayer && Array.isArray(window.dataLayer)) {
+    window.dataLayer.push('event', 'conversion', { 'send_to': GOOGLE_ADS_CONVERSION.sendTo });
+  } else {
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push('event', 'conversion', { 'send_to': GOOGLE_ADS_CONVERSION.sendTo });
+  }
+}
+
+// ─── 파일 선택 및 드래그앤드롭 표시 ────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  const fileInput = document.getElementById('fileAttachment');
+  const fileName  = document.getElementById('fileName');
+  const wrapper   = document.querySelector('.file-upload-wrapper');
+
+  if (fileInput && fileName && wrapper) {
+    fileInput.addEventListener('change', () => {
+      const f = fileInput.files[0];
+      if (f) {
+        if (f.size > 10 * 1024 * 1024) {
+          showToast('파일 크기는 10MB 이하만 가능합니다.', 'error');
+          fileInput.value = '';
+          fileName.textContent = '선택된 파일 없음 (최대 10MB)';
+          return;
+        }
+        fileName.textContent = f.name;
+      } else {
+        fileName.textContent = '선택된 파일 없음 (최대 10MB)';
+      }
+    });
+
+    // 드래그앤드롭 효과 구현
+    ['dragenter', 'dragover'].forEach(eventName => {
+      wrapper.addEventListener(eventName, (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        wrapper.classList.add('dragover');
+      }, false);
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+      wrapper.addEventListener(eventName, (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        wrapper.classList.remove('dragover');
+      }, false);
+    });
+
+    wrapper.addEventListener('drop', (e) => {
+      const dt = e.dataTransfer;
+      const files = dt.files;
+      if (files.length > 0) {
+        const f = files[0];
+        if (f.size > 10 * 1024 * 1024) {
+          showToast('파일 크기는 10MB 이하만 가능합니다.', 'error');
+          fileInput.value = '';
+          fileName.textContent = '선택된 파일 없음 (최대 10MB)';
+          return;
+        }
+        fileInput.files = files; // input에 파일 바인딩
+        fileName.textContent = f.name;
+      }
+    });
+
+    // 파일 업로드 박스 클릭 시 파일 선택
+    wrapper.addEventListener('click', (e) => {
+      if (e.target !== fileInput) {
+        fileInput.click();
+      }
+    });
+  }
+});
+
+// 완료 팝업 관련 전역 함수
+function showSuccessModal() {
+  const modal = document.getElementById('successModal');
+  if (modal) {
+    modal.classList.add('active');
+  }
+}
+
+function closeSuccessModal() {
+  const modal = document.getElementById('successModal');
+  if (modal) {
+    modal.classList.remove('active');
+  }
+}
+
+// ─── 서비스 선택 → 폼 스크롤 ──────────────────────────
+function selectService(serviceName) {
+  const select = document.getElementById('serviceSelect');
+  if (select) {
+    select.value = serviceName;
+  }
+  const formSection = document.getElementById('quote-form');
+  if (formSection) {
+    formSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}
+
+// ─── 견적 폼 제출 ──────────────────────────────────────
+function handleQuoteSubmit(event) {
+  event.preventDefault();
+
+  const companyName    = document.getElementById('companyName').value.trim();
+  const contactPerson  = document.getElementById('contactPerson').value.trim();
+  const contactPhone   = document.getElementById('contactPhone').value.trim();
+  const contactEmail   = document.getElementById('contactEmail').value.trim();
+  const serviceSelect  = document.getElementById('serviceSelect').value;
+  let specsInput       = document.getElementById('specsInput').value.trim();
+  const fileAttachment = document.getElementById('fileAttachment');
+
+  // 네이버 UTM 키워드가 세션에 저장되어 있으면 규격 끝에 자동으로 기입
+  const sessionTerm = sessionStorage.getItem('dhsteel_session_term');
+  if (sessionTerm) {
+    specsInput = (specsInput ? specsInput + '\n\n' : '') + `[네이버 광고 유입 키워드: ${sessionTerm}]`;
+  }
+
+  if (!companyName || !contactPerson || !contactPhone || !contactEmail || serviceSelect === "") {
+    showToast('필수 항목을 모두 입력해 주세요.', 'error');
+    return;
+  }
+
+  const phoneRegex = /^[\d\-+\s()]{8,20}$/;
+  if (!phoneRegex.test(contactPhone)) {
+    showToast('올바른 연락처 형식을 입력해 주세요.', 'error');
+    return;
+  }
+
+  const submitBtn = event.target.querySelector('button[type="submit"]');
+  const loading   = document.getElementById('loadingOverlay');
+
+  submitBtn.disabled = true;
+  submitBtn.textContent = '전송 중...';
+  if (loading) loading.classList.add('active');
+
+  // 배포된 구글 앱스 스크립트 웹앱 주소 (나중에 대표님이 배포한 실제 URL로 갱신 가능)
+  // 현재 스프레드시트의 웹앱 주소 (삼협/대흥 매칭되는 실제 앱 주소)
+  const GAS_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbwabxQZcdj-pBKeJckuy6mcHOjpWgPIQ2nfVwKq0Vypt8gG26OQfuM8vjTh4ez6jVA01Q/exec";
+
+  const payload = {
+    '회사명_현장명': companyName,
+    '담당자명': contactPerson,
+    '연락처': contactPhone,
+    '이메일': contactEmail,
+    '가공_서비스': serviceSelect,
+    '희망_규격_수량': specsInput || '(미입력)'
+  };
+
+  const sendRequest = (data) => {
+    // GAS CORS 이슈 방지용 파라미터 구성
+    const searchParams = new URLSearchParams();
+    for (const key in data) {
+      searchParams.append(key, data[key]);
+    }
+
+    fetch(GAS_WEBAPP_URL, {
+      method: 'POST',
+      mode: 'no-cors', // Apps Script 리다이렉트 대응
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      body: searchParams.toString()
+    })
+    .then(() => {
+      // no-cors 모드는 response.ok 체크가 불가능하여 통신 성공(catch 안 됨) 시 성공 처리
+      if (loading) loading.classList.remove('active');
+      fireConversion();
+      recordQuote(companyName, contactPerson, contactPhone, contactEmail, serviceSelect, specsInput);
+      showSuccessModal();
+      event.target.reset();
+      document.getElementById('fileName').textContent = '선택된 파일 없음 (최대 10MB)';
+    })
+    .catch(error => {
+      if (loading) loading.classList.remove('active');
+      console.error('Submit error:', error);
+
+      // Fallback: mailto
+      fireConversion();
+      const subject = encodeURIComponent(`[대흥정밀 견적문의] ${serviceSelect} - ${companyName}`);
+      const body = encodeURIComponent(
+        `회사명/현장명: ${companyName}\n담당자: ${contactPerson}\n연락처: ${contactPhone}\n이메일: ${contactEmail}\n가공 서비스: ${serviceSelect}\n규격/수량: ${specsInput || '미입력'}`
+      );
+      window.location.href = `mailto:daeheungsteel@naver.com?subject=${subject}&body=${body}`;
+      showToast('직접 메일을 통해 견적을 보내드리겠습니다.', 'error');
+    })
+    .finally(() => {
+      submitBtn.disabled = false;
+      submitBtn.textContent = '견적 문의 전송하기';
+    });
+  };
+
+  // 첨부파일 존재 시 Base64 변환 후 전송
+  if (fileAttachment && fileAttachment.files[0]) {
+    const file = fileAttachment.files[0];
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      payload.fileData = e.target.result;
+      payload.fileName = file.name;
+      payload.fileType = file.type;
+      sendRequest(payload);
+    };
+    reader.onerror = function() {
+      payload.fileData = '';
+      sendRequest(payload);
+    };
+    reader.readAsDataURL(file);
+  } else {
+    sendRequest(payload);
+  }
+}
+
+// ─── 대시보드 견적 기록 ────────────────────────────────────
+function recordQuote(company, name, phone, email, product, specs) {
+  try {
+    const ANALYTICS_KEY = 'dhsteel_analytics';
+    const raw = localStorage.getItem(ANALYTICS_KEY);
+    const data = raw ? JSON.parse(raw) : { visits: { google_ads: 0, search: 0, direct: 0 }, quotes: [] };
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const gclid = urlParams.get('gclid');
+    const utmSource = urlParams.get('utm_source') || '';
+    const referrer = document.referrer || '';
+    let source = 'direct';
+    if (gclid || utmSource.toLowerCase().includes('google')) source = 'google_ads';
+    else if (referrer && !referrer.includes(window.location.hostname)) source = 'search';
+
+    const nextId = data.quotes.length > 0 ? Math.max(...data.quotes.map(q => q.id)) + 1 : 1;
+    data.quotes.push({
+      id: nextId,
+      date: new Date().toISOString(),
+      company: company,
+      name: name,
+      phone: phone,
+      email: email,
+      product: product,
+      specs: specs || '',
+      source: source
+    });
+    localStorage.setItem(ANALYTICS_KEY, JSON.stringify(data));
+  } catch(e) {
+    console.warn('Quote recording error:', e);
+  }
+}
+
+// ─── 토스트 알림 ───────────────────────────────────────
+function showToast(message, type = 'success') {
+  let toast = document.getElementById('toastMsg');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = 'toastMsg';
+    toast.className = 'toast';
+    document.body.appendChild(toast);
+  }
+  toast.textContent = message;
+  toast.className = `toast ${type}`;
+  setTimeout(() => toast.classList.add('show'), 50);
+  setTimeout(() => {
+    toast.classList.remove('show');
+  }, 4000);
+}
+
+// ─── 헤더 스크롤 효과 ──────────────────────────────────
+window.addEventListener('scroll', () => {
+  const header = document.querySelector('.header');
+  if (header) {
+    header.style.boxShadow = window.scrollY > 10
+      ? '0 2px 20px rgba(0,0,0,0.3)'
+      : 'none';
+  }
+});
+
+// ─── 갤러리 탭 필터링 ──────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  const tabs  = document.querySelectorAll('.gallery-tab');
+  const items = document.querySelectorAll('.gallery-item');
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      // 탭 활성화
+      tabs.forEach(t => { t.classList.remove('active'); t.setAttribute('aria-selected', 'false'); });
+      tab.classList.add('active');
+      tab.setAttribute('aria-selected', 'true');
+
+      const filter = tab.dataset.filter;
+
+      // 아이템 필터링 (fade 효과를 위해 animation 재실행)
+      items.forEach(item => {
+        if (filter === 'all' || item.dataset.category === filter) {
+          item.classList.remove('hidden');
+          item.style.animation = 'none';
+          item.offsetHeight; // reflow
+          item.style.animation = '';
+        } else {
+          item.classList.add('hidden');
+        }
+      });
+    });
+  });
+
+  // ─── 갤러리 모달 ──────────────────────────────────────
+  const modal       = document.getElementById('galleryModal');
+  const modalImg    = document.getElementById('galleryModalImg');
+  const modalBadge  = document.getElementById('galleryModalBadge');
+  const modalTitle  = document.getElementById('galleryModalTitle');
+  const modalDesc   = document.getElementById('galleryModalDesc');
+  const modalQuote  = document.getElementById('galleryModalQuoteBtn');
+  const modalClose  = document.getElementById('galleryModalClose');
+  const modalBackdrop = document.getElementById('galleryModalBackdrop');
+
+  function openModal(item) {
+    const img = item.querySelector('.gallery-thumb img');
+    const badge = item.querySelector('.gallery-cat-badge');
+
+    modalImg.src    = item.dataset.largeImg ? item.dataset.largeImg : (img ? img.src : '');
+    modalImg.alt    = img ? img.alt : '';
+    modalBadge.textContent = badge ? badge.textContent : '';
+    modalTitle.textContent = item.dataset.title  || '';
+    modalDesc.textContent  = item.dataset.desc   || '';
+
+    const service = item.dataset.service || '';
+    modalQuote.onclick = () => {
+      closeModal();
+      selectService(service);
+    };
+
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    modal.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  // 갤러리 아이템 클릭 시 모달 열기
+  items.forEach(item => {
+    item.addEventListener('click', () => openModal(item));
+  });
+
+  // 닫기 버튼 및 배경 클릭
+  if (modalClose)   modalClose.addEventListener('click', closeModal);
+  if (modalBackdrop) modalBackdrop.addEventListener('click', closeModal);
+
+  // ESC 키로 닫기
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeModal();
+  });
+});
+
+// ─── 네이버 UTM 키워드 분석 및 세션 보존 ──────────────────
+(function() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const utmTerm = urlParams.get('utm_term');
+  if (utmTerm) {
+    sessionStorage.setItem('dhsteel_session_term', utmTerm);
+  }
+})();
+
+// ─── 대시보드 방문 기록 (dhsteel_analytics) ────────────────
+(function() {
+  try {
+    const ANALYTICS_KEY = 'dhsteel_analytics';
+    const raw = localStorage.getItem(ANALYTICS_KEY);
+    const data = raw ? JSON.parse(raw) : { visits: { google_ads: 0, search: 0, direct: 0 }, quotes: [] };
+
+    // 방문 소스 판별: gclid/utm_source=google → google_ads, referrer → search, 나머지 → direct
+    const urlParams = new URLSearchParams(window.location.search);
+    const gclid = urlParams.get('gclid');
+    const utmSource = urlParams.get('utm_source') || '';
+    const referrer = document.referrer || '';
+
+    let source = 'direct';
+    if (gclid || utmSource.toLowerCase().includes('google')) {
+      source = 'google_ads';
+    } else if (referrer && !referrer.includes(window.location.hostname)) {
+      source = 'search';
+    }
+
+    data.visits[source] = (data.visits[source] || 0) + 1;
+    localStorage.setItem(ANALYTICS_KEY, JSON.stringify(data));
+  } catch(e) {
+    console.warn('Analytics tracking error:', e);
+  }
+})();

@@ -1,0 +1,1318 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>대흥정밀 B2B 영업 자동화 종합 마스터 계획서 (2026 Master Plan)</title>
+  <style>
+    :root {
+      --primary: #1e40af;
+      --primary-light: #eff6ff;
+      --success: #15803d;
+      --success-light: #f0fdf4;
+      --danger: #b91c1c;
+      --danger-light: #fef2f2;
+      --warning: #b45309;
+      --warning-light: #fffbeb;
+      --border: #e2e8f0;
+      --text-main: #334155;
+      --text-heading: #0f172a;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "맑은 고딕", sans-serif;
+      line-height: 1.7;
+      color: var(--text-main);
+      max-width: 1140px;
+      margin: 36px auto;
+      padding: 0 20px;
+      background-color: var(--bg);
+    }
+
+    .card {
+      background: var(--card-bg);
+      padding: 32px 36px;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -2px rgba(0,0,0,0.05);
+      border: 1px solid var(--border);
+      margin-bottom: 24px;
+    }
+
+    .card.highlight-green { border-left: 5px solid #10b981; }
+    .card.highlight-blue { border-left: 5px solid #3b82f6; }
+    .card.highlight-purple { border-left: 5px solid #8b5cf6; }
+
+    h1 {
+      font-size: 26px;
+      color: var(--text-heading);
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 12px;
+      margin-top: 0;
+      letter-spacing: -0.5px;
+    }
+
+    h2 {
+      font-size: 18px;
+      color: #1e293b;
+      margin-top: 32px;
+      border-bottom: 1px solid #f1f5f9;
+      padding-bottom: 8px;
+    }
+
+    h3 {
+      font-size: 15px;
+      color: var(--text-heading);
+      margin-top: 22px;
+      font-weight: 700;
+    }
+
+    /* 네비게이션 앵커 바 */
+    .quick-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      background: #f1f5f9;
+      padding: 12px 16px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      font-size: 13px;
+    }
+    .quick-nav a {
+      color: #2563eb;
+      text-decoration: none;
+      font-weight: 600;
+      padding: 4px 10px;
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      transition: all 0.2s;
+    }
+    .quick-nav a:hover {
+      background: #2563eb;
+      color: #ffffff;
+      border-color: #2563eb;
+    }
+
+    .meta-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13.5px;
+      margin: 16px 0;
+    }
+    .meta-table th, .meta-table td {
+      border: 1px solid var(--border);
+      padding: 8px 12px;
+      text-align: left;
+    }
+    .meta-table th {
+      background-color: #f8fafc;
+      font-weight: 600;
+      color: #475569;
+      white-space: nowrap;
+      width: 140px;
+    }
+    .meta-table td { color: var(--text-main); }
+    .meta-table a { color: #2563eb; text-decoration: none; font-weight: 600; }
+    .meta-table a:hover { text-decoration: underline; }
+
+    /* 통계 KPI 요약 카드 */
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 14px;
+      margin: 20px 0;
+    }
+    .summary-card {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px 12px;
+      text-align: center;
+    }
+    .summary-card .num {
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--primary);
+    }
+    .summary-card .num.red { color: var(--danger); }
+    .summary-card .num.green { color: var(--success); }
+    .summary-card .num.orange { color: var(--warning); }
+    .summary-card .label {
+      font-size: 11.5px;
+      color: #64748b;
+      margin-top: 4px;
+    }
+
+    /* 타임라인 그리드 */
+    .timeline {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(95px, 1fr));
+      gap: 8px;
+      margin: 16px 0;
+    }
+    .tl-item {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 6px;
+      text-align: center;
+      position: relative;
+    }
+    .tl-item.done { background: var(--success-light); border-color: #86efac; }
+    .tl-item.active { background: var(--primary-light); border-color: #93c5fd; }
+    .tl-item.plan { background: var(--warning-light); border-color: #fde047; }
+    .tl-num { font-size: 15px; font-weight: 700; color: #1e293b; }
+    .tl-item.done .tl-num { color: var(--success); }
+    .tl-item.active .tl-num { color: #1d4ed8; }
+    .tl-item.plan .tl-num { color: #92400e; }
+    .tl-label { font-size: 11px; color: #64748b; margin-top: 2px; }
+    .tl-badge {
+      display: inline-block;
+      font-size: 9.5px;
+      font-weight: 600;
+      border-radius: 10px;
+      padding: 1px 6px;
+      margin-top: 4px;
+    }
+    .badge-done { background: #dcfce7; color: var(--success); }
+    .badge-active { background: #dbeafe; color: #1d4ed8; }
+    .badge-plan { background: #fef9c3; color: #92400e; }
+
+    /* 알림 박스 (Callout) */
+    .callout {
+      background: #f1f5f9;
+      border-left: 4px solid #3b82f6;
+      padding: 14px 18px;
+      border-radius: 0 8px 8px 0;
+      margin: 16px 0;
+      font-size: 13.5px;
+      line-height: 1.6;
+    }
+    .callout.danger { background: var(--danger-light); border-left-color: #ef4444; color: #991b1b; }
+    .callout.success { background: var(--success-light); border-left-color: #22c55e; color: #166534; }
+    .callout.warning { background: var(--warning-light); border-left-color: #f59e0b; color: #92400e; }
+    .info-box {
+      background: #eff6ff;
+      border-left: 4px solid #3b82f6;
+      border-radius: 4px;
+      padding: 12px 16px;
+      font-size: 13px;
+      color: #1e3a8a;
+      margin: 14px 0;
+    }
+
+    /* 테이블 스타일 */
+    table.data-table, table.err-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      margin: 14px 0;
+    }
+    table.data-table th, table.data-table td,
+    table.err-table th, table.err-table td {
+      border: 1px solid var(--border);
+      padding: 8px 12px;
+      text-align: left;
+    }
+    table.data-table th, table.err-table th {
+      background: #f8fafc;
+      font-weight: 600;
+      color: #475569;
+    }
+    .badge-dns { background: #fef3c7; color: #92400e; padding: 2px 8px; border-radius: 8px; font-size: 11px; font-weight: 600; }
+    .badge-550 { background: #fee2e2; color: #b91c1c; padding: 2px 8px; border-radius: 8px; font-size: 11px; font-weight: 600; }
+    .badge-ok  { background: #dcfce7; color: #15803d; padding: 2px 8px; border-radius: 8px; font-size: 11px; font-weight: 600; }
+
+    /* 태스크 체크리스트 인터랙션 */
+    .task-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 9px;
+      flex-wrap: nowrap;
+      width: 100%;
+    }
+    .task-item.completed .task-text {
+      text-decoration: line-through;
+      opacity: 0.6;
+    }
+    .task-item input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+      flex-shrink: 0;
+      accent-color: #2563eb;
+    }
+    .task-text {
+      flex: 1;
+      font-size: 13.5px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .task-text a {
+      color: #2563eb;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .task-text a:hover { text-decoration: underline; }
+
+    .task-date-input {
+      font-size: 11px;
+      border: 1px solid #cbd5e1;
+      border-radius: 4px;
+      padding: 2px 5px;
+      color: #475569;
+      background-color: #f8fafc;
+      outline: none;
+      width: 115px;
+      flex-shrink: 0;
+    }
+    .task-memo-input {
+      font-size: 11px;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 2px 8px;
+      color: var(--text-main);
+      background-color: #ffffff;
+      outline: none;
+      width: 270px;
+      flex-shrink: 0;
+      transition: border-color 0.2s;
+    }
+    .task-memo-input:focus { border-color: #3b82f6; }
+
+    ul.plain { list-style: none; padding-left: 0; margin: 8px 0; }
+    hr.section-divider {
+      border: 0;
+      height: 1px;
+      background: #cbd5e1;
+      margin: 36px 0;
+    }
+
+    .progress-bar-wrap {
+      background: #e2e8f0;
+      border-radius: 99px;
+      height: 10px;
+      margin: 8px 0 14px;
+      overflow: hidden;
+    }
+    .progress-bar {
+      height: 100%;
+      border-radius: 99px;
+      background: linear-gradient(90deg, #2563eb, #60a5fa);
+    }
+
+    @media print {
+      body { background: white; max-width: 100%; }
+      .card { box-shadow: none; border: 1px solid #ccc; }
+      .quick-nav { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ========================================== -->
+  <!-- 0. 최상단 네비게이션 & 마스터 메타 정보 -->
+  <!-- ========================================== -->
+  <div class="card">
+    <h1>대흥정밀 B2B 영업 마케팅 종합 마스터 계획서 (2026 Master Plan)</h1>
+    <p style="color:#64748b;font-size:13.5px;margin-top:-6px;">
+      소구경 파이프 인발·벤딩·스웨이징·포밍 B2B 아웃바운드 통합 로드맵 | 최종 갱신: 2026-10-19
+    </p>
+
+    <div class="quick-nav">
+      <a href="#sec-summary">📊 총괄 KPI</a>
+      <a href="#sec-part1">📬 PART 1: 1차 이메일 캠페인 & 에러 정제</a>
+      <a href="#sec-part2">🏗️ PART 2: 인프라 구축 WBS (PHASE 1~9)</a>
+      <a href="#sec-part3">📠 PART 3: 팩스 발송 & DB 정돈 (PHASE 10~12)</a>
+      <a href="#sec-part4">🎯 PART 4: 실수요처 정밀 크롤링 (PHASE 13)</a>
+      <a href="#sec-sop">📋 PART 5: 정기 발송 표준 프로세스(SOP)</a>
+      <a href="#sec-links">📁 관련 파일 및 링크</a>
+    </div>
+
+    <table class="meta-table">
+      <tr>
+        <th>프로젝트명</th>
+        <td>대흥정밀(DH Steel) B2B 영업 자동화 & 다각화 마케팅 프로젝트</td>
+        <th>총괄 관리</th>
+        <td>Antigravity Agentic AI Assistant & 대표 운영진</td>
+      </tr>
+      <tr>
+        <th>영업 대상</th>
+        <td>특장차·농기계, 산업보일러·열교환기, 자동화기계, 헬스기구, 도로시설물 제조사</td>
+        <th>운영 인프라</th>
+        <td>Vercel (모바일웹/대시보드), Google Apps Script, 샌드랩스 대량팩스 API</td>
+      </tr>
+      <tr>
+        <th>구글 스프레드시트</th>
+        <td colspan="3">
+          <a href="https://docs.google.com/spreadsheets/d/1kEdvR2hLPBc60vkNwq_ArqOGn0In5J-nN2LCoj2tMic/edit" target="_blank">
+            builder-dhsteel-data (company: 162개사 | company_exception: 138개사 | fax_log: 82건 | mail_log: 167건)
+          </a>
+        </td>
+      </tr>
+    </table>
+
+    <div id="sec-summary" class="summary-grid">
+      <div class="summary-card">
+        <div class="num">13개</div>
+        <div class="label">전체 WBS PHASE</div>
+      </div>
+      <div class="summary-card">
+        <div class="num green">162곳</div>
+        <div class="label">순수 고객 영업 DB (company)</div>
+      </div>
+      <div class="summary-card">
+        <div class="num red">138곳</div>
+        <div class="label">격리된 동종업체 (exception)</div>
+      </div>
+      <div class="summary-card">
+        <div class="num green">18건</div>
+        <div class="label">팩스 누적 정상수신 (총 67건 발송)</div>
+      </div>
+      <div class="summary-card">
+        <div class="num green">450원</div>
+        <div class="label">팩스 누적 실청구액 (실패 100% 환불)</div>
+      </div>
+      <div class="summary-card">
+        <div class="num">41.4%</div>
+        <div class="label">1차 이메일 오픈율 (82개사 확인)</div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ========================================== -->
+  <!-- [PART 1] 1차 이메일 캠페인 실적 및 에러 분석 -->
+  <!-- (builder-dhsteel-sales_plan_2026_1st.html 완전 통합) -->
+  <!-- ========================================== -->
+  <div class="card highlight-blue" id="sec-part1">
+    <h2>📬 [PART 1] 1차 B2B 이메일 캠페인 완결 성과 및 채널 다각화 경과</h2>
+    <div class="callout success">
+      <strong>✨ 1차 이메일 캠페인(1~10일차, 198개사 발송) 총괄 결산</strong><br>
+      • <strong>오픈율 41.4% (82개사 오픈)</strong> / <strong>클릭률 11.6% (23개사 모바일 카탈로그 방문)</strong>를 기록하여 B2B 제조업 평균치(15~20%) 대비 2배 이상의 높은 초기 관심도를 입증함.<br>
+      • 반송 및 오류 메일 48건(24.2%)을 정밀 분류하여 폐기 또는 팩스/TM 오프라인 채널로 피벗 전환 완료.
+    </div>
+
+    <h3>📅 1차 발송 회차 타임라인 (10일차 완결)</h3>
+    <div class="timeline">
+      <div class="tl-item done"><div class="tl-num">1일차</div><div class="tl-label">09-07</div><span class="tl-badge badge-done">완료</span></div>
+      <div class="tl-item done"><div class="tl-num">2일차</div><div class="tl-label">09-07</div><span class="tl-badge badge-done">완료</span></div>
+      <div class="tl-item done"><div class="tl-num">3일차</div><div class="tl-label">09-07</div><span class="tl-badge badge-done">완료</span></div>
+      <div class="tl-item done"><div class="tl-num">4일차</div><div class="tl-label">09-07</div><span class="tl-badge badge-done">완료</span></div>
+      <div class="tl-item done"><div class="tl-num">5일차</div><div class="tl-label">09-08</div><span class="tl-badge badge-done">완료</span></div>
+      <div class="tl-item done"><div class="tl-num">6일차</div><div class="tl-label">09-09</div><span class="tl-badge badge-done">완료</span></div>
+      <div class="tl-item done"><div class="tl-num">7일차</div><div class="tl-label">09-11</div><span class="tl-badge badge-done">완료</span></div>
+      <div class="tl-item done"><div class="tl-num">8일차</div><div class="tl-label">09-14</div><span class="tl-badge badge-done">완료</span></div>
+      <div class="tl-item done"><div class="tl-num">9일차</div><div class="tl-label">09-16</div><span class="tl-badge badge-done">완료</span></div>
+      <div class="tl-item done"><div class="tl-num">10일차</div><div class="tl-label">09-18</div><span class="tl-badge badge-done">완결</span></div>
+    </div>
+    <div class="progress-bar-wrap">
+      <div class="progress-bar" style="width:100%"></div>
+    </div>
+    <p style="font-size:12px;color:#15803d;text-align:right;margin-top:-10px;font-weight:600;">1차 캠페인 진행률 10/10 (100% 완료)</p>
+
+    <h3>🚫 누적 에러 메일 분석 및 처리 방향</h3>
+    <table class="err-table">
+      <thead>
+        <tr>
+          <th>에러 유형</th>
+          <th>기술적 원인 및 의미</th>
+          <th>조치 및 처리 방향</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="badge-dns">DNS NXDOMAIN</span></td>
+          <td>도메인 자체가 존재하지 않음 (폐쇄 몰, 오타 도메인)</td>
+          <td>업체 홈페이지/포털에서 정확한 최신 이메일 재수집 또는 팩스 전환</td>
+        </tr>
+        <tr>
+          <td><span class="badge-550">550 5.1.1</span></td>
+          <td>도메인은 정상이나 해당 메일 계정이 삭제/퇴사됨</td>
+          <td>대표 이메일(info@, master@) 또는 영업/구매 담당자 이메일 재확인</td>
+        </tr>
+        <tr>
+          <td><span class="badge-ok">수신 성공</span></td>
+          <td>Gmail API 정상 도달 및 오픈/클릭 추적기 연동</td>
+          <td>수신 성공 DB 보존 및 2~3주 주기 리사이클링 케어 발송 연계</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>📋 1차 캠페인 주요 에러 표본 목록</h3>
+    <table class="err-table">
+      <thead>
+        <tr><th>#</th><th>업체명</th><th>발송 시도 이메일</th><th>에러 분류</th><th>최종 전환 조치</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td>한국철강</td><td>ygd1201@seunsteel.co</td><td><span class="badge-dns">DNS</span></td><td>오프라인 팩스 채널로 전환</td></tr>
+        <tr><td>2</td><td>욱일레이저</td><td>wookil_laser@naver.com</td><td><span class="badge-550">550</span></td><td>대표전화 문의 및 팩스 제안서 전환</td></tr>
+        <tr><td>3</td><td>은성철강</td><td>3663780_@naver.com</td><td><span class="badge-550">550</span></td><td>이메일 형식 오류 정제 및 팩스 발송</td></tr>
+        <tr><td>4</td><td>태흥철강</td><td>taeheung-inc@naver.com</td><td><span class="badge-550">550</span></td><td>팩스 채널로 전환</td></tr>
+        <tr><td>5</td><td>튼튼철강</td><td>park0817@nts.go</td><td><span class="badge-dns">DNS</span></td><td>비정상 공공 도메인 즉시 삭제</td></tr>
+        <tr><td>6</td><td>진흥레이저</td><td>auto@gjto.or</td><td><span class="badge-dns">DNS</span></td><td>외부 공공기관 도메인 폐기 및 팩스 전환</td></tr>
+        <tr><td>7</td><td>은성파이프레이저</td><td>eunsungpipelaser@naver.com</td><td><span class="badge-550">550</span></td><td>동종업체 필터링 후 exception 격리</td></tr>
+      </tbody>
+    </table>
+
+    <hr class="section-divider">
+
+    <h3>🗺️ 1차 완료 후 2단계 실행 계획 (태스크 13개)</h3>
+    <ul class="plain">
+      <li class="task-item"><input type="checkbox" id="t-send-10"><span class="task-text">9~10일차 1차 발송 마무리 완료 (company 시트 전수 반영)</span><input type="date" class="task-date-input" id="t-send-10-date"><input type="text" class="task-memo-input" id="t-send-10-memo"></li>
+      <li class="task-item"><input type="checkbox" id="t-sync-log"><span class="task-text">mail_log → company 시트 간 발송 이력 양방향 동기화 완료</span><input type="date" class="task-date-input" id="t-sync-log-date"><input type="text" class="task-memo-input" id="t-sync-log-memo"></li>
+      <li class="task-item"><input type="checkbox" id="t-err-check"><span class="task-text">에러 업체 48개사 목록 정리 및 대시보드 에러 리포트 연동</span><input type="date" class="task-date-input" id="t-err-check-date"><input type="text" class="task-memo-input" id="t-err-check-memo"></li>
+      <li class="task-item"><input type="checkbox" id="t-err-dns"><span class="task-text">DNS 오류 업체: 포털 사이트/사업자 정보 기반 정확한 메일 재검증</span><input type="date" class="task-date-input" id="t-err-dns-date"><input type="text" class="task-memo-input" id="t-err-dns-memo"></li>
+      <li class="task-item"><input type="checkbox" id="t-err-550"><span class="task-text">550 오류 업체: 대표번호 유선 확인 또는 홈페이지 Contact 수집</span><input type="date" class="task-date-input" id="t-err-550-date"><input type="text" class="task-memo-input" id="t-err-550-memo"></li>
+      <li class="task-item"><input type="checkbox" id="t-err-update"><span class="task-text">company 시트 F열(이메일) 수정 및 재발송 대상 차수 업데이트</span><input type="date" class="task-date-input" id="t-err-update-date"><input type="text" class="task-memo-input" id="t-err-update-memo"></li>
+      <li class="task-item"><input type="checkbox" id="t-new-collect"><span class="task-text">신규 파이프 임가공/실수요 제조사 타깃 크롤링 수집 추진</span><input type="date" class="task-date-input" id="t-new-collect-date"><input type="text" class="task-memo-input" id="t-new-collect-memo"></li>
+      <li class="task-item"><input type="checkbox" id="t-new-dedup"><span class="task-text">기존 company 시트 사업자등록번호 및 대표번호 기준 중복 제거</span><input type="date" class="task-date-input" id="t-new-dedup-date"><input type="text" class="task-memo-input" id="t-new-dedup-memo"></li>
+      <li class="task-item"><input type="checkbox" id="t-new-email"><span class="task-text">신규 업체 공식 이메일 유효성 검사 (도메인 MX 레코드 확인)</span><input type="date" class="task-date-input" id="t-new-email-date"><input type="text" class="task-memo-input" id="t-new-email-memo"></li>
+      <li class="task-item"><input type="checkbox" id="t-new-quality"><span class="task-text">품질 등급 분류 (상/중/하) 및 발송 우선순위 스코어링 부여</span><input type="date" class="task-date-input" id="t-new-quality-date"><input type="text" class="task-memo-input" id="t-new-quality-memo"></li>
+      <li class="task-item"><input type="checkbox" id="t-2nd-template"><span class="task-text">2차 메일 제안서 템플릿 개정 (1차 반응률 기반 가공 단가표/CAD 강조)</span><input type="date" class="task-date-input" id="t-2nd-template-date"><input type="text" class="task-memo-input" id="t-2nd-template-memo"></li>
+      <li class="task-item"><input type="checkbox" id="t-2nd-send"><span class="task-text">2차 정기 캠페인 발송 가동 (월 2회 1일, 15일 분산 정례화)</span><input type="date" class="task-date-input" id="t-2nd-send-date"><input type="text" class="task-memo-input" id="t-2nd-send-memo"></li>
+      <li class="task-item"><input type="checkbox" id="t-2nd-inquiry"><span class="task-text">인바운드 문의 접수 모니터링 (홈페이지 견적 문의 및 전화 응대)</span><input type="date" class="task-date-input" id="t-2nd-inquiry-date"><input type="text" class="task-memo-input" id="t-2nd-inquiry-memo"></li>
+    </ul>
+
+    <hr class="section-divider">
+
+    <h3>🚀 1차 캠페인 3단계 영업 채널 다각화 (팩스 / 리사이클링 / TM 히스토리)</h3>
+    <ul class="plain">
+      <li class="task-item"><input type="checkbox" id="t-fax-doc"><span class="task-text">A4 1장 [대흥정밀 파이프 가공 팩스 제안서] 제작 (흑백 최적화, CAD 도면 투명 크롭)</span><input type="date" class="task-date-input" id="t-fax-doc-date"><input type="text" class="task-memo-input" id="t-fax-doc-memo"></li>
+      <li class="task-item"><input type="checkbox" id="t-fax-excel"><span class="task-text">샌드랩스 대량 팩스 엑셀/CSV 생성 및 구글 시트 fax_log 실시간 연동 체계 구축</span><input type="date" class="task-date-input" id="t-fax-excel-date"><input type="text" class="task-memo-input" id="t-fax-excel-memo"></li>
+      <li class="task-item"><input type="checkbox" id="t-fax-send"><span class="task-text">샌드랩스 대량 팩스 1~3차 정기 발송 완료 (총 42건 중 정상 수신 11건)</span><input type="date" class="task-date-input" id="t-fax-send-date"><input type="text" class="task-memo-input" id="t-fax-send-memo"></li>
+      <li class="task-item"><input type="checkbox" id="t-fax-dashboard"><span class="task-text">대시보드(index_dashboard.html) B2B 팩스 전용 모니터링 뷰(KPI, 도넛 차트, 피드) 구축</span><input type="date" class="task-date-input" id="t-fax-dashboard-date"><input type="text" class="task-memo-input" id="t-fax-dashboard-memo"></li>
+      <li class="task-item"><input type="checkbox" id="t-fax-report"><span class="task-text">팩스 전용 보고서 페이지(fax/fax_report.html) 구축 (A4 인쇄/PDF/PNG 저장 기능)</span><input type="date" class="task-date-input" id="t-fax-report-date"><input type="text" class="task-memo-input" id="t-fax-report-memo"></li>
+      <li class="task-item"><input type="checkbox" id="t-fax-filter"><span class="task-text">동종 업체 1차 필터링: 회사명 중 '벤딩', '밴딩', '축관' 포함 58개사 제외 플래그 지정</span><input type="date" class="task-date-input" id="t-fax-filter-date"><input type="text" class="task-memo-input" id="t-fax-filter-memo"></li>
+      <li class="task-item"><input type="checkbox" id="t-email-purge"><span class="task-text">크롤링 이메일 중 블로그 추정 메일 전량 폐기 및 비정상 계정 영구 제거 완료</span><input type="date" class="task-date-input" id="t-email-purge-date"><input type="text" class="task-memo-input" id="t-email-purge-memo"></li>
+      <li class="task-item"><input type="checkbox" id="t-email-recycle-send"><span class="task-text">수신 성공 확인된 150여 개사 대상 2~3주 간격 순환 케어 메일 발송 운영</span><input type="date" class="task-date-input" id="t-email-recycle-send-date"><input type="text" class="task-memo-input" id="t-email-recycle-send-memo"></li>
+      <li class="task-item"><input type="checkbox" id="t-tm-list"><span class="task-text">축관/포밍/스웨이징 핵심 target 20~30개사 별도 추출 (동종업체 제외)</span><input type="date" class="task-date-input" id="t-tm-list-date"><input type="text" class="task-memo-input" id="t-tm-list-memo"></li>
+      <li class="task-item"><input type="checkbox" id="t-tm-call"><span class="task-text">TM(전화 콜) 수행: 파이프 축관/포밍 외주 단가표 전달용 구매담당자 직통 메일 확보</span><input type="date" class="task-date-input" id="t-tm-call-date"><input type="text" class="task-memo-input" id="t-tm-call-memo"></li>
+      <li class="task-item"><input type="checkbox" id="t-tm-log"><span class="task-text">TM 통화 결과 및 담당자 확보 내역 구글 시트 company 비고란 연동</span><input type="date" class="task-date-input" id="t-tm-log-date"><input type="text" class="task-memo-input" id="t-tm-log-memo"></li>
+    </ul>
+  </div>
+
+
+  <!-- ========================================== -->
+  <!-- [PART 2] 인프라 구축 마스터 WBS (PHASE 1 ~ 9) -->
+  <!-- (dhsteel_plan_20260831_0249pm.html 완전 통합) -->
+  <!-- ========================================== -->
+  <div class="card" id="sec-part2">
+    <h2>🏗️ [PART 2] B2B 영업 마케팅 인프라 구축 마스터 WBS (PHASE 1 ~ 9)</h2>
+    <div class="info-box">
+      💡 대흥정밀의 온라인 고객 접점(모바일 웹 카탈로그, SEO, 이메일 자동발송, 대시보드, 타깃 블로그) 구축 단계별 상세 WBS입니다.
+    </div>
+
+    <!-- PHASE 1 -->
+    <h3>1️⃣ PHASE 1 — 모바일 웹 카탈로그 구축 및 SEO 최적화</h3>
+    <ul class="plain">
+      <li class="task-item"><input type="checkbox" id="ph1-hero"><span class="task-text">히어로 섹션 CTA 및 주요 가공 서비스 배치</span><input type="date" class="task-date-input" id="ph1-hero-date"><input type="text" class="task-memo-input" id="ph1-hero-memo"></li>
+      <li class="task-item"><input type="checkbox" id="ph1-spec"><span class="task-text">가공 스펙 spec_01~04 4장 배치</span><input type="date" class="task-date-input" id="ph1-spec-date"><input type="text" class="task-memo-input" id="ph1-spec-memo"></li>
+      <li class="task-item"><input type="checkbox" id="ph1-services"><span class="task-text">스웨이징/벤딩/포밍/인발/주문제작 5개 카드 완성</span><input type="date" class="task-date-input" id="ph1-services-date"><input type="text" class="task-memo-input" id="ph1-services-memo"></li>
+      <li class="task-item"><input type="checkbox" id="ph1-gallery"><span class="task-text">실제 제품 갤러리 41장 탭별 분류 배치</span><input type="date" class="task-date-input" id="ph1-gallery-date"><input type="text" class="task-memo-input" id="ph1-gallery-memo"></li>
+      <li class="task-item"><input type="checkbox" id="ph1-whyus"><span class="task-text">대흥정밀 강점 3가지 섹션 완성</span><input type="date" class="task-date-input" id="ph1-whyus-date"><input type="text" class="task-memo-input" id="ph1-whyus-memo"></li>
+      <li class="task-item"><input type="checkbox" id="ph1-quoteform"><span class="task-text">견적 문의 폼 필드 완성</span><input type="date" class="task-date-input" id="ph1-quoteform-date"><input type="text" class="task-memo-input" id="ph1-quoteform-memo"></li>
+      <li class="task-item"><input type="checkbox" id="ph1-responsive"><span class="task-text">모바일/태블릿/PC 전 해상도 반응형 검증</span><input type="date" class="task-date-input" id="ph1-responsive-date"><input type="text" class="task-memo-input" id="ph1-responsive-memo"></li>
+      <li class="task-item"><input type="checkbox" id="ph1-pwa"><span class="task-text">manifest.json + PWA 아이콘 등록</span><input type="date" class="task-date-input" id="ph1-pwa-date"><input type="text" class="task-memo-input" id="ph1-pwa-memo"></li>
+      <li class="task-item"><input type="checkbox" id="ph1-formsubmit"><span class="task-text">Formspree AJAX 견적 전송 연동</span><input type="date" class="task-date-input" id="ph1-formsubmit-date"><input type="text" class="task-memo-input" id="ph1-formsubmit-memo"></li>
+      <li class="task-item"><input type="checkbox" id="ph1-mailto-fallback"><span class="task-text">mailto: 자동 폴백 연동</span><input type="date" class="task-date-input" id="ph1-mailto-fallback-date"><input type="text" class="task-memo-input" id="ph1-mailto-fallback-memo"></li>
+      <li class="task-item"><input type="checkbox" id="ph1-utm"><span class="task-text">광고 UTM 파라미터 자동 바인딩</span><input type="date" class="task-date-input" id="ph1-utm-date"><input type="text" class="task-memo-input" id="ph1-utm-memo"></li>
+      <li class="task-item"><input type="checkbox" id="ph1-toast"><span class="task-text">토스트 알림 팝업 연동</span><input type="date" class="task-date-input" id="ph1-toast-date"><input type="text" class="task-memo-input" id="ph1-toast-memo"></li>
+      <li class="task-item"><input type="checkbox" id="ph1-loading"><span class="task-text">로딩 스피너 연동</span><input type="date" class="task-date-input" id="ph1-loading-date"><input type="text" class="task-memo-input" id="ph1-loading-memo"></li>
+      <li class="task-item"><input type="checkbox" id="ph1-filecheck"><span class="task-text">10MB 파일 검사 완료</span><input type="date" class="task-date-input" id="ph1-filecheck-date"><input type="text" class="task-memo-input" id="ph1-filecheck-memo"></li>
+      <li class="task-item"><input type="checkbox" id="ph1-servicelink"><span class="task-text">서비스 카드 클릭 견적 자동 연동</span><input type="date" class="task-date-input" id="ph1-servicelink-date"><input type="text" class="task-memo-input" id="ph1-servicelink-memo"></li>
+      <li class="task-item"><input type="checkbox" id="ph1-title"><span class="task-text">모바일 카탈로그 Title 태그 최적화 완료</span><input type="date" class="task-date-input" id="ph1-title-date"><input type="text" class="task-memo-input" id="ph1-title-memo"></li>
+      <li class="task-item"><input type="checkbox" id="ph1-meta-desc"><span class="task-text">Meta Description 150자 작성</span><input type="date" class="task-date-input" id="ph1-meta-desc-date"><input type="text" class="task-memo-input" id="ph1-meta-desc-memo"></li>
+      <li class="task-item"><input type="checkbox" id="ph1-canonical"><span class="task-text">Canonical URL 설정</span><input type="date" class="task-date-input" id="ph1-canonical-date"><input type="text" class="task-memo-input" id="ph1-canonical-memo"></li>
+      <li class="task-item"><input type="checkbox" id="ph1-keywords"><span class="task-text">Meta Keywords 10개 최적화</span><input type="date" class="task-date-input" id="ph1-keywords-date"><input type="text" class="task-memo-input" id="ph1-keywords-memo"></li>
+      <li class="task-item"><input type="checkbox" id="ph1-og"><span class="task-text">OG 메타데이터 및 SNS 카드 완성</span><input type="date" class="task-date-input" id="ph1-og-date"><input type="text" class="task-memo-input" id="ph1-og-memo"></li>
+      <li class="task-item"><input type="checkbox" id="ph1-schema"><span class="task-text">JSON-LD 구조화 데이터 적용</span><input type="date" class="task-date-input" id="ph1-schema-date"><input type="text" class="task-memo-input" id="ph1-schema-memo"></li>
+      <li class="task-item"><input type="checkbox" id="ph1-contact"><span class="task-text">전화걸기 CTA 플로팅 바 연동</span><input type="date" class="task-date-input" id="ph1-contact-date"><input type="text" class="task-memo-input" id="ph1-contact-memo"></li>
+      <li class="task-item"><input type="checkbox" id="ph1-cad"><span class="task-text">흑백 CAD 기술 도면 3열 갤러리 추가 완료</span><input type="date" class="task-date-input" id="ph1-cad-date"><input type="text" class="task-memo-input" id="ph1-cad-memo"></li>
+    </ul>
+
+    <!-- PHASE 2 -->
+    <h3>2️⃣ PHASE 2 — 아웃바운드 이메일 발송 자동화 시스템 구축</h3>
+    <ul class="plain">
+      <li class="task-item"><input type="checkbox" id="ph2-onopen"><span class="task-text">GAS 아웃바운드 커스텀 메뉴 생성</span><input type="date" class="task-date-input" id="ph2-onopen-date"><input type="text" class="task-memo-input" id="ph2-onopen-memo"></li>
+      <li class="task-item"><input type="checkbox" id="ph2-header-parse"><span class="task-text">헤더명 기반 자동 열 탐지 완료</span><input type="date" class="task-date-input" id="ph2-header-parse-date"><input type="text" class="task-memo-input" id="ph2-header-parse-memo"></li>
+      <li class="task-item"><input type="checkbox" id="ph2-checkbox-pick"><span class="task-text">A열 체크박스 TRUE 필터링 연동</span><input type="date" class="task-date-input" id="ph2-checkbox-pick-date"><input type="text" class="task-memo-input" id="ph2-checkbox-pick-memo"></li>
+      <li class="task-item"><input type="checkbox" id="ph2-confirm"><span class="task-text">발송 전 안전 확인 다이얼로그 연동</span><input type="date" class="task-date-input" id="ph2-confirm-date"><input type="text" class="task-memo-input" id="ph2-confirm-memo"></li>
+      <li class="task-item"><input type="checkbox" id="ph2-template-load"><span class="task-text">Vercel 원격 템플릿 로드 완료</span><input type="date" class="task-date-input" id="ph2-template-load-date"><input type="text" class="task-memo-input" id="ph2-template-load-memo"></li>
+      <li class="task-item"><input type="checkbox" id="ph2-inline-images"><span class="task-text">CID 인라인 이미지 연동 완료</span><input type="date" class="task-date-input" id="ph2-inline-images-date"><input type="text" class="task-memo-input" id="ph2-inline-images-memo"></li>
+      <li class="task-item"><input type="checkbox" id="ph2-personalize"><span class="task-text">회사명 및 담당자 치환 태그 연동</span><input type="date" class="task-date-input" id="ph2-personalize-date"><input type="text" class="task-memo-input" id="ph2-personalize-memo"></li>
+      <li class="task-item"><input type="checkbox" id="ph2-template"><span class="task-text">반응형 HTML 이메일 템플릿 제작</span><input type="date" class="task-date-input" id="ph2-template-date"><input type="text" class="task-memo-input" id="ph2-template-memo"></li>
+      <li class="task-item"><input type="checkbox" id="ph2-tracker"><span class="task-text">FastViz 실시간 오픈/클릭 추적기 연동</span><input type="date" class="task-date-input" id="ph2-tracker-date"><input type="text" class="task-memo-input" id="ph2-tracker-memo"></li>
+      <li class="task-item"><input type="checkbox" id="ph2-campaign1"><span class="task-text">198개사 1차 캠페인 완결 (오픈 41.4%, 클릭 11.6%)</span><input type="date" class="task-date-input" id="ph2-campaign1-date"><input type="text" class="task-memo-input" id="ph2-campaign1-memo"></li>
+      <li class="task-item"><input type="checkbox" id="ph2-error-clean"><span class="task-text">에러 메일 48건 정제 및 오프라인 채널 전환 수립</span><input type="date" class="task-date-input" id="ph2-error-clean-date"><input type="text" class="task-memo-input" id="ph2-error-clean-memo"></li>
+    </ul>
+
+    <!-- PHASE 3 -->
+    <h3>3️⃣ PHASE 3 — 발송 계정 및 인프라 구축</h3>
+    <ul class="plain">
+      <li class="task-item"><input type="checkbox" id="ph3-gmail"><span class="task-text">Google Apps Script 대량 발송 파이프라인 연동</span><input type="date" class="task-date-input" id="ph3-gmail-date"><input type="text" class="task-memo-input" id="ph3-gmail-memo"></li>
+      <li class="task-item"><input type="checkbox" id="ph3-naver"><span class="task-text">dhpipe8203@naver.com 대표 수신 분리 운영</span><input type="date" class="task-date-input" id="ph3-naver-date"><input type="text" class="task-memo-input" id="ph3-naver-memo"></li>
+      <li class="task-item"><input type="checkbox" id="ph3-spf"><span class="task-text">Gmail 계정 SPF/DKIM 스팸 회피 설정 점검</span><input type="date" class="task-date-input" id="ph3-spf-date"><input type="text" class="task-memo-input" id="ph3-spf-memo"></li>
+      <li class="task-item"><input type="checkbox" id="ph3-quota"><span class="task-text">일일 100건 발송 쿼터 안전 분산 발송 로직 적용</span><input type="date" class="task-date-input" id="ph3-quota-date"><input type="text" class="task-memo-input" id="ph3-quota-memo"></li>
+    </ul>
+
+    <!-- PHASE 4 -->
+    <h3>4️⃣ PHASE 4 — 성과 측정 대시보드 구축</h3>
+    <ul class="plain">
+      <li class="task-item"><input type="checkbox" id="ph4-dash"><span class="task-text">index_dashboard.html 실시간 반응형 통합 대시보드 구축</span><input type="date" class="task-date-input" id="ph4-dash-date"><input type="text" class="task-memo-input" id="ph4-dash-memo"></li>
+      <li class="task-item"><input type="checkbox" id="ph4-vercel"><span class="task-text">Vercel 호스팅 도메인 바인딩 및 자동 배포 연동</span><input type="date" class="task-date-input" id="ph4-vercel-date"><input type="text" class="task-memo-input" id="ph4-vercel-memo"></li>
+      <li class="task-item"><input type="checkbox" id="ph4-api"><span class="task-text">GAS doGet 웹앱 API 통한 실시간 시트 데이터 연동</span><input type="date" class="task-date-input" id="ph4-api-date"><input type="text" class="task-memo-input" id="ph4-api-memo"></li>
+      <li class="task-item"><input type="checkbox" id="ph4-kpi"><span class="task-text">오픈율/클릭률/응답률 실시간 차트 시각화 구현</span><input type="date" class="task-date-input" id="ph4-kpi-date"><input type="text" class="task-memo-input" id="ph4-kpi-memo"></li>
+      <li class="task-item"><input type="checkbox" id="ph4-filter"><span class="task-text">업종별/차수별/결과별 필터링 기능 구현</span><input type="date" class="task-date-input" id="ph4-filter-date"><input type="text" class="task-memo-input" id="ph4-filter-memo"></li>
+      <li class="task-item"><input type="checkbox" id="ph4-mobile-dash"><span class="task-text">대시보드 모바일 반응형 뷰포트 최적화</span><input type="date" class="task-date-input" id="ph4-mobile-dash-date"><input type="text" class="task-memo-input" id="ph4-mobile-dash-memo"></li>
+    </ul>
+
+    <!-- PHASE 5 ~ 9 -->
+    <h3>5️⃣ ~ 9️⃣ PHASE 5 ~ 9 — 타깃 블로그 / 리드 육성 / 마케팅 자동화 WBS</h3>
+    <ul class="plain">
+      <li class="task-item"><input type="checkbox" id="ph5-blog-strategy"><span class="task-text">파이프 2차 가공 전문 타깃 네이버 블로그 콘텐츠 전략 수립</span><input type="date" class="task-date-input" id="ph5-blog-strategy-date"><input type="text" class="task-memo-input" id="ph5-blog-strategy-memo"></li>
+      <li class="task-item"><input type="checkbox" id="ph6-blog-draft"><span class="task-text">제조사 특화 기술 원고 (축관·확관·포밍 가공 단가/사례) 수작업 포스팅 체계 확립</span><input type="date" class="task-date-input" id="ph6-blog-draft-date"><input type="text" class="task-memo-input" id="ph6-blog-draft-memo"></li>
+      <li class="task-item"><input type="checkbox" id="ph7-lead-scoring"><span class="task-text">방문자/수신자 반응 기반 리드 스코어링 (A/B/C 등급) 분류 기준 정립</span><input type="date" class="task-date-input" id="ph7-lead-scoring-date"><input type="text" class="task-memo-input" id="ph7-lead-scoring-memo"></li>
+      <li class="task-item"><input type="checkbox" id="ph8-crm-sync"><span class="task-text">구글 시트 연동 B2B 간이 CRM 및 재발송 주기 알림 체계화</span><input type="date" class="task-date-input" id="ph8-crm-sync-date"><input type="text" class="task-memo-input" id="ph8-crm-sync-memo"></li>
+      <li class="task-item"><input type="checkbox" id="ph9-automation-opt"><span class="task-text">메일+팩스 하이브리드 아웃바운드 자동화 프로세스 지속 최적화</span><input type="date" class="task-date-input" id="ph9-automation-opt-date"><input type="text" class="task-memo-input" id="ph9-automation-opt-memo"></li>
+    </ul>
+  </div>
+
+
+  <!-- ========================================== -->
+  <!-- [PART 3] 팩스 영업 및 검증 DB (PHASE 10 ~ 12) -->
+  <!-- ========================================== -->
+  <div class="card highlight-green" id="sec-part3">
+    <h2>📠 [PART 3] 샌드랩스 대량 팩스 영업 및 검증 DB 정돈 (PHASE 10 ~ 12)</h2>
+    <div class="info-box">
+      💡 주 1회 B2B 팩스 집중 발송 채널 운영 및 10/19 4차 발송 결과, 동종업체 138개사 격리 이관 완료 내역입니다.
+    </div>
+
+    <!-- PHASE 10 -->
+    <h3>🔟 PHASE 10 — 샌드랩스 B2B 팩스 제안서 기획 · 제작</h3>
+    <ul class="plain">
+      <li class="task-item"><input type="checkbox" id="ph10-proposal-draft"><span class="task-text">A4 팩스 전용 흑백 제안서 1차 초안(HTML) 작성 완료</span><input type="date" class="task-date-input" id="ph10-proposal-draft-date"><input type="text" class="task-memo-input" id="ph10-proposal-draft-memo"></li>
+      <li class="task-item"><input type="checkbox" id="ph10-visual-update"><span class="task-text">흑백 가독성 강화 7차/9차 개정 (스웨이징/벤딩/포밍 CAD 3열 갤러리 반영)</span><input type="date" class="task-date-input" id="ph10-visual-update-date"><input type="text" class="task-memo-input" id="ph10-visual-update-memo"></li>
+      <li class="task-item"><input type="checkbox" id="ph10-pdf-export"><span class="task-text">Playwright 헤드리스 브라우저 기반 고해상도 A4 단면 PDF 변환 완료</span><input type="date" class="task-date-input" id="ph10-pdf-export-date"><input type="text" class="task-memo-input" id="ph10-pdf-export-memo"></li>
+      <li class="task-item"><input type="checkbox" id="ph10-sendlabs-format"><span class="task-text">샌드랩스 대량 엑셀/CSV 규격 템플릿(연번, 회사명, 팩스번호, 주소) 연동</span><input type="date" class="task-date-input" id="ph10-sendlabs-format-date"><input type="text" class="task-memo-input" id="ph10-sendlabs-format-memo"></li>
+      <li class="task-item"><input type="checkbox" id="ph10-faxlog-sheet"><span class="task-text">구글 스프레드시트 fax_log 워크시트 생성 및 실시간 발송/결과 이력 연동</span><input type="date" class="task-date-input" id="ph10-faxlog-sheet-date"><input type="text" class="task-memo-input" id="ph10-faxlog-sheet-memo"></li>
+    </ul>
+
+    <!-- PHASE 11 -->
+    <h3>1️⃣1️⃣ PHASE 11 — 영업채널 개편 및 타깃 블로그 전략 (2026-10-01)</h3>
+    <ul class="plain">
+      <li class="task-item"><input type="checkbox" id="ph11-mail-schedule"><span class="task-text">월 2회(1일, 15일) 이메일 정기 발송 체계 전환 완료</span><input type="date" class="task-date-input" id="ph11-mail-schedule-date"><input type="text" class="task-memo-input" id="ph11-mail-schedule-memo"></li>
+      <li class="task-item"><input type="checkbox" id="ph11-fax-pivot"><span class="task-text">미응답/이메일 미보유 118개사 팩스 채널 전환 완료</span><input type="date" class="task-date-input" id="ph11-fax-pivot-date"><input type="text" class="task-memo-input" id="ph11-fax-pivot-memo"></li>
+      <li class="task-item"><input type="checkbox" id="ph11-fax-reverify"><span class="task-text">118개사 팩스 번호 전수 규격/가상번호(0507) 1차 정제 완료</span><input type="date" class="task-date-input" id="ph11-fax-reverify-date"><input type="text" class="task-memo-input" id="ph11-fax-reverify-memo"></li>
+      <li class="task-item"><input type="checkbox" id="ph11-blog-warning"><span class="task-text">네이버 계정 저품질 위험으로 자동 매크로 전면 중단 방침 확정</span><input type="date" class="task-date-input" id="ph11-blog-warning-date"><input type="text" class="task-memo-input" id="ph11-blog-warning-memo"></li>
+      <li class="task-item"><input type="checkbox" id="ph11-blog-target"><span class="task-text">영업 반응 감지된 고가치 타깃 한정 수작업 블로그 원고 체계 가동</span><input type="date" class="task-date-input" id="ph11-blog-target-date"><input type="text" class="task-memo-input" id="ph11-blog-target-memo"></li>
+    </ul>
+
+    <!-- PHASE 12 -->
+    <h3>1️⃣2️⃣ PHASE 12 — 샌드랩스 B2B 팩스 발송 실행 및 결과 분석 (1~4차)</h3>
+    <p style="font-size:13px;color:#64748b;margin-bottom:8px;">
+      누적 67건 발송 중 18건 정상 수신 (성공률 26.9%) / 총 청구액 450원 (실패 49건 100% 자동 환불 완료)
+    </p>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>발송 회차</th>
+          <th>시도</th>
+          <th>성공</th>
+          <th>실패</th>
+          <th>실청구액</th>
+          <th>주요 수신 성공 업체 및 비고</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1차 (10/06 11:37)</td>
+          <td>13건</td>
+          <td><strong style="color:#15803d;">4건 (30.8%)</strong></td>
+          <td>9건</td>
+          <td>100원</td>
+          <td>우진파이프, 대영 등 성공 (정기 주간 발송)</td>
+        </tr>
+        <tr>
+          <td>2차 (10/12 11:16)</td>
+          <td>14건</td>
+          <td><strong style="color:#15803d;">2건 (14.3%)</strong></td>
+          <td>12건</td>
+          <td>50원</td>
+          <td>선호 등 성공 (정기 주간 발송)</td>
+        </tr>
+        <tr>
+          <td>3차 (10/13 15:43)</td>
+          <td>15건</td>
+          <td><strong style="color:#15803d;">5건 (33.3%)</strong></td>
+          <td>10건</td>
+          <td>125원</td>
+          <td>대아, 태양 등 성공 (정기 주간 발송)</td>
+        </tr>
+        <tr>
+          <td>4-1차 (10/19 14:22)</td>
+          <td>13건</td>
+          <td><strong style="color:#15803d;">4건 (30.8%)</strong></td>
+          <td>9건</td>
+          <td>100원</td>
+          <td>성우축관포밍, 삼우특수포밍, 신성특수벤딩, 동방파이프축관 성공</td>
+        </tr>
+        <tr>
+          <td>4-2차 (10/19 16:25)</td>
+          <td>13건</td>
+          <td><strong style="color:#15803d;">2건 (15.4%)</strong></td>
+          <td>11건</td>
+          <td>50원</td>
+          <td>이레텍, 서일 성공 (11건 결번/통화중 자동환불)</td>
+        </tr>
+        <tr>
+          <td>4-3차 (10/19 16:27)</td>
+          <td>12건</td>
+          <td><strong style="color:#15803d;">1건 (8.3%)</strong></td>
+          <td>11건</td>
+          <td>25원</td>
+          <td>대명기업 성공 (11건 결번/응답없음 자동환불)</td>
+        </tr>
+        <tr style="background:#f8fafc;font-weight:700;">
+          <td>누적 합계</td>
+          <td>67건</td>
+          <td><strong style="color:#15803d;">18건 (26.9%)</strong></td>
+          <td>49건 (73.1%)</td>
+          <td>450원</td>
+          <td>성공 건만 과금 (실패 49건 전액 자동 환불 정산 완료)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <ul class="plain">
+      <li class="task-item"><input type="checkbox" id="ph12-b1"><span class="task-text">1차 정기 발송 (10/06 11:37): 13건 중 4건 성공, 9건 실패 / 100원 정산 완료</span><input type="date" class="task-date-input" id="ph12-b1-date"><input type="text" class="task-memo-input" id="ph12-b1-memo"></li>
+      <li class="task-item"><input type="checkbox" id="ph12-b2"><span class="task-text">2차 정기 발송 (10/12 11:16): 14건 중 2건 성공, 12건 실패 / 50원 정산 완료</span><input type="date" class="task-date-input" id="ph12-b2-date"><input type="text" class="task-memo-input" id="ph12-b2-memo"></li>
+      <li class="task-item"><input type="checkbox" id="ph12-b3"><span class="task-text">3차 정기 발송 (10/13 15:43): 15건 중 5건 성공, 10건 실패 / 125원 정산 완료</span><input type="date" class="task-date-input" id="ph12-b3-date"><input type="text" class="task-memo-input" id="ph12-b3-memo"></li>
+      <li class="task-item"><input type="checkbox" id="ph12-b4-1"><span class="task-text">4-1차 발송 (10/19 14:22): 13건 중 4건 성공 (성우축관, 삼우포밍 등) / 100원 정산</span><input type="date" class="task-date-input" id="ph12-b4-1-date"><input type="text" class="task-memo-input" id="ph12-b4-1-memo"></li>
+      <li class="task-item"><input type="checkbox" id="ph12-b4-2"><span class="task-text">4-2차 발송 (10/19 16:25): 13건 중 2건 성공 (이레텍, 서일) / 50원 정산</span><input type="date" class="task-date-input" id="ph12-b4-2-date"><input type="text" class="task-memo-input" id="ph12-b4-2-memo"></li>
+      <li class="task-item"><input type="checkbox" id="ph12-b4-3"><span class="task-text">4-3차 발송 (10/19 16:27): 12건 중 1건 성공 (대명기업) / 25원 정산</span><input type="date" class="task-date-input" id="ph12-b4-3-date"><input type="text" class="task-memo-input" id="ph12-b4-3-memo"></li>
+      <li class="task-item"><input type="checkbox" id="ph12-exception-isolate"><span class="task-text">동종 경쟁사 138개사 company_exception 시트로 완전 이관 및 company 시트 162개사 클린 정돈 완료</span><input type="date" class="task-date-input" id="ph12-exception-isolate-date"><input type="text" class="task-memo-input" id="ph12-exception-isolate-memo"></li>
+    </ul>
+  </div>
+
+
+  <!-- ========================================== -->
+  <!-- [PART 4] 실수요처 정밀 발굴 & 3중 검증 (PHASE 13) -->
+  <!-- ========================================== -->
+  <div class="card highlight-purple" id="sec-part4">
+    <h2>🎯 [PART 4] 파이프 2차가공 순수 실수요처 발굴 정밀 크롤링 마스터 플랜 (PHASE 13)</h2>
+    
+    <div class="callout danger">
+      <strong>🚨 기존 크롤링 실패 원인 총괄 반성 및 수집 대원칙</strong><br>
+      • <strong>치명적 원인</strong>: 대흥정밀의 공급자 기술인 '축관', '확관', '포밍', '스웨이징'을 키워드로 사용하여, 전국의 동종 경쟁공장(138개사, 46%)만 대거 수집하는 참사가 발생함.<br>
+      • <strong>새로운 원칙</strong>: 기술 키워드 전면 폐기 ➔ 파이프 가공 부품을 외주 발주하는 <strong>완제품·장비 조립 제조사 타깃팅</strong> 및 <strong>건설배관 / 동종업체 2중 네거티브 필터링</strong> 전면 가동.
+    </div>
+
+    <!-- 13-0. 가공 스펙 및 배제 원칙 -->
+    <h3>📌 13-0. 대흥정밀 가공 가능 규격 및 절대 취급 제외 조건 (A4 제안서 공식 기준)</h3>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>구분</th>
+          <th>가공 가능 규격 및 범위</th>
+          <th>핵심 비고 및 제외 조건</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>가공 가능 외경 (Φ)</strong></td>
+          <td><strong>19Φ / 22Φ / 25Φ / 31Φ / 38Φ / 50Φ</strong></td>
+          <td>소구경 정밀 감면/단단/테이퍼 가공 (도면 기준 비표준 규격 협의 가능)</td>
+        </tr>
+        <tr>
+          <td><strong>가공 가능 길이 (L)</strong></td>
+          <td><strong>전체 전장 L ≤ 1500mm 이하</strong> / <strong>스웨이징·축관부 L ≤ 400mm 이하</strong></td>
+          <td>가공부 외경 50mm 이하</td>
+        </tr>
+        <tr style="background:#fef2f2;color:#991b1b;">
+          <td><strong>⚠️ 절대 취급 제외</strong></td>
+          <td>
+            • <strong>건설 배관 / 토목 배관 / 아파트 설비 배관 / 소방 공사 배관 전면 배제</strong><br>
+            • <strong>대형 플랜트 배관 / 석유화학 압력용기 / 쉘앤튜브 등 대구경 중공업 설비 전면 배제 (추가)</strong><br>
+            • <strong>초정밀 의료 부품 전면 배제 (추가사항)</strong>
+          </td>
+          <td>대흥정밀은 현장 시공 배관, 대형 플랜트 설비 및 초정밀 의료 부품을 취급하지 않으며, 공장 내 19~50mm 정밀 완제품 부품 가공만 전문 취급함</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- 13-1. 수집 우선순위 및 타깃 산업군 (공학적 파이프 끼움/테이퍼 실수요 기준) -->
+    <h3>📌 13-1. 실수요 타깃 5대 완제품 제조 업종군 (19Φ ~ 50Φ 부품 직수요처)</h3>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>우선순위</th>
+          <th>타깃 산업군 & 핵심 완제품</th>
+          <th>적용 규격 및 가공 형태</th>
+          <th>대흥정밀 파이프 가공품 실수요 용도</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="background:#f0fdf4;">
+          <td><strong style="color:#15803d;font-size:14px;">🥇 1순위<br>(최우선 수주)</strong></td>
+          <td>
+            • <strong>철제 가구 & 인테리어 기구</strong><br>
+            - 원목/철제 식탁 테이블 다리, 의자 다리<br>
+            - 모듈형 조립 랙, 시스템 행거, 모션데스크<br>
+            - 수직 적재 스틸 침대 프레임
+          </td>
+          <td>
+            <strong>25Φ ~ 38Φ</strong><br>
+            (테이퍼 스웨이징 & 소켓 확관)
+          </td>
+          <td>
+            • <strong>디자인 테이퍼 축관</strong>: 파이프 끝단 400mm 구간을 슬림하게 감면 가공하여 미려한 원추형 가구 다리 제작<br>
+            • <strong>끼움 결합(슬립 조인트)</strong>: 용접 없이 파이프끼리 꽂아서 결합하는 조립식 가구 프레임 소켓 형성
+          </td>
+        </tr>
+        <tr style="background:#f0fdf4;">
+          <td><strong style="color:#15803d;font-size:14px;">🥇 1순위<br>(대량 발주)</strong></td>
+          <td>
+            • <strong>레저·아웃도어 & 캠핑 기어</strong><br>
+            - 타프 폴대, 텐트 메인/사이드 폴<br>
+            - 접이식 캠핑 테이블/체어 프레임, 쉘터 지주
+          </td>
+          <td>
+            <strong>19Φ ~ 31Φ</strong><br>
+            (다단 결합 축관 & 확관)
+          </td>
+          <td>
+            • <strong>다단 분합 슬립 조인트</strong>: 휴대/수납을 위해 파이프 끝단을 축관하여 다음 단 파이프 안으로 매끄럽게 끼움 연결<br>
+            • <strong>핀 락(Push-button) 결합부</strong> 타공 및 소켓 확관
+          </td>
+        </tr>
+        <tr>
+          <td><strong style="color:#1e40af;">🥈 2순위<br>(안정적 양산)</strong></td>
+          <td>
+            • <strong>피트니스 & 헬스케어 기구</strong><br>
+            - 치닝디핑(턱걸이대), 평행봉, 벤치프레스 지지대<br>
+            - 필라테스 리포머 및 배럴 구조물, 홈트 기구
+          </td>
+          <td>
+            <strong>25Φ ~ 50Φ</strong><br>
+            (하중 지지 축관/확관)
+          </td>
+          <td>
+            • <strong>인체 하중 지지 꽂힘 조립부</strong> 축관 및 확관<br>
+            • 기구 본체와 보조 지지대 간의 연결 조인트 일괄 처리
+          </td>
+        </tr>
+        <tr>
+          <td><strong style="color:#1e40af;">🥈 2순위<br>(규격화 납품)</strong></td>
+          <td>
+            • <strong>의료기기 & 실버·복지 용구</strong><br>
+            - 전동/수동 병원용 침대, 링거(IV) 이동 폴대<br>
+            - 보행 보조기(워커), 휠체어 프레임, 목발
+          </td>
+          <td>
+            <strong>19Φ ~ 38Φ</strong><br>
+            (슬라이딩 단단 축관)
+          </td>
+          <td>
+            • <strong>상·하단 슬라이딩 높낮이 조절 튜브</strong> 정밀 축관<br>
+            • 다단 결합 핀 락 구조 및 손잡이 체결용 정밀 확관<br>
+            <em>(※ 초정밀 체내 삽입형 의료기기는 절대 배제, 복지 가구형 집중)</em>
+          </td>
+        </tr>
+        <tr>
+          <td><strong style="color:#854d0e;">🥉 3순위<br>(대구경 규격)</strong></td>
+          <td>
+            • <strong>농업용 온실 기자재 & 산업용 안전 펜스</strong><br>
+            - 비닐하우스 서까래 연결 조인트, 스마트팜 베드<br>
+            - 이동식 차단봉, 공장 보행로 핸드레일
+          </td>
+          <td>
+            <strong>31Φ ~ 50Φ</strong><br>
+            (연장 조인트 축관)
+          </td>
+          <td>
+            • <strong>별도 부속 없는 파이프 맞물림 연장</strong>: 끝단 100~200mm 축관하여 파이프끼리 직결 시공<br>
+            • 핸드레일 슬리브 조인트 및 베이스 조립부
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- 13-2. 소요 시간 비교 및 적재 원칙 -->
+    <h3>📌 13-2. AI 실시간 협업 vs 일반 수작업 소요 시간 비교 & 적재 원칙</h3>
+    <div class="callout success">
+      <strong>⚡ AI(Antigravity)와 실시간 협업 시: 총 약 1시간 ~ 1시간 30분 내외 (당일 즉시 완성)</strong><br>
+      • 1단계 크롤러 개발 (10~15분) ➔ 2단계 1순위 4대 산업군 300~500곳 자동 수집 (20~30분) ➔ 3단계 3중 자동 정제/배제 (15분) ➔ 4단계 구글 시트 적재 및 팩스 5차 발송 파일 분할 (5분)<br>
+      • <em>(참고: 일반 인력 수작업 리서치 및 엑셀 수동 정제 시 약 2~3일 소요)</em>
+    </div>
+
+    <div class="callout primary" style="background:#eff6ff;border-left:4px solid #3b82f6;padding:12px 16px;margin:12px 0;">
+      <strong>📥 크롤링 데이터 적재 및 격리 원칙 (중요)</strong><br>
+      • <strong>원천 분리 적재</strong>: 크롤링한 데이터는 <code>company</code> 시트에 즉시 넣지 않고, 먼저 <a href="https://docs.google.com/spreadsheets/d/1kEdvR2hLPBc60vkNwq_ArqOGn0In5J-nN2LCoj2tMic/edit?pli=1&gid=1498229330#gid=1498229330" target="_blank" style="font-weight:bold;color:#1d4ed8;text-decoration:underline;">Search 시트 (gid: 1498229330)</a>의 <strong>2행부터</strong> 우선 적재함.<br>
+      • <strong>검증 후 이관</strong>: 3단계 유효성 검증(네거티브 배제, 규격 부합, 휴폐업·연락처 검증)을 통과한 순수 잠재 고객사만 선별하여 <code>company</code> 시트로 정식 이관함.
+    </div>
+
+    <h3>📌 13-3. 동종업체 및 비규격 원천 차단 네거티브 필터(Negative Filter) 규칙</h3>
+    <div class="callout warning">
+      <strong>🛡️ 크롤링 수집 즉시 영구 제외/격리 규칙</strong><br>
+      • <strong>회사명 필터</strong>: 상호명에 '확관', '축관', '포밍', '스웨이징', '벤딩', '밴딩', '파이프가공', '인발'이 포함된 경우 즉시 드롭.<br>
+      • <strong>업종/품목 필터</strong>: 생산품이나 소개에 '파이프 임가공', '파이프 절단/가공 일체' 등 외주 임가공만을 전문 영위하는 공장 원천 배제.<br>
+      • <strong>시공/의료 배제</strong>: 건설배관, 토목배관, 설비공사, 소방배관 및 <strong>초정밀 의료 부품</strong> 취급 업체 원천 배제.<br>
+      • <strong>자동 격리</strong>: 실수요 키워드로 검색되었더라도 위 단어가 발견되면 즉시 <code>company_exception</code> 시트로 자동 분리.
+    </div>
+
+    <h3>📌 13-4. 3단계 유효성 검증 파이프라인 (Data Verification Pipeline)</h3>
+    <ul class="plain">
+      <li class="task-item"><input type="checkbox" id="ph13-target-kw"><span class="task-text"><strong>[1단계: 수집]</strong> 5대 실수요 산업군(특장차, 농기계, 보일러/열교환기, 기계장비, 운동기구/가구) 타깃 수집 ➔ <strong>Search 시트(gid:1498229330) 2행부터</strong> 1차 적재</span><input type="date" class="task-date-input" id="ph13-target-kw-date"><input type="text" class="task-memo-input" id="ph13-target-kw-memo"></li>
+      <li class="task-item"><input type="checkbox" id="ph13-neg-filter"><span class="task-text"><strong>[2단계: 필터링]</strong> 동종업체 기술명(확관/축관/포밍/스웨이징/벤딩) 및 비규격(건설/토목/소방배관, 초정밀 의료부품) 원천 필터링 (부적격 시 company_exception 시트 격리)</span><input type="date" class="task-date-input" id="ph13-neg-filter-date"><input type="text" class="task-memo-input" id="ph13-neg-filter-memo"></li>
+      <li class="task-item"><input type="checkbox" id="ph13-hometax-verify"><span class="task-text"><strong>[3단계: 검증]</strong> 국세청 홈택스 사업자등록 상태(휴·폐업), DART/Bizno 실재성 및 3중 연락처(가상번호 0507 배제, 유선/팩스 회선) 교차 검증</span><input type="date" class="task-date-input" id="ph13-hometax-verify-date"><input type="text" class="task-memo-input" id="ph13-hometax-verify-memo"></li>
+      <li class="task-item"><input type="checkbox" id="ph13-clean-300"><span class="task-text"><strong>[최종 이관]</strong> 3단계 검증 통과 클린 실수요 DB만 <strong>company 시트</strong>로 정식 이관 및 팩스 5차 발송 대열 편성</span><input type="date" class="task-date-input" id="ph13-clean-300-date"><input type="text" class="task-memo-input" id="ph13-clean-300-memo"></li>
+    </ul>
+
+    <hr class="section-divider">
+
+    <h3>📌 14. 신규 타깃 이관/발송 및 리마인드 자동화 구축 (2026-10-26 완료)</h3>
+    <div class="callout success">
+      <strong>✅ 2026-10-26 핵심 성과 달성</strong><br>
+      • <strong>search ➔ company 이관</strong>: 92개사 중 91개사 이관 완료 (연번 224~314, 중복 1개사 스킵)<br>
+      • <strong>주소 전수 보강</strong>: 주소 공란 56개사 네이버 플레이스/웹 크롤링 100% 보강 완료 (공란율 0%)<br>
+      • <strong>초도 발송 성공</strong>: 이메일 보유 50개사 발송 (성공: 50건 / 실패: 0건, 성공률 100%)<br>
+      • <strong>반송 정제</strong>: 코리아세일즈 오탈자 정정 재발송 완료, 아이디오 팩스 채널로 전환 완료<br>
+      • <strong>v2 정기 리마인드 템플릿</strong>: 기존 122개사용 dhsteel_proposal_v2.html Vercel 라이브 배포<br>
+      • <strong>완전 자동화</strong>: Apps Script 발송 엔진 신규/기존 자동 분기 및 4계절 안부 인사({계절인사}) 자동 치환 탑재
+    </div>
+    <ul class="plain">
+      <li class="task-item"><input type="checkbox" id="ph14-search-migrate"><span class="task-text"><strong>[1. 리드 이관]</strong> search 시트 91개사 company 시트(164~254행) 이관 완료</span><input type="date" class="task-date-input" id="ph14-search-migrate-date"><input type="text" class="task-memo-input" id="ph14-search-migrate-memo"></li>
+      <li class="task-item"><input type="checkbox" id="ph14-address-enrich"><span class="task-text"><strong>[2. 주소 보강]</strong> 이관 업체 중 주소 누락 56개사 전수 네이버/웹 크롤링 주소(I열) 100% 보강 완료</span><input type="date" class="task-date-input" id="ph14-address-enrich-date"><input type="text" class="task-memo-input" id="ph14-address-enrich-memo"></li>
+      <li class="task-item"><input type="checkbox" id="ph14-first-send-50"><span class="task-text"><strong>[3. 초도 발송]</strong> 신규 이관 업체 중 50개사 대상 GAS 제안서(v1) 발송 (성공: 50건 / 실패: 0건, 100% 성공)</span><input type="date" class="task-date-input" id="ph14-first-send-50-date"><input type="text" class="task-memo-input" id="ph14-first-send-50-memo"></li>
+      <li class="task-item"><input type="checkbox" id="ph14-bounce-refine"><span class="task-text"><strong>[4. 반송 정제]</strong> 반송 2건 정밀 처리 (코리아세일즈 오탈자 정정 후 재발송 / 아이디오 팩스 전환)</span><input type="date" class="task-date-input" id="ph14-bounce-refine-date"><input type="text" class="task-memo-input" id="ph14-bounce-refine-memo"></li>
+      <li class="task-item"><input type="checkbox" id="ph14-proposal-v2"><span class="task-text"><strong>[5. v2 리마인드]</strong> 기존 발송 업체(122개사) 전용 정기 리마인드 템플릿(dhsteel_proposal_v2.html) Vercel 배포 완료</span><input type="date" class="task-date-input" id="ph14-proposal-v2-date"><input type="text" class="task-memo-input" id="ph14-proposal-v2-memo"></li>
+      <li class="task-item"><input type="checkbox" id="ph14-auto-season-gas"><span class="task-text"><strong>[6. 완전 자동화]</strong> Apps Script 발송 엔진 신규(v1)/기존(v2) 자동 분기 및 4계절 안부 인사({계절인사}) 자동 치환 탑재</span><input type="date" class="task-date-input" id="ph14-auto-season-gas-date"><input type="text" class="task-memo-input" id="ph14-auto-season-gas-memo"></li>
+      <li class="task-item"><input type="checkbox" id="ph14-round2-selector"><span class="task-text"><strong>[7. 2회차 자동추적]</strong> M열 '1회차 완료'/'2회차 완료' 상태 분리 및 [☑️ 2회차 대상(122개사) 자동 체크] 메뉴 신설</span><input type="date" class="task-date-input" id="ph14-round2-selector-date"><input type="text" class="task-memo-input" id="ph14-round2-selector-memo"></li>
+    </ul>
+  </div>
+
+
+  <!-- ========================================== -->
+  
+  <!-- ========================================== -->
+  <!-- [PHASE 15] 팩스 5회차 대량 발송 및 누적 전수 데이터 동기화 (2026-11-02) -->
+  <!-- ========================================== -->
+  <div class="card" id="sec-ph15">
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+      <h2 style="margin:0;"><span class="badge badge-success">PHASE 15</span> 팩스 5회차 발송 및 전수 데이터 동기화</h2>
+      <span style="font-size:12px; color:#6b7280; font-weight:600;">2026-11-02 완료</span>
+    </div>
+    <div class="tip-box" style="margin-top:12px;">
+      • <strong>팩스 5회차 집행</strong>: 10/26 메일 수신군 중 팩스 유효 32개사 선별, 샌드랩스 31건 발송 (성공: 22건 71.0% / 실패: 9건)<br>
+      • <strong>구글 시트 전수 반영</strong>: fax_log 31건 누적 적재 및 company 시트 N열/O열/Q열 일괄 동기화 완료<br>
+      • <strong>팩스 웹 보고서 개선</strong>: fax/fax_report.html에 1~5회차 총 112건 전수 데이터 주입 및 최신 5회차 자동 감지 로직 적용
+    </div>
+    <ul class="plain">
+      <li class="task-item"><input type="checkbox" id="ph15-fax-targets"><span class="task-text"><strong>[1. 타겟 추출]</strong> 10/26 메일 수신 업체 중 팩스 번호 보유 32개사 선별 (xlsx, csv, docx 생성)</span><input type="date" class="task-date-input" id="ph15-fax-targets-date"><input type="text" class="task-memo-input" id="ph15-fax-targets-memo"></li>
+      <li class="task-item"><input type="checkbox" id="ph15-fax-send"><span class="task-text"><strong>[2. 샌드랩스 발송]</strong> 샌드랩스 웹팩스 31건 발송 (성공: 22건 / 실패: 9건, 성공률 71.0%)</span><input type="date" class="task-date-input" id="ph15-fax-send-date"><input type="text" class="task-memo-input" id="ph15-fax-send-memo"></li>
+      <li class="task-item"><input type="checkbox" id="ph15-sheet-sync"><span class="task-text"><strong>[3. 시트 동기화]</strong> fax_log 누적 기록 및 company 시트 발송상태/결과 일괄 업데이트</span><input type="date" class="task-date-input" id="ph15-sheet-sync-date"><input type="text" class="task-memo-input" id="ph15-sheet-sync-memo"></li>
+      <li class="task-item"><input type="checkbox" id="ph15-report-upgrade"><span class="task-text"><strong>[4. 웹 보고서 개편]</strong> fax_report.html 1~5회차 누적 112건 데이터 탑재 및 동적 드롭다운 개선</span><input type="date" class="task-date-input" id="ph15-report-upgrade-date"><input type="text" class="task-memo-input" id="ph15-report-upgrade-memo"></li>
+    </ul>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- [PHASE 16] 통합 스케줄 대시보드 구축 및 검증 70개사 2차 정기 메일 발송 (2026-11-09) -->
+  <!-- ========================================== -->
+  <div class="card" id="sec-ph16">
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+      <h2 style="margin:0;"><span class="badge badge-success">PHASE 16</span> schedule 대시보드 구축 & 2차 정기 메일 발송</h2>
+      <span style="font-size:12px; color:#6b7280; font-weight:600;">2026-11-09 완료</span>
+    </div>
+    <div class="tip-box" style="margin-top:12px;">
+      • <strong>schedule 시트 구축</strong>: 월간 요약(8~11월 471건), 주간 추이(W36~W45), 채널별 배치 풀(이메일 83, 팩스 69) 연동 완료<br>
+      • <strong>2차 정기 메일 일괄 발송</strong>: '2026-11-09' 전용 시트 생성 및 검증 70개사 대상 Gmail API 발송 완결 (성공: 70건)<br>
+      • <strong>실시간 반송 데이터 보정</strong>: 코베아(.co -> .co.kr 도메인 수정), 금경이노텍(계정삭제), 아이디오(팩스 041-548-8238 전환)<br>
+      • <strong>실도달 최종 집계</strong>: 총 70건 중 실도달 성공 67건 (95.7%) / 실패 3건 mail_log 및 대시보드 전수 일치 완료<br>
+      • <strong>11월 확정 로드맵</strong>: 11/09(메일 70) ➡ 11/16(팩스 30) ➡ 11/23(신규수집+재검증) ➡ 11/30(복합대량) 수립
+    </div>
+    <ul class="plain">
+      <li class="task-item"><input type="checkbox" id="ph16-schedule-dashboard"><span class="task-text"><strong>[1. 스케줄 대시보드]</strong> 구글 시트 'schedule' 워크시트에 월간/주간/배치풀 통합 분석 뷰 구축</span><input type="date" class="task-date-input" id="ph16-schedule-dashboard-date"><input type="text" class="task-memo-input" id="ph16-schedule-dashboard-memo"></li>
+      <li class="task-item"><input type="checkbox" id="ph16-sheet-20261109"><span class="task-text"><strong>[2. 전용 시트 생성]</strong> '2026-11-09' 시트 신설 및 검증 70개사 A열 체크/M열 '2차 정기' 세팅</span><input type="date" class="task-date-input" id="ph16-sheet-20261109-date"><input type="text" class="task-memo-input" id="ph16-sheet-20261109-memo"></li>
+      <li class="task-item"><input type="checkbox" id="ph16-mail-send-70"><span class="task-text"><strong>[3. 메일 일괄 발송]</strong> Apps Script 제안서 엔진으로 70개사 일괄 발송 (성공: 70건 전송 접수)</span><input type="date" class="task-date-input" id="ph16-mail-send-70-date"><input type="text" class="task-memo-input" id="ph16-mail-send-70-memo"></li>
+      <li class="task-item"><input type="checkbox" id="ph16-bounce-refine"><span class="task-text"><strong>[4. 반송 즉시 보정]</strong> 코베아 도메인 오타 정정, 금경이노텍 실패 처리, 아이디오 팩스 채널 전환</span><input type="date" class="task-date-input" id="ph16-bounce-refine-date"><input type="text" class="task-memo-input" id="ph16-bounce-refine-memo"></li>
+      <li class="task-item"><input type="checkbox" id="ph16-roadmap-setup"><span class="task-text"><strong>[5. 로드맵 확정]</strong> 11월 4주간 월요일 정기 로테이션 확정 및 차주(11/16) 팩스 30개사 사전 선별</span><input type="date" class="task-date-input" id="ph16-roadmap-setup-date"><input type="text" class="task-memo-input" id="ph16-roadmap-setup-memo"></li>
+    </ul>
+  </div>
+
+
+  
+  <!-- ========================================== -->
+  <!-- [PHASE 17] 팩스 6회차 검증 30개사 대량 발송 준비 및 집행 (2026-11-16) -->
+  <!-- ========================================== -->
+  <div class="card" id="sec-ph17">
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+      <h2 style="margin:0;"><span class="badge badge-success">PHASE 17</span> 팩스 6회차 검증 30개사 대량 발송 준비</h2>
+      <span style="font-size:12px; color:#6b7280; font-weight:600;">2026-11-16 완료</span>
+    </div>
+    <div class="tip-box" style="margin-top:12px;">
+      • <strong>팩스 6회차 타겟 확정</strong>: 11/02 수신 성공 22건 + 우량 팩스 고객사 + 메일 차단 전환 아이디오 포함 총 30개사 선별<br>
+      • <strong>샌드랩스 업로드 파일 생성</strong>: sales/fax/fax_targets_20261116.xlsx 및 .csv 생성 완료<br>
+      • <strong>구글 시트 연동</strong>: '2026-11-16' 시트 신설 및 30개사 A열 체크/M열 '팩스 정기(11/16)' 세팅 완료<br>
+      • <strong>보고서 발행</strong>: sales/fax/2026-11-16_fax_outbound_list.docx 표준 서식 보고서 발행 완료
+    </div>
+    <ul class="plain">
+      <li class="task-item"><input type="checkbox" id="ph17-fax-targets-30"><span class="task-text"><strong>[1. 타겟 선별]</strong> 11/02 성공군 및 우량 팩스 고객사 30개사 확정 선별</span><input type="date" class="task-date-input" id="ph17-fax-targets-30-date"><input type="text" class="task-memo-input" id="ph17-fax-targets-30-memo"></li>
+      <li class="task-item"><input type="checkbox" id="ph17-sendlabs-files"><span class="task-text"><strong>[2. 발송 파일 생성]</strong> 샌드랩스 대량 업로드용 엑셀(xlsx) 및 CSV 파일 생성 완료</span><input type="date" class="task-date-input" id="ph17-sendlabs-files-date"><input type="text" class="task-memo-input" id="ph17-sendlabs-files-memo"></li>
+      <li class="task-item"><input type="checkbox" id="ph17-sheet-20261116"><span class="task-text"><strong>[3. 시트 연동]</strong> '2026-11-16' 전용 시트 생성 및 30개사 발송 회차 세팅</span><input type="date" class="task-date-input" id="ph17-sheet-20261116-date"><input type="text" class="task-memo-input" id="ph17-sheet-20261116-memo"></li>
+      <li class="task-item"><input type="checkbox" id="ph17-fax-report-docx"><span class="task-text"><strong>[4. 보고서 발행]</strong> 2026-11-16_fax_outbound_list.docx 워드 보고서 생성 완료</span><input type="date" class="task-date-input" id="ph17-fax-report-docx-date"><input type="text" class="task-memo-input" id="ph17-fax-report-docx-memo"></li>
+    </ul>
+  </div>
+
+
+  
+  <!-- ========================================== -->
+  <!-- [PART 5-SOP] 대흥정밀 B2B 정기 발송 표준운영절차 (SOP) -->
+  <!-- ========================================== -->
+  <div class="card" id="sec-sop">
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+      <h2 style="margin:0;"><span class="badge badge-success">PART 5</span> 정기 아웃바운드 표준운영절차 (SOP 가이드)</h2>
+      <span style="font-size:12px; color:#2563eb; font-weight:600;"><a href="file:///E:/Antigravity/builder-dhsteel-sales/plan/outbound_standard_operating_procedure.md" target="_blank">전용 SOP.md 열기 ↗</a></span>
+    </div>
+
+    <div class="tip-box" style="margin-top:14px;">
+      💡 <strong>반복 업무 누락 방지 원칙</strong>: 매주 월요일 발송 시 <strong>[타겟 추출 ➔ 발송 집행 ➔ 시트 적재 ➔ 대시보드 3종 전수 동기화]</strong>를 단일 파이프라인으로 일괄 실행합니다.
+    </div>
+
+    <!-- 4주 로테이션 주기표 -->
+    <h3 style="margin-top:18px; margin-bottom:8px; font-size:15px; color:#1e3a8a;">📅 1. 월간 4주 정기 로테이션 주기표</h3>
+    <table class="meta-table" style="margin-top:4px;">
+      <tr style="background:#f1f5f9;">
+        <th style="width:15%; text-align:center;">주차</th>
+        <th style="width:15%; text-align:center;">채널</th>
+        <th style="width:25%;">대상 타겟군</th>
+        <th style="width:15%; text-align:center;">표준 규모</th>
+        <th>핵심 실행 목표</th>
+      </tr>
+      <tr>
+        <td style="text-align:center; font-weight:bold;">1주차 (월)</td>
+        <td style="text-align:center; color:#2563eb; font-weight:bold;">📧 이메일</td>
+        <td>기존 검증 성공업체</td>
+        <td style="text-align:center;">70개사 내외</td>
+        <td>정기 리마인드 제안서 발송 (v2 템플릿) & 반송 즉시 보정</td>
+      </tr>
+      <tr>
+        <td style="text-align:center; font-weight:bold;">2주차 (월)</td>
+        <td style="text-align:center; color:#0d9488; font-weight:bold;">📠 팩스</td>
+        <td>기존 검증 팩스업체</td>
+        <td style="text-align:center;">30개사 내외</td>
+        <td>샌드랩스 대량 웹팩스 A4 제안서 발송 & 수신율 80%+ 유지</td>
+      </tr>
+      <tr>
+        <td style="text-align:center; font-weight:bold;">3주차 (월)</td>
+        <td style="text-align:center; color:#7c3aed; font-weight:bold;">🔄 복합</td>
+        <td>신규 크롤링 + 재검증</td>
+        <td style="text-align:center;">50~70개사</td>
+        <td>전국 20개 지역 신규 리드 발굴(지침서 B안) & 미응답 번호 보정</td>
+      </tr>
+      <tr>
+        <td style="text-align:center; font-weight:bold;">4주차 (월)</td>
+        <td style="text-align:center; color:#b45309; font-weight:bold;">📧+📠 복합</td>
+        <td>신규+검증 복합군</td>
+        <td style="text-align:center;">100개사+</td>
+        <td>월말 총결산 하이브리드 대량 아웃바운드 집행</td>
+      </tr>
+    </table>
+
+    <!-- 이메일 4단계 SOP -->
+    <h3 style="margin-top:22px; margin-bottom:8px; font-size:15px; color:#1e3a8a;">📧 2. 이메일 정기 발송 4단계 SOP</h3>
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:12px;">
+      <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:12px;">
+        <div style="font-weight:bold; color:#1e3a8a; font-size:13px;">1단계: 타겟 세팅</div>
+        <div style="font-size:12.5px; color:#475569; margin-top:4px;">검증 성공군 70개사 추출 ➔ 전용 시트('YYYY-MM-DD') 신설 ➔ A열 체크박스 및 M열 회차 자동 세팅</div>
+      </div>
+      <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:12px;">
+        <div style="font-weight:bold; color:#1e3a8a; font-size:13px;">2단계: GAS 원클릭 발송</div>
+        <div style="font-size:12.5px; color:#475569; margin-top:4px;">시트 상단 [대흥 아웃바운드] ➔ [선택 제안서 발송] 클릭 ➔ Gmail API 100% 자동 전송 & mail_log 적재</div>
+      </div>
+      <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:12px;">
+        <div style="font-weight:bold; color:#1e3a8a; font-size:13px;">3단계: 반송 실시간 보정</div>
+        <div style="font-size:12.5px; color:#475569; margin-top:4px;">수신함 반송 알림 스캔 ➔ 도메인 오타 정정, 계정삭제 실패 표기, 수신차단 시 팩스 채널로 전환</div>
+      </div>
+      <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:12px;">
+        <div style="font-weight:bold; color:#1e3a8a; font-size:13px;">4단계: 대시보드 동기화</div>
+        <div style="font-size:12.5px; color:#475569; margin-top:4px;">build_schedule_dashboard.py 실행 ➔ schedule 시트, mail_report.html, 워드 보고서 실도달 일치</div>
+      </div>
+    </div>
+
+    <!-- 팩스 4단계 SOP -->
+    <h3 style="margin-top:22px; margin-bottom:8px; font-size:15px; color:#0d9488;">📠 3. 팩스 정기 발송 4단계 SOP</h3>
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:12px;">
+      <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:12px;">
+        <div style="font-weight:bold; color:#0d9488; font-size:13px;">1단계: 샌드랩스 파일 생성</div>
+        <div style="font-size:12.5px; color:#475569; margin-top:4px;">검증 30개사 선별 ➔ sales/fax/ 에 전용 xlsx & csv 생성 ➔ 구글 시트 전용 시트 생성</div>
+      </div>
+      <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:12px;">
+        <div style="font-weight:bold; color:#0d9488; font-size:13px;">2단계: 샌드랩스 대량 발송</div>
+        <div style="font-size:12.5px; color:#475569; margin-top:4px;">샌드랩스 웹팩스 로그인 ➔ [엑셀 대량 등록]에 xlsx 업로드 ➔ A4 제안서 첨부 후 원클릭 발송</div>
+      </div>
+      <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:12px;">
+        <div style="font-weight:bold; color:#0d9488; font-size:13px;">3단계: 결과 동기화 스크립트</div>
+        <div style="font-size:12.5px; color:#475569; margin-top:4px;">sync_fax_results 스크립트 실행 ➔ fax_log 전수 적재 & company 시트 N/O/Q열 일괄 갱신</div>
+      </div>
+      <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:12px;">
+        <div style="font-weight:bold; color:#0d9488; font-size:13px;">4단계: 대시보드 3종 갱신 (필수)</div>
+        <div style="font-size:12.5px; color:#475569; margin-top:4px;">① index_dashboard.html (defaultFaxData+캐시버전)<br>② fax_report.html (allFaxLogs+드롭다운)<br>③ 워드 결과 보고서(.docx) 발행</div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- [PART 5] 관련 파일 및 링크 안내 표 -->
+  <!-- ========================================== -->
+  <div class="card" id="sec-links">
+    <h2>📁 관련 파일 및 링크 안내</h2>
+    <table class="meta-table">
+      <tr>
+        <th>통합 관리자 대시보드</th>
+        <td><a href="file:///E:/Antigravity/builder-dhsteel-sales/index_dashboard.html" target="_blank">index_dashboard.html (이메일 & 팩스 실시간 듀얼 모니터링 뷰)</a></td>
+      </tr>
+      <tr>
+        <th>샌드랩스 메일러 (Sendlabs)</th>
+        <td><a href="https://www.sendlabs.co.kr/main.do" target="_blank">https://www.sendlabs.co.kr/main.do (대량 아웃바운드 이메일 발송)</a></td>
+      </tr>
+      <tr>
+        <th>구글 시트: Search 시트 (크롤링 1차 적재)</th>
+        <td><a href="https://docs.google.com/spreadsheets/d/1kEdvR2hLPBc60vkNwq_ArqOGn0In5J-nN2LCoj2tMic/edit?pli=1&gid=1498229330#gid=1498229330" target="_blank">Search 시트 (gid: 1498229330, 2행부터 크롤링 데이터 1차 적재)</a></td>
+      </tr>
+      <tr>
+        <th>구글 시트: Company 시트 (클린 DB)</th>
+        <td><a href="https://docs.google.com/spreadsheets/d/1kEdvR2hLPBc60vkNwq_ArqOGn0In5J-nN2LCoj2tMic/edit?pli=1&gid=1031257647#gid=1031257647" target="_blank">Company 시트 (gid: 1031257647, 최종 검증 완료 기업 DB)</a></td>
+      </tr>
+      <tr>
+        <th>팩스 발송 결과 보고서</th>
+        <td><a href="file:///E:/Antigravity/builder-dhsteel-sales/sales/fax/대흥정밀_팩스4일차_발송결과_보고서.docx" target="_blank">대흥정밀_팩스4일차_발송결과_보고서.docx</a></td>
+      </tr>
+      <tr>
+        <th>공식 Word 마스터 계획서</th>
+        <td><a href="file:///E:/Antigravity/builder-dhsteel-sales/workflow/dhsteel_plan_2026.docx" target="_blank">workflow/dhsteel_plan_2026.docx (표준 10pt 워드 보고서)</a></td>
+      </tr>
+      <tr>
+        <th>A4 팩스 공식 제안서</th>
+        <td><a href="file:///E:/Antigravity/builder-dhsteel-sales/sales/fax_proposal_a4.html" target="_blank">sales/fax_proposal_a4.html (CAD 3열 규격 도면 탑재)</a></td>
+      </tr>
+      <tr>
+        <th>이메일 결과 보고서</th>
+        <td><a href="file:///E:/Antigravity/builder-dhsteel-sales/mailling/mail_report.html" target="_blank">mailling/mail_report.html</a></td>
+      </tr>
+      <tr>
+        <th>Google Apps Script</th>
+        <td><a href="file:///E:/Antigravity/builder-dhsteel-sales/google_apps_script_outbound.js" target="_blank">google_apps_script_outbound.js (메일 발송 & 팩스 로그 연동)</a></td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- JavaScript: 체크박스 & 날짜 & 메모 자동 저장 -->
+  <!-- ========================================== -->
+  <script>
+    const PREFIX = 'dhsteel_wbs_';
+    const PREFIX_1ST = 'dhsteel_1st_plan_';
+
+    const defaults = {
+      // ── PART 1 (1차 캠페인 2/3단계 태스크) ──
+      't-send-10': { checked: true, date: '2026-09-18', memo: '1~10일차 198개사 1차 캠페인 전량 완결' },
+      't-sync-log': { checked: true, date: '2026-09-18', memo: 'mail_log 167건 동기화 완료' },
+      't-err-check': { checked: true, date: '2026-09-18', memo: '에러 48건 분류 완료 (DNS 12건, 550 36건)' },
+      't-err-dns': { checked: true, date: '2026-09-20', memo: 'DNS 오류 업체 팩스 채널로 전환' },
+      't-err-550': { checked: true, date: '2026-09-20', memo: '550 오류 업체 팩스 제안서 전환' },
+      't-err-update': { checked: true, date: '2026-09-22', memo: 'company 시트 갱신 완료' },
+      't-new-collect': { checked: true, date: '2026-09-25', memo: '전국 단위 파이프 업체 수집' },
+      't-new-dedup': { checked: true, date: '2026-09-26', memo: '중복 제거 및 사업자번호 매칭' },
+      't-new-email': { checked: true, date: '2026-09-27', memo: '이메일 유효성 확인' },
+      't-new-quality': { checked: true, date: '2026-09-28', memo: '우선순위 스코어링 반영' },
+      't-2nd-template': { checked: true, date: '2026-09-30', memo: '가공단가표 강조 템플릿 개정' },
+      't-2nd-send': { checked: true, date: '2026-10-01', memo: '월 2회(1일, 15일) 정기 전환' },
+      't-2nd-inquiry': { checked: true, date: '2026-10-02', memo: '인바운드 모니터링 가동' },
+      't-fax-doc': { checked: true, date: '2026-10-02', memo: 'A4 흑백 제안서 제작 완료' },
+      't-fax-excel': { checked: true, date: '2026-10-06', memo: '샌드랩스 대량 엑셀/CSV 연동 완료' },
+      't-fax-send': { checked: true, date: '2026-10-13', memo: '1~3차 42건 발송 완료' },
+      't-fax-dashboard': { checked: true, date: '2026-10-13', memo: 'index_dashboard.html 팩스 뷰 탑재' },
+      't-fax-report': { checked: true, date: '2026-10-13', memo: 'fax/fax_report.html 보고서 구축' },
+      't-fax-filter': { checked: true, date: '2026-10-13', memo: '1차 58개사 제외 플래그 지정' },
+      't-email-purge': { checked: true, date: '2026-09-14', memo: '블로그 추정 메일 전량 폐기' },
+      't-email-recycle-send': { checked: true, date: '2026-10-01', memo: '150여 곳 리사이클링 메일 순환' },
+      't-tm-list': { checked: true, date: '2026-10-05', memo: '핵심 TM 20~30곳 추출' },
+      't-tm-call': { checked: false, date: '', memo: '구매담당자 직통 메일 확보 추진' },
+      't-tm-log': { checked: false, date: '', memo: 'TM 통화 결과 시트 기록 연동 예정' },
+
+      // ── PART 2 (PHASE 1 ~ 9) ──
+      'ph1-hero': { checked: true, date: '2026-08-20', memo: '히어로 섹션 CTA 및 주요 가공 서비스 배치' },
+      'ph1-spec': { checked: true, date: '2026-08-20', memo: '가공 스펙 spec_01~04 4장 배치' },
+      'ph1-services': { checked: true, date: '2026-08-20', memo: '스웨이징/벤딩/포밍/인발/주문제작 5개 카드 완성' },
+      'ph1-gallery': { checked: true, date: '2026-08-20', memo: '실제 제품 갤러리 41장 탭별 분류 배치' },
+      'ph1-whyus': { checked: true, date: '2026-08-20', memo: '대흥정밀 강점 3가지 섹션 완성' },
+      'ph1-quoteform': { checked: true, date: '2026-08-20', memo: '견적 문의 폼 필드 완성' },
+      'ph1-responsive': { checked: true, date: '2026-08-20', memo: '모바일/태블릿/PC 전 해상도 반응형 검증' },
+      'ph1-pwa': { checked: true, date: '2026-08-20', memo: 'manifest.json + PWA 아이콘 등록' },
+      'ph1-formsubmit': { checked: true, date: '2026-08-20', memo: 'Formspree AJAX 견적 전송 연동' },
+      'ph1-mailto-fallback': { checked: true, date: '2026-08-20', memo: 'mailto: 자동 폴백 연동' },
+      'ph1-utm': { checked: true, date: '2026-08-20', memo: '광고 UTM 파라미터 자동 바인딩' },
+      'ph1-toast': { checked: true, date: '2026-08-20', memo: '토스트 알림 팝업 연동' },
+      'ph1-loading': { checked: true, date: '2026-08-20', memo: '로딩 스피너 연동' },
+      'ph1-filecheck': { checked: true, date: '2026-08-20', memo: '10MB 파일 검사 완료' },
+      'ph1-servicelink': { checked: true, date: '2026-08-20', memo: '서비스 카드 클릭 견적 자동 연동' },
+      'ph1-title': { checked: true, date: '2026-08-20', memo: '모바일 카탈로그 Title 태그 최적화 완료' },
+      'ph1-meta-desc': { checked: true, date: '2026-08-20', memo: 'Meta Description 150자 작성' },
+      'ph1-canonical': { checked: true, date: '2026-08-20', memo: 'Canonical URL 설정' },
+      'ph1-keywords': { checked: true, date: '2026-08-20', memo: 'Meta Keywords 10개 최적화' },
+      'ph1-og': { checked: true, date: '2026-08-20', memo: 'OG 메타데이터 및 SNS 카드 완성' },
+      'ph1-schema': { checked: true, date: '2026-08-20', memo: 'JSON-LD 구조화 데이터 적용' },
+      'ph1-contact': { checked: true, date: '2026-08-20', memo: '전화걸기 CTA 플로팅 바 연동' },
+      'ph1-cad': { checked: true, date: '2026-10-02', memo: '흑백 CAD 기술 도면 3열 갤러리 추가 완료' },
+
+      'ph2-onopen': { checked: true, date: '2026-08-22', memo: 'GAS 아웃바운드 커스텀 메뉴 생성' },
+      'ph2-header-parse': { checked: true, date: '2026-08-22', memo: '헤더명 기반 자동 열 탐지 완료' },
+      'ph2-checkbox-pick': { checked: true, date: '2026-08-22', memo: 'A열 체크박스 TRUE 필터링' },
+      'ph2-confirm': { checked: true, date: '2026-08-22', memo: '발송 전 안전 확인 다이얼로그' },
+      'ph2-template-load': { checked: true, date: '2026-08-22', memo: 'Vercel 원격 템플릿 로드 완료' },
+      'ph2-inline-images': { checked: true, date: '2026-08-22', memo: 'CID 인라인 이미지 연동' },
+      'ph2-personalize': { checked: true, date: '2026-08-22', memo: '회사명 및 담당자 치환' },
+      'ph2-template': { checked: true, date: '2026-08-22', memo: '반응형 이메일 템플릿 제작' },
+      'ph2-tracker': { checked: true, date: '2026-08-24', memo: 'FastViz 실시간 오픈/클릭 추적기 연동' },
+      'ph2-campaign1': { checked: true, date: '2026-09-08', memo: '198개사 1차 캠페인 완결 (오픈 41.4%, 클릭 11.6%)' },
+      'ph2-error-clean': { checked: true, date: '2026-09-10', memo: '에러 메일 48건 정제 및 채널 전환 수립' },
+
+      'ph3-gmail': { checked: true, date: '2026-08-25', memo: 'Google Apps Script 대량 발송 파이프라인 연동' },
+      'ph3-naver': { checked: true, date: '2026-08-25', memo: 'dhpipe8203@naver.com 대표 수신 분리 운영' },
+      'ph3-spf': { checked: true, date: '2026-08-25', memo: 'SPF/DKIM 스팸 필터 회피 검증 완료' },
+      'ph3-quota': { checked: true, date: '2026-08-25', memo: '일일 100건 안전 분산 로직 적용' },
+
+      'ph4-dash': { checked: true, date: '2026-09-01', memo: 'index_dashboard.html 실시간 대시보드 구축 완료' },
+      'ph4-vercel': { checked: true, date: '2026-08-28', memo: 'Vercel 도메인 바인딩 및 자동 배포' },
+      'ph4-api': { checked: true, date: '2026-09-01', memo: 'GAS doGet API 실시간 연동' },
+      'ph4-kpi': { checked: true, date: '2026-09-01', memo: 'KPI 카드 및 오픈/클릭 차트 시각화' },
+      'ph4-filter': { checked: true, date: '2026-09-01', memo: '업종/차수별 필터링 기능 구현' },
+      'ph4-mobile-dash': { checked: true, date: '2026-09-01', memo: '대시보드 모바일 최적화 완료' },
+
+      'ph5-blog-strategy': { checked: true, date: '2026-09-05', memo: '타깃 네이버 블로그 콘텐츠 전략 수립' },
+      'ph6-blog-draft': { checked: true, date: '2026-09-15', memo: '제조사 특화 기술 원고 수작업 작성 체계' },
+      'ph7-lead-scoring': { checked: true, date: '2026-09-20', memo: '리드 스코어링 분류 기준 정립' },
+      'ph8-crm-sync': { checked: true, date: '2026-09-25', memo: '구글 시트 연동 B2B 간이 CRM 정립' },
+      'ph9-automation-opt': { checked: true, date: '2026-10-01', memo: '하이브리드 아웃바운드 지속 최적화' },
+
+      // ── PART 3 (PHASE 10 ~ 12) ──
+      'ph10-proposal-draft': { checked: true, date: '2026-10-02', memo: 'A4 흑백 제안서 초안 작성 완료' },
+      'ph10-visual-update': { checked: true, date: '2026-10-02', memo: 'CAD 3열 갤러리 반영 9차 개정 완료' },
+      'ph10-pdf-export': { checked: true, date: '2026-10-02', memo: 'Playwright 헤드리스 고해상도 PDF 변환 완료' },
+      'ph10-sendlabs-format': { checked: true, date: '2026-10-02', memo: '샌드랩스 대량 엑셀/CSV 규격 템플릿 연동' },
+      'ph10-faxlog-sheet': { checked: true, date: '2026-10-02', memo: '구글 시트 fax_log 워크시트 생성 완료' },
+
+      'ph11-mail-schedule': { checked: true, date: '2026-10-01', memo: '월 2회 정기 발송 체계 전환 완료' },
+      'ph11-fax-pivot': { checked: true, date: '2026-10-01', memo: '미응답 118개사 팩스 채널 전환 완료' },
+      'ph11-fax-reverify': { checked: true, date: '2026-10-01', memo: '118개사 팩스 번호 1차 정제 완료' },
+      'ph11-blog-warning': { checked: true, date: '2026-10-01', memo: '네이버 저품질 위험 매크로 전면 중단' },
+      'ph11-blog-target': { checked: true, date: '2026-10-01', memo: '고가치 타깃 한정 수작업 블로그 원고 작성' },
+
+      'ph12-b1': { checked: true, date: '2026-10-06', memo: '13건 중 4건 성공, 9건 실패 / 100원 정산 완료' },
+      'ph12-b2': { checked: true, date: '2026-10-12', memo: '14건 중 2건 성공, 12건 실패 / 50원 정산 완료' },
+      'ph12-b3': { checked: true, date: '2026-10-13', memo: '15건 중 5건 성공, 10건 실패 / 125원 정산 완료' },
+      'ph12-b4-1': { checked: true, date: '2026-10-19', memo: '13건 중 4건 성공 (성우축관, 삼우포밍 등) / 100원 정산' },
+      'ph12-b4-2': { checked: true, date: '2026-10-19', memo: '13건 중 2건 성공 (이레텍, 서일) / 50원 정산' },
+      'ph12-b4-3': { checked: true, date: '2026-10-19', memo: '12건 중 1건 성공 (대명기업) / 25원 정산' },
+      'ph12-exception-isolate': { checked: true, date: '2026-10-19', memo: '동종 경쟁사 138개사 exception 시트 완전 이관 완료' },
+
+      // ── PART 4 (PHASE 13) ──
+      'ph13-target-kw': { checked: true, date: '2026-10-19', memo: '5대 실수요 산업군 수집 키워드 확정' },
+      'ph13-neg-filter': { checked: true, date: '2026-10-19', memo: '동종업체 8대 네거티브 키워드 자동 드롭 필터 가동' },
+      'ph13-official-source': { checked: false, date: '', memo: '기계진흥회/농기계조합 공장등록 DB 연계 추진' },
+      'ph13-hometax-verify': { checked: false, date: '', memo: '국세청 홈택스 휴폐업 API 교차 검증 자동화' },
+      'ph13-fax-screening': { checked: false, date: '', memo: '0507 가상번호 배제 및 대표전화 중복 검출' },
+      'ph13-clean-300': { checked: false, date: '', memo: '클린 수요처 300곳 구축 및 주 1회 순차 발송 재개' },
+
+      // ── PART 4 (PHASE 14 - 2026-10-26 완료) ──
+      'ph14-search-migrate': { checked: true, date: '2026-10-26', memo: 'search 시트 91개사 company 시트(164~254행) 이관 완료' },
+      'ph14-address-enrich': { checked: true, date: '2026-10-26', memo: '이관 업체 주소 공란 56개사 네이버/웹 크롤링 100% 보강 완료' },
+      'ph14-first-send-50': { checked: true, date: '2026-10-26', memo: '이메일 보유 50개사 발송 (성공: 50건 / 실패: 0건, 100% 성공)' },
+      'ph14-bounce-refine': { checked: true, date: '2026-10-26', memo: '코리아세일즈 오탈자 수정 재발송, 아이디오 팩스 채널 전환' },
+      'ph14-proposal-v2': { checked: true, date: '2026-10-26', memo: '기존 122개사용 정기 리마인드 템플릿(dhsteel_proposal_v2.html) Vercel 배포' },
+      'ph14-auto-season-gas': { checked: true, date: '2026-10-26', memo: 'GAS 발송 엔진 신규/기존 자동 분기 및 4계절 안부 인사({계절인사}) 자동 치환 탑재' },
+      'ph14-round2-selector': { checked: true, date: '2026-10-26', memo: 'M열 1회차완료/2회차완료 상태 분리 및 2회차 대상(122개사) 자동 체크 메뉴 신설' },
+      // ── PART 2-추가 (PHASE 15 - 2026-11-02 완료) ──
+      'ph15-fax-targets': { checked: true, date: '2026-11-02', memo: '10/26 메일 수신군 중 팩스 보유 32개사 선별' },
+      'ph15-fax-send': { checked: true, date: '2026-11-02', memo: '샌드랩스 31건 발송 (성공: 22건 71.0% / 실패: 9건)' },
+      'ph15-sheet-sync': { checked: true, date: '2026-11-02', memo: 'fax_log 31건 누적 및 company 시트 일괄 업데이트' },
+      'ph15-report-upgrade': { checked: true, date: '2026-11-02', memo: 'fax_report.html 1~5회차 112건 주입 및 동적 드롭다운 탑재' },
+
+      // ── PART 2-추가 (PHASE 16 - 2026-11-09 완료) ──
+      'ph16-schedule-dashboard': { checked: true, date: '2026-11-09', memo: 'schedule 시트에 월간/주간/배치풀 통합 분석 뷰 구축' },
+      'ph16-sheet-20261109': { checked: true, date: '2026-11-09', memo: '2026-11-09 시트 신설 및 검증 70개사 세팅' },
+      'ph16-mail-send-70': { checked: true, date: '2026-11-09', memo: '검증 70개사 일괄 발송 집행 (Gmail API)' },
+      'ph16-bounce-refine': { checked: true, date: '2026-11-09', memo: '코베아 오타 수정, 금경이노텍 계정삭제, 아이디오 팩스 전환' },
+      'ph16-roadmap-setup': { checked: true, date: '2026-11-09', memo: '11월 4주 로드맵 수립 및 차주 팩스 30개사 사전 선별' },
+      // ── PART 2-추가 (PHASE 17 - 2026-11-16 완료) ──
+      'ph17-fax-targets-30': { checked: true, date: '2026-11-16', memo: '11/02 성공군 및 우량 팩스 30개사 선별' },
+      'ph17-sendlabs-files': { checked: true, date: '2026-11-16', memo: '샌드랩스 업로드용 xlsx/csv 생성 완료' },
+      'ph17-sheet-20261116': { checked: true, date: '2026-11-16', memo: '2026-11-16 시트 신설 및 회차 세팅' },
+      'ph17-fax-report-docx': { checked: true, date: '2026-11-16', memo: '2026-11-16_fax_outbound_list.docx 발행' }
+    };
+
+    const checkboxes = document.querySelectorAll('.task-item input[type="checkbox"]');
+    checkboxes.forEach(cb => {
+      const id = cb.id;
+      const def = defaults[id] || {};
+      const dateInput = document.getElementById(id + '-date');
+      const memoInput = document.getElementById(id + '-memo');
+
+      // 저장값 확인 (신규 PREFIX 우선, 과거 PREFIX_1ST 보조)
+      let savedCheck = localStorage.getItem(PREFIX + id);
+      if (savedCheck === null) savedCheck = localStorage.getItem(PREFIX_1ST + id);
+
+      let savedDate = localStorage.getItem(PREFIX + id + '_date');
+      if (savedDate === null) savedDate = localStorage.getItem(PREFIX_1ST + id + '_date');
+
+      let savedMemo = localStorage.getItem(PREFIX + id + '_memo');
+      if (savedMemo === null) savedMemo = localStorage.getItem(PREFIX_1ST + id + '_memo');
+
+      const isChecked = def.checked ? true : (savedCheck !== null ? savedCheck === 'true' : false);
+      const dateVal = def.date ? def.date : (savedDate !== null ? savedDate : '');
+      const memoVal = def.memo ? def.memo : (savedMemo !== null ? savedMemo : '');
+
+      cb.checked = isChecked;
+      if (isChecked) cb.closest('.task-item').classList.add('completed');
+      if (dateInput && dateVal) dateInput.value = dateVal;
+      if (memoInput && memoVal) memoInput.value = memoVal;
+
+      if (savedCheck === null && def.checked !== undefined) localStorage.setItem(PREFIX + id, isChecked);
+      if (savedDate === null && dateVal) localStorage.setItem(PREFIX + id + '_date', dateVal);
+      if (savedMemo === null && memoVal) localStorage.setItem(PREFIX + id + '_memo', memoVal);
+
+      cb.addEventListener('change', () => {
+        localStorage.setItem(PREFIX + id, cb.checked);
+        localStorage.setItem(PREFIX_1ST + id, cb.checked);
+        cb.closest('.task-item').classList.toggle('completed', cb.checked);
+        if (cb.checked && dateInput && !dateInput.value) {
+          const today = new Date().toISOString().split('T')[0];
+          dateInput.value = today;
+          localStorage.setItem(PREFIX + id + '_date', today);
+        } else if (!cb.checked && dateInput) {
+          dateInput.value = '';
+          localStorage.removeItem(PREFIX + id + '_date');
+        }
+      });
+
+      if (dateInput) {
+        dateInput.addEventListener('change', () => {
+          localStorage.setItem(PREFIX + id + '_date', dateInput.value);
+        });
+      }
+      if (memoInput) {
+        memoInput.addEventListener('input', () => {
+          localStorage.setItem(PREFIX + id + '_memo', memoInput.value);
+        });
+      }
+    });
+  </script>
+</body>
+</html>

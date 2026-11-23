@@ -1,6 +1,6 @@
 # 📋 B2B 리드 수집·주소 보강 작업 지침서
-### 적용 대상: `D:\Antigravity\builder-dhsteel-sales`
-### 기반 작업: `D:\Antigravity\builder-samhyup-sales` (완료 참조)
+### 적용 대상: `E:\Antigravity\builder-dhsteel-sales`
+### 기반 작업: `E:\Antigravity\builder-samhyup-sales` (완료 참조)
 
 ---
 
@@ -27,11 +27,11 @@
 - **스프레드시트 ID**: 대흥정밀 시트 URL에서 `/d/` 와 `/edit` 사이의 값
   - 예: `https://docs.google.com/spreadsheets/d/[여기가 ID]/edit`
 - **워크시트 이름**: 삼협은 `company` → 대흥도 동일 워크시트명 확인 필요
-- **인증 파일**: `D:\Antigravity\credentials\ghkim\ghkim_credentials_crawler-hifus_20260221.json`
+- **인증 파일**: `E:\Antigravity\credentials\ghkim\ghkim_credentials_crawler-hifus_20260221.json`
 
 ### 3. 스크립트 폴더 생성
 ```powershell
-New-Item -ItemType Directory -Path "D:\Antigravity\builder-dhsteel-sales\search" -Force
+New-Item -ItemType Directory -Path "E:\Antigravity\builder-dhsteel-sales\search" -Force
 ```
 
 ---
@@ -42,9 +42,9 @@ New-Item -ItemType Directory -Path "D:\Antigravity\builder-dhsteel-sales\search"
 
 | 원본 파일 경로 | 복사 경로 | 변경 항목 |
 |---|---|---|
-| `D:\Antigravity\builder-samhyup-sales\search\plan_a_clean_enrich.py` | `D:\Antigravity\builder-dhsteel-sales\search\plan_a_clean_enrich.py` | `SPREADSHEET_ID` |
-| `D:\Antigravity\builder-samhyup-sales\search\plan_b_nationwide.py` | `D:\Antigravity\builder-dhsteel-sales\search\plan_b_nationwide.py` | `SPREADSHEET_ID` |
-| `D:\Antigravity\builder-samhyup-sales\search\enhance_addresses_robust.py` | `D:\Antigravity\builder-dhsteel-sales\search\enhance_addresses_robust.py` | `SPREADSHEET_ID` |
+| `E:\Antigravity\builder-samhyup-sales\search\plan_a_clean_enrich.py` | `E:\Antigravity\builder-dhsteel-sales\search\plan_a_clean_enrich.py` | `SPREADSHEET_ID` |
+| `E:\Antigravity\builder-samhyup-sales\search\plan_b_nationwide.py` | `E:\Antigravity\builder-dhsteel-sales\search\plan_b_nationwide.py` | `SPREADSHEET_ID` |
+| `E:\Antigravity\builder-samhyup-sales\search\enhance_addresses_robust.py` | `E:\Antigravity\builder-dhsteel-sales\search\enhance_addresses_robust.py` | `SPREADSHEET_ID` |
 
 ---
 
@@ -54,7 +54,7 @@ New-Item -ItemType Directory -Path "D:\Antigravity\builder-dhsteel-sales\search"
 **목적**: 비산업 업종(낚시/동물/반려동물 등) 제거, 주소/이메일 데이터 초기 정제
 
 ```powershell
-cd D:\Antigravity\builder-dhsteel-sales
+cd E:\Antigravity\builder-dhsteel-sales
 & "C:\Program Files\Python310\python.exe" search\plan_a_clean_enrich.py
 ```
 
@@ -69,7 +69,7 @@ cd D:\Antigravity\builder-dhsteel-sales
 **소요 시간**: 약 30~50분 (180개 쿼리)
 
 ```powershell
-cd D:\Antigravity\builder-dhsteel-sales
+cd E:\Antigravity\builder-dhsteel-sales
 & "C:\Program Files\Python310\python.exe" search\plan_b_nationwide.py
 ```
 
@@ -95,7 +95,7 @@ cd D:\Antigravity\builder-dhsteel-sales
 **소요 시간**: 약 15~20분 (약 500행 기준)
 
 ```powershell
-cd D:\Antigravity\builder-dhsteel-sales
+cd E:\Antigravity\builder-dhsteel-sales
 & "C:\Program Files\Python310\python.exe" search\enhance_addresses_robust.py
 ```
 
