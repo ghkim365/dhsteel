@@ -53,6 +53,7 @@ catalog_src = os.path.join(base_dir, 'catalog')
 catalog_files = [
     'index_catalog.html',
     'index_brochure.html',
+    'index_proposal.html',
     'app.js',
     'styles.css',
     'manifest.json',
