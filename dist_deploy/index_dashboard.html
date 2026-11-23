@@ -873,35 +873,6 @@
         }
 
         @media(max-width: 768px) {
-            .sidebar {
-                width: 65px;
-                padding: 16px 4px;
-            }
-
-            .logo-name,
-            .logo-sub {
-                display: none;
-            }
-
-            .nav a {
-                justify-content: center;
-                padding: 12px 0;
-            }
-
-            .nav a .navtext {
-                display: none;
-            }
-
-            .side-bottom {
-                display: none;
-            }
-
-            .main {
-                margin-left: 65px;
-                max-width: calc(100% - 65px);
-                padding: 14px 10px;
-            }
-
             .heading h1 {
                 font-size: 17px;
             }
@@ -1001,7 +972,11 @@
 
             /* 사이드바 → 하단 고정 탭바 (가로 스크롤) */
             .sidebar {
-                inset: auto 0 0 0;
+                position: fixed;
+                top: auto;
+                left: 0;
+                right: 0;
+                bottom: 0;
                 width: 100%;
                 height: auto;
                 padding: 6px 4px calc(6px + env(safe-area-inset-bottom));
