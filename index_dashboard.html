@@ -905,6 +905,328 @@
             .heading h1 {
                 font-size: 17px;
             }
+
+            .search-box {
+                min-width: 0;
+                width: 100%;
+            }
+
+            .sim-layout,
+            .quickgrid {
+                grid-template-columns: minmax(0, 1fr);
+            }
+        }
+
+        @media(max-width: 480px) {
+            .grid4 {
+                grid-template-columns: minmax(0, 1fr);
+            }
+
+            .kpi .value {
+                font-size: 28px;
+            }
+
+            .quickgrid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        /* 모바일 가로 폭 넘침 방지: 그리드 자식이 콘텐츠 폭(min-width:auto)으로
+           늘어나지 않도록 하고, 넓은 표는 .table-scroll 내부에서만 스크롤 */
+        html,
+        body {
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+
+        .main,
+        .grid4>*,
+        .content-grid>*,
+        .bottomgrid>*,
+        .sim-layout>*,
+        .quickgrid>* {
+            min-width: 0;
+        }
+
+        .grid4,
+        .content-grid,
+        .bottomgrid {
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
+
+        .content-grid {
+            grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+        }
+
+        .bottomgrid {
+            grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
+        }
+
+        .chart-card canvas {
+            max-width: 100%;
+        }
+
+        .table-scroll {
+            max-width: 100%;
+        }
+
+        @media(max-width: 1024px) {
+            .grid4 {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .content-grid,
+            .bottomgrid {
+                grid-template-columns: minmax(0, 1fr);
+            }
+        }
+
+        @media(max-width: 480px) {
+            .grid4 {
+                grid-template-columns: minmax(0, 1fr);
+            }
+        }
+
+        /* ============================================================== */
+        /* MOBILE (≤768px): 하단 탭바 + 단일 컬럼 + 카드형 목록            */
+        /* ============================================================== */
+        .nav-logout-mobile {
+            display: none !important;
+        }
+
+        @media(max-width: 768px) {
+            body {
+                font-size: 13px;
+            }
+
+            /* 사이드바 → 하단 고정 탭바 (가로 스크롤) */
+            .sidebar {
+                inset: auto 0 0 0;
+                width: 100%;
+                height: auto;
+                padding: 6px 4px calc(6px + env(safe-area-inset-bottom));
+                flex-direction: row;
+                box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.18);
+            }
+
+            .sidebar .logo,
+            .side-bottom {
+                display: none;
+            }
+
+            .nav {
+                display: flex;
+                gap: 2px;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none;
+            }
+
+            .nav::-webkit-scrollbar {
+                display: none;
+            }
+
+            .nav a,
+            .nav a.active {
+                flex: 0 0 auto;
+                min-width: 62px;
+                flex-direction: column;
+                justify-content: center;
+                gap: 2px;
+                padding: 6px 8px;
+                font-size: 10.5px;
+                white-space: nowrap;
+            }
+
+            .nav a .navtext {
+                display: inline;
+            }
+
+            .nav .ico {
+                font-size: 18px;
+                width: auto;
+            }
+
+            .nav-logout-mobile {
+                display: flex !important;
+            }
+
+            /* 본문: 전체 폭 사용 + 하단 탭바 여백 */
+            .main {
+                margin-left: 0;
+                max-width: 100%;
+                padding: 12px 12px calc(84px + env(safe-area-inset-bottom));
+            }
+
+            .topbar {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 10px;
+                margin-bottom: 14px;
+            }
+
+            .heading>div:first-child {
+                flex-wrap: wrap;
+            }
+
+            .heading h1 {
+                font-size: 18px;
+            }
+
+            #badge-google-ads {
+                font-size: 10px !important;
+                white-space: normal;
+            }
+
+            .top-actions {
+                display: grid;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 6px;
+            }
+
+            .top-actions #site-selector,
+            .top-actions .mode-group,
+            .top-actions #btn-report-view {
+                grid-column: 1 / -1;
+            }
+
+            .top-actions .pillselect,
+            .top-actions .pillbtn {
+                width: 100%;
+                text-align: center;
+                justify-content: center;
+                font-size: 12px;
+                padding: 9px 8px;
+            }
+
+            .mode-group {
+                display: flex;
+            }
+
+            .mode-group .mode-btn {
+                flex: 1;
+            }
+
+            .card {
+                border-radius: 10px;
+            }
+
+            .chart-card {
+                min-height: 0;
+                padding: 14px;
+            }
+
+            .chart-container {
+                height: 240px;
+            }
+
+            .simcard,
+            .quick-card {
+                padding: 14px;
+            }
+
+            .cardtitle {
+                font-size: 15px;
+            }
+
+            /* 표 헤더/컨트롤 세로 정렬 */
+            .tablehead {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 10px;
+            }
+
+            .table-controls {
+                display: grid;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 6px;
+                width: 100%;
+            }
+
+            .table-controls .search-box {
+                grid-column: 1 / -1;
+            }
+
+            .table-controls .pillselect {
+                width: 100%;
+            }
+
+            /* 견적/로그 목록: 표 → 카드 */
+            #leads-table {
+                min-width: 0;
+                display: block;
+            }
+
+            #leads-table thead {
+                display: none;
+            }
+
+            #leads-table tbody {
+                display: block;
+            }
+
+            #leads-table tr {
+                display: flex;
+                flex-wrap: wrap;
+                align-items: center;
+                gap: 4px 10px;
+                padding: 12px 6px;
+                border-bottom: 1px solid #E8EDF5;
+            }
+
+            #leads-table td {
+                display: inline-block;
+                padding: 0;
+                border: none;
+                white-space: normal;
+                word-break: break-word;
+                font-size: 12.5px;
+                max-width: 100%;
+            }
+
+            #leads-table td:nth-child(3) {
+                order: -1;
+                flex: 1 0 100%;
+                font-size: 14.5px;
+                font-weight: 600;
+                color: var(--navy);
+            }
+
+            #leads-table td:nth-child(1),
+            #leads-table td:nth-child(2) {
+                color: var(--muted);
+                font-size: 11.5px;
+            }
+
+            .table-scroll {
+                overflow-x: visible;
+            }
+
+            #pagination-controls {
+                flex-direction: column;
+                gap: 8px;
+                align-items: stretch !important;
+                text-align: center;
+            }
+
+            #pagination-controls>div {
+                justify-content: center;
+            }
+
+            /* 시뮬레이터 */
+            .simtable {
+                overflow-x: auto;
+            }
+
+            .simtable div {
+                padding: 8px;
+            }
+
+            /* 모달: 화면 폭에 맞춤 */
+            [class*="modal"] {
+                max-width: 100vw;
+            }
         }
     </style>
 </head>
@@ -967,6 +1289,9 @@
                     class="navtext">운영계획서</span></a>
             <a href="javascript:void(0)" onclick="changeAdminPassword()"><span class="ico">🔑</span><span
                     class="navtext">비번 변경</span></a>
+            <a class="nav-logout-mobile" href="javascript:void(0)"
+                onclick="sessionStorage.removeItem('dhsteel_auth'); location.reload();"><span
+                    class="ico">⎋</span><span class="navtext">로그아웃</span></a>
         </nav>
         <div class="side-bottom">
             <div><span class="status-dot"></span>시스템 정상</div>
@@ -3483,8 +3808,11 @@
                                 }))
                             };
                             localStorage.setItem('dhsteel_fax_analytics', JSON.stringify(analyticsData));
-                        } else {
+                        } else if (data && data.visits && Array.isArray(data.quotes)) {
                             analyticsData = data;
+                        } else {
+                            // GAS 응답에 visits/quotes 구조가 없으면 로컬 폴백으로 전환
+                            throw new Error('GAS 응답 형식 오류 (visits/quotes 누락)');
                         }
                         renderDashboardData();
                     })
@@ -3503,6 +3831,15 @@
 
         // UI 데이터 그리기 핵심 로직
         function renderDashboardData() {
+            // 방어 코드: 어떤 경로로든 구조가 비어 있어도 렌더링이 죽지 않도록 보정
+            if (!analyticsData || typeof analyticsData !== 'object') analyticsData = {};
+            if (!analyticsData.visits || typeof analyticsData.visits !== 'object') {
+                analyticsData.visits = (currentSite === 'mailling' || currentSite === 'fax')
+                    ? { success: 0, fail: 0, pending: 0 }
+                    : { google_ads: 0, search: 0, direct: 0 };
+            }
+            if (!Array.isArray(analyticsData.quotes)) analyticsData.quotes = [];
+
             let totalVisits = 0;
             let totalQuotes = 0;
             let cvr = "0.00";
