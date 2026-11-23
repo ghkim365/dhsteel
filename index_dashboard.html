@@ -1227,6 +1227,69 @@
             [class*="modal"] {
                 max-width: 100vw;
             }
+
+            /* 본문 전체 폭 사용 (사이드바 여백 완전 제거) */
+            .main,
+            #dashboard-wrapper {
+                margin-left: 0 !important;
+                padding-left: 12px;
+                width: 100%;
+                max-width: 100% !important;
+            }
+
+            /* 차트: 부모 폭에 맞춰 자동 축소, 밖으로 잘리지 않게 */
+            .chart-card {
+                overflow: hidden;
+                max-width: 100%;
+            }
+
+            .chart-container {
+                flex: none;
+                width: 100%;
+                max-width: 100%;
+                height: 240px;
+                overflow: hidden;
+            }
+
+            .chart-container canvas {
+                display: block;
+                width: 100% !important;
+                max-width: 100% !important;
+                height: 100% !important;
+            }
+
+            /* 시뮬레이터: 슬라이더 / 결과표 세로 1열 */
+            .simcard {
+                overflow: hidden;
+            }
+
+            .sim-layout {
+                display: flex !important;
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            .sim-layout>* {
+                width: 100%;
+                min-width: 0;
+            }
+
+            .control label {
+                gap: 8px;
+            }
+
+            .simtable {
+                width: 100%;
+                overflow: hidden;
+            }
+
+            .simtable div {
+                grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr) minmax(0, 1fr);
+                gap: 6px;
+                font-size: 11px;
+                word-break: keep-all;
+                overflow-wrap: anywhere;
+            }
         }
     </style>
 </head>
@@ -1794,6 +1857,10 @@
         let currentSite = 'catalog';   // 'catalog', 'main_site', or 'mailling'
         let dashboardMode = 'realtime'; // 'realtime' or 'simulator'
         let analyticsData = null;
+        window.addEventListener('resize', () => {
+            if (typeof sourceChart !== 'undefined' && sourceChart) sourceChart.resize();
+            if (typeof productChart !== 'undefined' && productChart) productChart.resize();
+        });
         let sourceChart = null;
         let productChart = null;
 
