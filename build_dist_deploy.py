@@ -114,6 +114,19 @@ os.makedirs(dist_mail, exist_ok=True)
 shutil.copy2(os.path.join(base_dir, 'mailling', 'mail_report.html'), os.path.join(dist_mail, 'mail_report.html'))
 print('[Copied Mail Report] mail_report.html')
 
+# workflow (작업 요약 HTML 보고서만 복사: docx/pptx/pdf/스크립트 등 내부 파일은 제외)
+import glob
+src_workflow = os.path.join(base_dir, 'workflow')
+dist_workflow = os.path.join(dist_dir, 'workflow')
+workflow_reports = sorted(glob.glob(os.path.join(src_workflow, '*_claude_dashboard_work_summary.html')))
+if workflow_reports:
+    os.makedirs(dist_workflow, exist_ok=True)
+    for rp in workflow_reports:
+        shutil.copy2(rp, os.path.join(dist_workflow, os.path.basename(rp)))
+        print(f'[Copied Workflow Report] {os.path.basename(rp)}')
+else:
+    print('[Skipped] workflow reports not found')
+
 # ==========================================
 # 4. Measure Size
 # ==========================================
