@@ -40,6 +40,7 @@
         <a href="#services">제품소개</a>
         <a href="#gallery">제품갤러리</a>
         <a href="#why-us">왜 대흥정밀?</a>
+        <a href="index_brochure.html" target="_blank" rel="noopener" class="nav-brochure"><span class="nb-full">📄 브로슈어 ↗</span><span class="nb-short">📄 브로슈어</span></a>
         <a href="#quote-form" class="btn btn-primary">견적 요청</a>
       </nav>
     </div>
@@ -820,10 +821,18 @@
         </div>
       </div>
       <div class="footer-bottom">
-        <p><a href="dashboard.html" style="color: inherit; text-decoration: none; cursor: default;">&copy;</a> 2026 대흥정밀. All Rights Reserved. 본 사이트는 B2B 전용 간편 견적 및 서비스 카탈로그 페이지입니다.</p>
+        <p><span id="adminGate" class="admin-gate">&copy; 2026 대흥정밀.</span> All Rights Reserved. 본 사이트는 B2B 전용 간편 견적 및 서비스 카탈로그 페이지입니다.</p>
       </div>
     </div>
   </footer>
+
+  <!-- 관리자 진입: 일반 텍스트처럼 보이는 은폐 진입점 (href 없음 → 상태바/크롤러에 노출 안 됨) -->
+  <script>
+    (function () {
+      var g = document.getElementById('adminGate');
+      if (g) g.addEventListener('click', function () { location.href = '../index_dashboard.html'; });
+    })();
+  </script>
 
   <!-- 견적 문의 완료 팝업 모달 -->
   <div id="successModal" class="success-modal-overlay">

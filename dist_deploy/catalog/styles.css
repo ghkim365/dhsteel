@@ -94,6 +94,18 @@ img { max-width: 100%; display: block; }
   transition: var(--transition);
 }
 .nav a:hover { color: var(--white); background: rgba(255,255,255,0.08); }
+.nav .nb-short { display: none; }
+@media (max-width: 1000px) {
+  .nav .nb-full { display: none; }
+  .nav .nb-short { display: inline; }
+}
+/* 태블릿 폭(≤800px): 브로슈어 버튼 공간 확보를 위해 '왜 대흥정밀?' 메뉴 숨김 */
+@media (max-width: 800px) {
+  .nav a[href="#why-us"] { display: none; }
+}
+
+/* 관리자 진입 은폐 텍스트: 일반 텍스트와 동일하게 보이도록 (커서/하이라이트/포커스 효과 없음) */
+.admin-gate { cursor: default; -webkit-tap-highlight-color: transparent; outline: none; user-select: text; }
 
 /* ── BUTTONS ── */
 .btn {
@@ -946,6 +958,9 @@ img { max-width: 100%; display: block; }
   .nav a[href="#why-us"] {
     display: none !important;
   }
+  .nav { gap: 0; }
+  .nav a:not(.btn) { padding: 4px 3px; font-size: 10.5px; letter-spacing: -0.3px; }
+  .nav .btn { margin-left: 3px; }
   .nav a:not(.btn) {
     display: inline-block;
     font-size: 11px;
@@ -983,6 +998,11 @@ img { max-width: 100%; display: block; }
     color: var(--steel);
     font-weight: 500;
   }
+}
+
+/* 아주 좁은 화면(≤400px): 브로슈어 버튼 공간 확보를 위해 '제품소개' 메뉴 숨김 (본문 스크롤로 접근 가능) */
+@media (max-width: 400px) {
+  .nav a[href="#services"] { display: none !important; }
 }
 
 /* ── 파일 업로드 드래그오버 상태 ── */
