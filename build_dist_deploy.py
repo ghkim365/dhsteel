@@ -57,6 +57,7 @@ catalog_files = [
     'app.js',
     'styles.css',
     'manifest.json',
+    'sw.js',
     'google_apps_script_outbound.js',
     '대흥정밀 B2B 파이프 임가공 제안서_미리보기.html'
 ]

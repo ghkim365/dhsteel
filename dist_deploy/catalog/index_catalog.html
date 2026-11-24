@@ -848,5 +848,12 @@
   </div>
 
   <script src="app.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('/catalog/sw.js', { scope: '/catalog/' }).catch(function () {});
+      });
+    }
+  </script>
 </body>
 </html>
