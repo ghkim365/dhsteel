@@ -42,6 +42,32 @@ with open(os.path.join(dist_dir, '_redirects'), 'w', encoding='utf-8') as f:
     f.write(redirects_content)
 print('[Created] _redirects (/ -> /catalog/index_catalog.html 302, /gallery/*, /images/* 200)')
 
+# Create Cloudflare Pages _headers file for anti-caching
+headers_content = """# Cloudflare Pages Custom Headers for Anti-Cache
+/
+  Cache-Control: no-cache, no-store, must-revalidate
+  Pragma: no-cache
+  Expires: 0
+
+/index.html
+  Cache-Control: no-cache, no-store, must-revalidate
+  Pragma: no-cache
+  Expires: 0
+
+/*.html
+  Cache-Control: no-cache, no-store, must-revalidate
+  Pragma: no-cache
+  Expires: 0
+
+/catalog/*.html
+  Cache-Control: no-cache, no-store, must-revalidate
+  Pragma: no-cache
+  Expires: 0
+"""
+with open(os.path.join(dist_dir, '_headers'), 'w', encoding='utf-8') as f:
+    f.write(headers_content)
+print('[Created] _headers (Anti-cache headers applied)')
+
 # ==========================================
 # 2. Catalog Assets
 # ==========================================
@@ -100,8 +126,11 @@ if os.path.exists(assets_src):
 # plan
 dist_plan = os.path.join(dist_dir, 'plan')
 os.makedirs(dist_plan, exist_ok=True)
-shutil.copy2(os.path.join(base_dir, 'plan', 'dhsteel_plan_2026.html'), os.path.join(dist_plan, 'dhsteel_plan_2026.html'))
-print('[Copied Plan] dhsteel_plan_2026.html')
+plan_src = os.path.join(base_dir, 'plan')
+for pf in os.listdir(plan_src):
+    if pf.endswith(('.html', '.md', '.txt')):
+        shutil.copy2(os.path.join(plan_src, pf), os.path.join(dist_plan, pf))
+        print(f'[Copied Plan] {pf}')
 
 # fax
 dist_fax = os.path.join(dist_dir, 'fax')

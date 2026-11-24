@@ -319,9 +319,11 @@
       <p>Cloudflare Pages 이전 완료 • 파이프 임가공 아웃바운드(메일/팩스) 자동화 및 인프라 통합 관제</p>
     </div>
     <div class="header-links">
-      <a href="https://dhsteel.pages.dev" target="_blank" class="header-btn primary">🌐 대시보드 바로가기 ↗</a>
-      <a href="https://dhsteel.pages.dev/catalog/index_catalog.html" target="_blank" class="header-btn">📱 e-카탈로그 ↗</a>
+      <a href="https://dhsteel.pages.dev" target="_blank" class="header-btn primary">📱 e-카탈로그(메인) ↗</a>
+      <a href="https://dhsteel.pages.dev/index_dashboard" target="_blank" class="header-btn">📊 관리자 대시보드 ↗</a>
       <a href="https://dhsteel.pages.dev/catalog/index_brochure.html" target="_blank" class="header-btn">📄 공식 브로슈어 ↗</a>
+      <a href="claude_chat_history_20261124.html" target="_blank" class="header-btn" style="background:#FFFBEB; border-color:#F59E0B; color:#92400E;">💬 Claude 대화록 ↗</a>
+      <a href="antigravity_chat_history_20261124.html" target="_blank" class="header-btn" style="background:#F0FDF4; border-color:#10B981; color:#065F46;">🌐 Antigravity 대화록 ↗</a>
       <a href="https://dhsteel.pages.dev/mailling/mail_report.html" target="_blank" class="header-btn">✉️ 메일 리포트 ↗</a>
       <a href="https://dhsteel.pages.dev/fax/fax_report.html" target="_blank" class="header-btn">📠 팩스 리포트 ↗</a>
     </div>
@@ -354,7 +356,7 @@
   <!-- Tab Controls (Fursys-Store Mirror) -->
   <div class="plan-tab-nav">
     <button type="button" class="plan-tab-btn active" onclick="switchPlanTab('tab-history')">
-      📋 1. 프로젝트 통합 작업 계획 &amp; 이력 (Phase 1~20)
+      📋 1. 프로젝트 통합 작업 계획 &amp; 이력 (Phase 1~21)
     </button>
     <button type="button" class="plan-tab-btn" onclick="switchPlanTab('tab-deploy')">
       ☁️ 2. Cloudflare Pages 배포 매뉴얼 (2026-11-20 인프라 이전)
@@ -374,11 +376,48 @@
   </div>
 
   <!-- ============================================================== -->
-  <!-- TAB 1: 통합 작업 계획 & 이력 (Phase 1 ~ 20) -->
+  <!-- TAB 1: 통합 작업 계획 & 이력 (Phase 1 ~ 21) -->
   <!-- ============================================================== -->
   <div id="tab-history" class="plan-tab-pane active">
     
-    <!-- PHASE 20 (NEW - 2026-11-23) -->
+    <!-- PHASE 21 (NEW - 2026-11-24) -->
+    <div class="card" style="border: 2px solid #2563EB;">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+        <h2 style="margin:0;"><span class="badge badge-primary">PHASE 21</span> 대시보드 모바일 반응형 전면 개선, 고객 중심 루트 라우팅(카탈로그 직결) 개편 &amp; 협업 대화록</h2>
+        <span style="font-size:12px; color:#2563EB; font-weight:700;">2026-11-24 완료</span>
+      </div>
+      
+      <!-- 대화록 바로가기 배너 (ramines 스타일) -->
+      <div style="display:flex; gap:10px; margin-top:14px; flex-wrap:wrap;">
+        <a href="claude_chat_history_20261124.html" target="_blank" class="header-btn" style="background:#FFFBEB; border-color:#F59E0B; color:#92400E; font-weight:700; padding:10px 16px;">
+          💬 Claude Code 대화 내역 전체보기 (2026-11-24) ↗
+        </a>
+        <a href="antigravity_chat_history_20261124.html" target="_blank" class="header-btn" style="background:#F0FDF4; border-color:#10B981; color:#065F46; font-weight:700; padding:10px 16px;">
+          🌐 Antigravity 대화 내역 전체보기 (2026-11-24) ↗
+        </a>
+        <span style="font-size:12.5px; color:#64748B; align-self:center;">💡 각 대화록은 브라우저에서 Ctrl+A ➔ Ctrl+C 복사 후 구글 독스에 완벽하게 서식이 유지됩니다.</span>
+      </div>
+
+      <div class="tip-box green" style="margin-top:14px;">
+        • <strong>Claude Code 연동 대시보드 모바일(362px) 반응형 전면 최적화</strong>: 875줄 부근 구형 <code>@media(max-width:768px) { .sidebar { width:65px; } }</code> 레거시 사이드바 규칙을 완전히 삭제하고, 하단 고정 탭바(Bottom Tab Bar, width:100%, position:fixed, bottom:0)를 강제 적용. 견적/로그 테이블을 모바일 카드 목록형 UI로 변환하고 Google Ads 시뮬레이터 및 차트 우측 잘림 방지(1열 수직 재배치 및 overflow:hidden). 커밋: <code>402224f</code>, <code>0fef1fd</code>, <code>6ed034a</code><br>
+        • <strong>고객 메인 접속 구조 개편 &amp; 은폐 관리자 진입로 구축</strong>: 고객이 루트(<code>dhsteel.pages.dev/</code>) 및 <code>index.html</code> 접속 시 관리자 대시보드가 아니라 <strong>모바일 카탈로그(<code>catalog/index_catalog.html</code>)</strong>가 즉시 첫 화면으로 열리도록 <code>_redirects</code> 및 <code>index.html</code> 302 리다이렉트 전면 개편. 카탈로그 상단 헤더에 <code>[📄 브로슈어 ↗]</code> 연결 버튼 신설, 하단 푸터 카피라이트 텍스트(<code>&copy; 2026 대흥정밀.</code>)에 대표님 전용 은폐 관리자 게이트 링크(<code>#adminGate</code>) 배치. 커밋: <code>ab23c7e</code>, <code>a46042c</code><br>
+        • <strong>GAS 15초 타임아웃 상향 및 0건 데이터 방어 조치</strong>: Google Apps Script <code>fetchJSONP</code> 타임아웃이 5초(5000ms)로 짧아 497행 시트 처리 지연 시 0건으로 폴백되던 문제를 규명하고 15초(15000ms)로 상향 조정 및 에러 시 로컬 캐시 데이터 보존 처리<br>
+        • <strong>삼협철망(builder-samhyup-sales) 프로젝트 전파용 표준 지침서 구축</strong>: 동일한 모바일 반응형 개선안과 고객 중심 카탈로그 루트 라우팅 및 은폐 관리자 게이트를 삼협철망 프로젝트에 즉시 적용할 수 있도록 마크다운 지침서(<code>workflow/2026-11-24_samhyup_mobile_layout_and_routing_instruction.md</code>) 및 맑은 고딕 10pt 표준 Word 지침서 완비<br>
+        • <strong>크롬 브라우저 자동완성 오해 해소 &amp; Cloudflare Pages 검증</strong>: 크롬 오옴니박스 자동완성(<code>/index_dashboard</code>)으로 인한 접속 이슈 원인 규명 및 Cloudflare Pages 실제 302 리다이렉트 정상 동작 검증 완료
+      </div>
+
+      <ul class="checklist">
+        <li class="task-item"><input type="checkbox" id="ph21-mobile-dashboard-opt" checked><span class="task-text"><strong>[대시보드 모바일]</strong> 65px 레거시 사이드바 삭제, 하단 탭바 고정, 카드형 목록 변환 및 차트 반응형 (커밋 6ed034a)</span><input type="date" class="task-date-input" id="ph21-mobile-dashboard-opt-date" value="2026-11-24"><input type="text" class="task-memo-input" id="ph21-mobile-dashboard-opt-memo" value="362px 모바일 가로스크롤 제로화"></li>
+        <li class="task-item"><input type="checkbox" id="ph21-root-routing-catalog" checked><span class="task-text"><strong>[루트 카탈로그 직결]</strong> 루트(/) 접속 시 catalog/index_catalog.html 302 리다이렉트 배포 (커밋 ab23c7e)</span><input type="date" class="task-date-input" id="ph21-root-routing-catalog-date" value="2026-11-24"><input type="text" class="task-memo-input" id="ph21-root-routing-catalog-memo" value="고객 첫 화면 카탈로그 오픈 완료"></li>
+        <li class="task-item"><input type="checkbox" id="ph21-secret-admin-gate" checked><span class="task-text"><strong>[은폐 관리자 게이트]</strong> 카탈로그 헤더 [브로슈어 ↗] 추가 &amp; 푸터 카피라이트 텍스트 비밀 대시보드 링크 탑재</span><input type="date" class="task-date-input" id="ph21-secret-admin-gate-date" value="2026-11-24"><input type="text" class="task-memo-input" id="ph21-secret-admin-gate-memo" value="고객에겐 은폐, 대표님 전용 진입로"></li>
+        <li class="task-item"><input type="checkbox" id="ph21-gas-timeout-fix" checked><span class="task-text"><strong>[GAS 타임아웃 개선]</strong> fetchJSONP 타임아웃 5초 ➔ 15초(15000ms) 상향 및 에러 시 로컬 캐시 데이터 보존</span><input type="date" class="task-date-input" id="ph21-gas-timeout-fix-date" value="2026-11-24"><input type="text" class="task-memo-input" id="ph21-gas-timeout-fix-memo" value="0건 노출 오류 방어"></li>
+        <li class="task-item"><input type="checkbox" id="ph21-samhyup-sop-transfer" checked><span class="task-text"><strong>[삼협철망 지침서]</strong> 삼협철망 인수인계 지침서(MD/DOCX) 및 클로드코드 프롬프트 작성</span><input type="date" class="task-date-input" id="ph21-samhyup-sop-transfer-date" value="2026-11-24"><input type="text" class="task-memo-input" id="ph21-samhyup-sop-transfer-memo" value="builder-samhyup-sales 저장 완료"></li>
+        <li class="task-item"><input type="checkbox" id="ph21-chat-history-export" checked><span class="task-text"><strong>[대화록 내보내기]</strong> Claude Code &amp; Antigravity 대화 내역 HTML/MD 2종 생성 (ramines 스타일)</span><input type="date" class="task-date-input" id="ph21-chat-history-export-date" value="2026-11-24"><input type="text" class="task-memo-input" id="ph21-chat-history-export-memo" value="Ctrl+A/C 구글독스 복사 지원"></li>
+        <li class="task-item"><input type="checkbox" id="ph21-dist-deploy-rebuild" checked><span class="task-text"><strong>[배포 동기화]</strong> build_dist_deploy.py 실행 및 dist_deploy 최신 플랜/대화록 동기화</span><input type="date" class="task-date-input" id="ph21-dist-deploy-rebuild-date" value="2026-11-24"><input type="text" class="task-memo-input" id="ph21-dist-deploy-rebuild-memo" value="Cloudflare 배포 준비 완료"></li>
+      </ul>
+    </div>
+
+    <!-- PHASE 20 (2026-11-23) -->
     <div class="card" style="border: 2px solid #2563EB;">
       <div style="display:flex; justify-content:space-between; align-items:center;">
         <h2 style="margin:0;"><span class="badge badge-primary">PHASE 20</span> B2B 브로슈어 신규 제작 및 메일·팩스 보고서 UI 디자인 전면 리뉴얼</h2>
@@ -1264,6 +1303,20 @@
 
   // Auto-init checklist states from memory
   const defaults = {
+    'ph21-mobile-dashboard-opt': { checked: true, date: '2026-11-24', memo: '362px 모바일 가로스크롤 제로화' },
+    'ph21-root-routing-catalog': { checked: true, date: '2026-11-24', memo: '고객 첫 화면 카탈로그 오픈 완료' },
+    'ph21-secret-admin-gate': { checked: true, date: '2026-11-24', memo: '고객에겐 은폐, 대표님 전용 진입로' },
+    'ph21-gas-timeout-fix': { checked: true, date: '2026-11-24', memo: '0건 노출 오류 방어' },
+    'ph21-samhyup-sop-transfer': { checked: true, date: '2026-11-24', memo: 'builder-samhyup-sales 저장 완료' },
+    'ph21-chat-history-export': { checked: true, date: '2026-11-24', memo: 'Ctrl+A/C 구글독스 복사 지원' },
+    'ph21-dist-deploy-rebuild': { checked: true, date: '2026-11-24', memo: 'Cloudflare 배포 준비 완료' },
+    'ph20-brochure-create': { checked: true, date: '2026-11-23', memo: '삼협철망 벤치마킹 기술도면 완비' },
+    'ph20-reports-ui-renewal': { checked: true, date: '2026-11-23', memo: '가로폭 1020px 수직 플러시 정렬' },
+    'ph20-js-inline-font': { checked: true, date: '2026-11-23', memo: '실시간 렌더링 글자 확대 반영' },
+    'ph20-redundancy-clean': { checked: true, date: '2026-11-23', memo: '시각적 피로도 해소 및 공간 확보' },
+    'ph20-canvas-security': { checked: true, date: '2026-11-23', memo: 'Tainted canvas 오류 차단' },
+    'ph20-samhyup-infra': { checked: true, date: '2026-11-23', memo: 'E:/Antigravity/builder-samhyup-sales 저장 완료' },
+    'ph20-dist-deploy-sync': { checked: true, date: '2026-11-23', memo: '209개 파일 58.00MB 동기화 완료' },
     'ph18-infra-migration': { checked: true, date: '2026-11-20', memo: 'Cloudflare Pages 이전 및 dhsteel.pages.dev 라이브 오픈' },
     'ph18-file-standardize': { checked: true, date: '2026-11-20', memo: 'index_dashboard.html, index_catalog.html 표준화' },
     'ph18-dist-deploy-build': { checked: true, date: '2026-11-20', memo: '46.2MB 초경량 배포 패키지 구축' },

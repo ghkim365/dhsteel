@@ -1328,14 +1328,14 @@
             <a href="javascript:void(0)" onclick="changeAdminPassword()"><span class="ico">🔑</span><span
                     class="navtext">비번 변경</span></a>
             <a class="nav-logout-mobile" href="javascript:void(0)"
-                onclick="sessionStorage.removeItem('dhsteel_auth'); location.reload();"><span
+                onclick="logoutAdmin();"><span
                     class="ico">⎋</span><span class="navtext">로그아웃</span></a>
         </nav>
         <div class="side-bottom">
             <div><span class="status-dot"></span>시스템 정상</div>
             <div style="margin:6px 0 2px; color:#91A4BF; font-size:9.5px;">최근 동기화</div>
             <strong style="color:#FFFFFF; font-size:10px;">2026.11.23 LIVE</strong>
-            <button onclick="sessionStorage.removeItem('dhsteel_auth'); location.reload();">로그아웃</button>
+            <button onclick="logoutAdmin();">로그아웃</button>
         </div>
     </aside>
 
@@ -1831,6 +1831,7 @@
 
         let currentSite = 'catalog';   // 'catalog', 'main_site', or 'mailling'
         let dashboardMode = 'realtime'; // 'realtime' or 'simulator'
+        let gasRequestSeq = 0; // GAS 요청 순번 (늦게 도착한 이전 응답 무시용)
         let analyticsData = null;
         window.addEventListener('resize', () => {
             if (typeof sourceChart !== 'undefined' && sourceChart) sourceChart.resize();
@@ -3753,20 +3754,21 @@
             }
         }
 
-        // CORS 회피를 위한 JSONP 통신 헬퍼 함수 (로컬 file:// 실행 대응, 5초 타임아웃)
+        // CORS 회피를 위한 JSONP 통신 헬퍼 함수 (로컬 file:// 실행 대응, 15초 타임아웃)
+        // GAS 응답이 150KB+ 이고 모바일/콜드스타트 시 5초를 넘기는 경우가 있어 15초로 상향
         function fetchJSONP(url, callbackName) {
             return new Promise((resolve, reject) => {
                 const uniqueCallbackName = `${callbackName}_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
                 let done = false;
 
-                // 5초 타임아웃: GAS URL이 잘못되거나 응답 없을 시 즉시 폴백
+                // 15초 타임아웃: GAS URL이 잘못되거나 응답 없을 시 폴백
                 const timer = setTimeout(() => {
                     if (!done) {
                         done = true;
-                        reject(new Error('JSONP timeout after 5s'));
+                        reject(new Error('JSONP timeout after 15s'));
                         cleanup();
                     }
-                }, 5000);
+                }, 15000);
 
                 window[uniqueCallbackName] = (data) => {
                     if (!done) {
@@ -3798,8 +3800,29 @@
             });
         }
 
+        // 로컬스토리지 용량 초과/차단(사파리 프라이빗 등) 시에도 조회가 실패하지 않도록 방어
+        function safeCacheSet(key, obj) {
+            try { localStorage.setItem(key, JSON.stringify(obj)); } catch (e) { console.warn('캐시 저장 생략:', e); }
+        }
+
+        // 조회 실패 사유를 사용자에게 보이게 표시 (조용히 0건으로 보이지 않도록)
+        function setGasStatus(msg, isError) {
+            const el = document.getElementById('table-mode-desc');
+            if (!el) return;
+            let note = document.getElementById('gas-status-note');
+            if (!note) {
+                note = document.createElement('div');
+                note.id = 'gas-status-note';
+                note.style.cssText = 'margin-top:6px;font-size:12px;font-weight:600;color:#B91C1C;';
+                el.insertAdjacentElement('afterend', note);
+            }
+            note.textContent = msg || '';
+            note.style.display = msg ? 'block' : 'none';
+        }
+
         // Render metrics to UI
         function updateDashboardUI() {
+            setGasStatus('');
             // GAS URL이 설정되지 않았거나 더미(TODO 포함)인 경우 즉시 로컬 폴백
             const gasReady = GAS_WEB_APP_URL &&
                 GAS_WEB_APP_URL.startsWith('http') &&
@@ -3807,7 +3830,10 @@
 
             if (gasReady && dashboardMode === 'realtime') {
                 // 구글 시트에서 실시간 데이터 로드 (JSONP 방식, 5초 타임아웃)
-                const fetchUrl = `${GAS_WEB_APP_URL}?site=${currentSite}`;
+                const requestSite = currentSite;
+                const requestMode = dashboardMode;
+                const requestSeq = ++gasRequestSeq;
+                const fetchUrl = `${GAS_WEB_APP_URL}?site=${requestSite}`;
 
                 // 로딩 상태 표시
                 document.getElementById('kpi-visits').textContent = '로드 중...';
@@ -3815,6 +3841,8 @@
 
                 fetchJSONP(fetchUrl, 'gas_callback')
                     .then(data => {
+                        // 늦게 도착한 이전 요청(다른 탭/사이트)의 응답은 무시 (정상 데이터 덮어쓰기 방지)
+                        if (requestSeq !== gasRequestSeq || requestSite !== currentSite || requestMode !== dashboardMode) return;
                         // [핵심] GAS가 반환하는 { visits, logs } 구조를
                         // 대시보드가 기대하는 { visits, quotes } 구조로 변환
                         if (currentSite === 'mailling' && data.logs) {
@@ -3833,7 +3861,7 @@
                                 }))
                             };
                             // 실시간 데이터를 로컬스토리지에도 캐시 (오프라인 대비)
-                            localStorage.setItem('dhsteel_mailling_analytics', JSON.stringify(analyticsData));
+                            safeCacheSet('dhsteel_mailling_analytics', analyticsData);
                         } else if (currentSite === 'fax' && data.logs) {
                             analyticsData = {
                                 visits: data.visits || { success: 0, fail: 0, pending: 0 },
@@ -3849,20 +3877,31 @@
                                     source: log.status === '성공' ? 'success' : 'fail'
                                 }))
                             };
-                            localStorage.setItem('dhsteel_fax_analytics', JSON.stringify(analyticsData));
+                            safeCacheSet('dhsteel_fax_analytics', analyticsData);
                         } else if (data && data.visits && Array.isArray(data.quotes)) {
                             analyticsData = data;
                         } else {
                             // GAS 응답에 visits/quotes 구조가 없으면 로컬 폴백으로 전환
                             throw new Error('GAS 응답 형식 오류 (visits/quotes 누락)');
                         }
-                        renderDashboardData();
+                        setGasStatus('');
+                        try {
+                            renderDashboardData();
+                        } catch (renderErr) {
+                            // 렌더링 오류를 통신 오류로 오인해 0건으로 덮어쓰지 않도록 분리
+                            console.error('대시보드 렌더링 오류:', renderErr);
+                            setGasStatus('⚠ 데이터는 수신했으나 화면 표시 중 오류: ' + (renderErr && renderErr.message), true);
+                        }
                     })
                     .catch(err => {
+                        if (requestSeq !== gasRequestSeq || requestSite !== currentSite || requestMode !== dashboardMode) return;
                         console.error('GAS 연동 실패 (로컬 폴백 적용):', err);
                         // 에러/타임아웃 시 로컬스토리지 폴백
                         loadLocalData();
                         renderDashboardData();
+                        const reason = (err && err.message) ? err.message : '스크립트 로드 실패(네트워크/차단)';
+                        // 팩스는 GAS가 아직 logs를 주지 않고 내장 데이터로 표시하므로 경고 대상에서 제외
+                        if (requestSite !== 'fax') setGasStatus('⚠ 실시간 조회 실패 → 저장된 캐시 표시 중 (' + reason + ') · 새로고침으로 재시도', true);
                     });
             } else {
                 // GAS URL 미설정 or 시뮬레이터 모드 → 즉시 로컬 데이터 표시
@@ -4422,6 +4461,13 @@
                     updateDashboardUI();
                 }
             }
+        }
+
+        // 로그아웃: 로그인 시 저장한 키(dhsteel_admin_auth)를 지우고 인증 화면으로 복귀
+        function logoutAdmin() {
+            sessionStorage.removeItem('dhsteel_admin_auth');
+            sessionStorage.removeItem('dhsteel_auth'); // 구 키 호환
+            location.reload();
         }
 
         // Password Verification
