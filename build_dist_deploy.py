@@ -34,13 +34,13 @@ for f in root_files:
 
 # Create Cloudflare Pages _redirects file
 redirects_content = """# Cloudflare Pages Redirects / Rewrites
-/    /index_dashboard.html    200
+/    /catalog/index_catalog.html    302
 /gallery/*    /catalog/gallery/:splat    200
 /images/*     /catalog/images/:splat     200
 """
 with open(os.path.join(dist_dir, '_redirects'), 'w', encoding='utf-8') as f:
     f.write(redirects_content)
-print('[Created] _redirects (/ -> /index_dashboard.html, /gallery/*, /images/* 200)')
+print('[Created] _redirects (/ -> /catalog/index_catalog.html 302, /gallery/*, /images/* 200)')
 
 # ==========================================
 # 2. Catalog Assets
